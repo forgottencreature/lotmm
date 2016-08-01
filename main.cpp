@@ -8,104 +8,16 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 
+#include "Player.hpp"
 #include "TileMap.hpp"
 #include "Camera.hpp" 
-
-
-struct Dir {
-    enum Type {Up, Right, Down, Left};
-};
-
- /* convert this to a class/object when I get a chance */
-struct GuyStruct 
-{
-    float x, y;
-    int gridX, gridY;
-    float speed = 4.0f;
-
-    bool isMoving() const
-    {
-        //std::cout << "is moving bool: " << !(x == gridX * GAME::Tile::WIDTH && y == gridY * GAME::Tile::HEIGHT) << "\n";
-        return !(x == gridX * GAME::Tile::WIDTH && y == gridY * GAME::Tile::HEIGHT);
-    }
-
-    void warp(int newGridX, int newGridY)
-    {
-        gridX = newGridX;
-        gridY = newGridY;
-
-        x = newGridX * GAME::Tile::WIDTH;
-        y = newGridY * GAME::Tile::WIDTH;
-    }
-
-    void move(const Dir::Type dir)
-    {
-        if (isMoving())
-        {
-            return;
-        }
-
-        if (dir == Dir::Up)
-        {
-            gridY -= 1;
-        }
-        else if (dir == Dir::Down)
-        {
-            gridY += 1;
-        }
-        if (dir == Dir::Left)
-        {
-            gridX -= 1;
-        }
-        else if (dir == Dir::Right)
-        {
-            gridX += 1;
-        }
-
-        //std::cout << "X,Y: " << gridX << "," << gridY << "\n";
-    }
-
-    void update()
-    {
-        /* Move right */
-        if (x < gridX * GAME::Tile::WIDTH)
-        {
-            x = std::min(x + speed, float(gridX * GAME::Tile::WIDTH));
-        }
-
-        /* Move left */
-        else if (x > gridX * GAME::Tile::WIDTH)
-        {
-            x = std::max(x - speed, float(gridX * GAME::Tile::WIDTH));
-        }
-
-        /* Move Down */
-        if (y < gridY * GAME::Tile::WIDTH)
-        {
-            y = std::min(y + speed, float(gridY * GAME::Tile::WIDTH));
-        }
-
-        /* Move Up */
-        else if (y > gridY * GAME::Tile::WIDTH) 
-        {
-            y = std::max(y - speed, float(gridY * GAME::Tile::WIDTH));
-        }
-
-    }
-
-    sf::Vector2f getCoors() const 
-    {
-        return sf::Vector2f(x,y); 
-    }
-
-};
 
 int main() {
 
 	/* Initialize random seed */
     srand ( time(NULL) );
 
-    int speed = GAME::Tile::WIDTH;
+    /* What are these for? I think I may have removed all offset functionality. */
     bool left;
     float offset = 0.00f; // wtf is this even doing?
 
@@ -137,23 +49,11 @@ int main() {
     /* Activate the window for OpenGL rendering */
     window.setActive();
 
+    /* Instantiate the player */
+    GAME::Player player;
 
-    /* Create a red dot "character" */
-    sf::RectangleShape guy;
-
-    /* Instantiate the struct I created. I have to merge the struct & the rest of the chacacter functionality into an object/class */
-    GuyStruct guyStruct;
-    guyStruct.warp(200,28);
-
-    guy.setPosition(guyStruct.getCoors());
-    guy.setSize(sf::Vector2f(GAME::Tile::WIDTH, GAME::Tile::HEIGHT));
-    guy.setFillColor(sf::Color::Red);
-    //guy.setFillColor(sf::Color(105,105,105));
-    //guy.setOutlineColor(sf::Color(100,200,100));
-    guy.setOutlineThickness(0);
-    //guy.setPosition(Tile::WIDTH*10, Tile::WIDTH*10);
-    //guy.setPosition(sf::Vector2f(0,0));
-    guy.setPosition(Center);
+    /* Place the player at the default location */
+    player.warp(200,28);
 
     /* 
         Create a new render-texture for our background. Set it to the same size as the Tile Map 
@@ -187,8 +87,8 @@ int main() {
     {
         window.clear();
 
-        /* Point the camera at our guy */
-        camera.setTarget(guy.getPosition());
+        /* Point the camera at our player sprite */
+        camera.setTarget(player.getSpritePosition());
 
         /* Update & set the view */
         View.move(camera.update());
@@ -203,27 +103,26 @@ int main() {
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            left = true;
-            offset -= 10;
-            guyStruct.move(Dir::Left);
+            //left = true;
+            //offset -= 10;
+            player.move(GAME::Dir::Left);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-            guyStruct.move(Dir::Down);
+            player.move(GAME::Dir::Down);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
-            left = false;
-            offset += 10;
-            guyStruct.move(Dir::Right);
+            //left = false;
+            //offset += 10;
+            player.move(GAME::Dir::Right);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
-            guyStruct.move(Dir::Up);
+            player.move(GAME::Dir::Up);
         }
 
-        guyStruct.update();
-        guy.setPosition(guyStruct.getCoors());
+        player.update();
 
         texture.clear(sf::Color::Blue);
         
@@ -233,7 +132,7 @@ int main() {
 
 
         /* Draw our character */
-        window.draw(guy);
+        player.draw(&window);
 
         /* Event processing */
         sf::Event event;
