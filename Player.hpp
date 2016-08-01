@@ -12,7 +12,7 @@ namespace GAME
         public:
             Player();
             virtual ~Player();
-            void warp(int newGridX, int newGridY);
+            void setPosition(int newGridX, int newGridY);
             void move(const GAME::Dir::Type dir);
             void draw(sf::RenderWindow* tx);
             void const update();
@@ -24,6 +24,7 @@ namespace GAME
             int gridX, gridY;
             void create();
             void setSpritePosition(sf::Vector2f pos);
+            void checkBounds();
             bool const isMoving();
             sf::Vector2f getCoors();
             sf::RectangleShape playerSprite;

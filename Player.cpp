@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Player.hpp"
-#include "Tile.hpp"
+#include "TileMap.hpp"
 #include "Camera.hpp" 
 
 namespace GAME
@@ -44,13 +44,15 @@ namespace GAME
         return !(x == gridX * GAME::Tile::WIDTH && y == gridY * GAME::Tile::HEIGHT);
     }
 
-    void Player::warp(int newGridX, int newGridY)
+    void Player::setPosition(int newGridX, int newGridY)
     {
         gridX = newGridX;
         gridY = newGridY;
 
         x = newGridX * GAME::Tile::WIDTH;
         y = newGridY * GAME::Tile::WIDTH;
+
+        Player::update();
     }
 
     void Player::move(const Dir::Type dir)
@@ -59,7 +61,7 @@ namespace GAME
         {
             return;
         }
-
+ 
         if (dir == GAME::Dir::Up)
         {
             gridY -= 1;
@@ -80,6 +82,10 @@ namespace GAME
 
     void const Player::update()
     {
+
+    	/* Check boundries */
+		Player::checkBounds();
+
         /* Move right */
         if (x < gridX * GAME::Tile::WIDTH)
         {
@@ -107,6 +113,23 @@ namespace GAME
         /* Move the sprite when it's position changes */
         playerSprite.setPosition(Player::getCoors());
     }
+
+	void Player::checkBounds() {
+
+		/* Subtract 1 to account for the grid loop starting at 0 */
+	    float maxGridX = GAME::TileMap::MAX_X - 1;
+	    float maxGridY = GAME::TileMap::MAX_Y - 1;
+
+	    float minGridX = 0;
+	    float minGridY = 0;
+
+	    /* If new grid coordinates are outside of the bounds, override it and set them back. */
+	    gridX = (gridX < minGridX) ? minGridX : gridX;
+	    gridX = (gridX > maxGridX) ? maxGridX : gridX;
+		gridY = (gridY < minGridY) ? minGridY : gridY;
+		gridY = (gridY > maxGridY) ? maxGridY : gridY;
+	
+	}
 
     sf::Vector2f Player::getCoors() 
     {
