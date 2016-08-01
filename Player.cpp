@@ -8,17 +8,20 @@ namespace GAME
     Player::Player()
     {
     	/* Create the player */
-    	//sf::RectangleShape playerSprite;
-
-    	playerSprite.setPosition(Player::getCoors());
-	    playerSprite.setSize(sf::Vector2f(GAME::Tile::WIDTH, GAME::Tile::HEIGHT));
-	    playerSprite.setFillColor(sf::Color::Red);
-	    playerSprite.setOutlineThickness(0);
+    	create();
     }
 
     Player::~Player()
     {
 
+    }
+
+    void Player::create()
+    {
+		playerSprite.setPosition(Player::getCoors());
+	    playerSprite.setSize(sf::Vector2f(GAME::Tile::WIDTH, GAME::Tile::HEIGHT));
+	    playerSprite.setFillColor(sf::Color::Red);
+	    playerSprite.setOutlineThickness(0);
     }
 
     void Player::draw(sf::RenderWindow* tx)

@@ -103,8 +103,6 @@ int main() {
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            //left = true;
-            //offset -= 10;
             player.move(GAME::Dir::Left);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -113,8 +111,6 @@ int main() {
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
-            //left = false;
-            //offset += 10;
             player.move(GAME::Dir::Right);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -171,10 +167,10 @@ int main() {
         float fps = 1.f / time1.asSeconds();
 
         /* Output FPS */
-        if(fps < 30) 
-        {
+        //if(fps < 30) 
+        //{
             std::cout << "FPS: " << fps << "\n";
-        }
+        //}
 
         window.display();
     }
