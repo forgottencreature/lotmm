@@ -257,6 +257,13 @@ int main() {
                     View.zoom(1.10f);
                 }
             }
+
+            if(event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Z ) { 
+                    /* Toggle the show grid bool */
+                    map.ToggleGrid();
+                }
+            }
         }
 
         /* Calculations for FPS */
@@ -267,7 +274,7 @@ int main() {
         /* Output FPS */
         if(fps < 30) 
         {
-            //std::cout << "FPS: " << fps << "\n";
+            std::cout << "FPS: " << fps << "\n";
         }
 
         window.display();

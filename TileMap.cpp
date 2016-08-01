@@ -102,22 +102,28 @@ namespace GAME
 
     void TileMap::DrawTileGrid(sf::RenderWindow* tx, float offset)
     {
-    	
-		sf::VertexArray lines;
-	    lines.setPrimitiveType(sf::Lines);
+    	if(SHOW_GRID_LINES == true)
+    	{
+			sf::VertexArray lines;
+		    lines.setPrimitiveType(sf::Lines);
 
-	    for (int y = 0; y < MAX_Y + 1; y++)
-        {
-	    	lines.append(sf::Vertex(sf::Vector2f(0,GAME::Tile::HEIGHT*y), sf::Color::Black));
-	    	lines.append(sf::Vertex(sf::Vector2f(GAME::Tile::WIDTH*MAX_X,GAME::Tile::HEIGHT*y), sf::Color::White));
-	    }
-	    for (int x = 0; x < MAX_X + 1; x++)
-        {
-	    	lines.append(sf::Vertex(sf::Vector2f(GAME::Tile::WIDTH*x,0), sf::Color::Black));
-	    	lines.append(sf::Vertex(sf::Vector2f(GAME::Tile::WIDTH*x,GAME::Tile::HEIGHT*MAX_Y), sf::Color::White));
-	    }
+		    for (int y = 0; y < MAX_Y + 1; y++)
+	        {
+		    	lines.append(sf::Vertex(sf::Vector2f(0,GAME::Tile::HEIGHT*y), sf::Color::Black));
+		    	lines.append(sf::Vertex(sf::Vector2f(GAME::Tile::WIDTH*MAX_X,GAME::Tile::HEIGHT*y), sf::Color::White));
+		    }
+		    for (int x = 0; x < MAX_X + 1; x++)
+	        {
+		    	lines.append(sf::Vertex(sf::Vector2f(GAME::Tile::WIDTH*x,0), sf::Color::Black));
+		    	lines.append(sf::Vertex(sf::Vector2f(GAME::Tile::WIDTH*x,GAME::Tile::HEIGHT*MAX_Y), sf::Color::White));
+		    }
 
-	    tx->draw(lines);
-        
+		    tx->draw(lines);
+		}
+    }
+
+    void TileMap::ToggleGrid()
+    {
+    	SHOW_GRID_LINES = !SHOW_GRID_LINES;
     }
 }
