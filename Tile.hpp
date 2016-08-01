@@ -21,7 +21,6 @@ namespace GAME
             int getX();
             int getY();
             Material getMaterial();
-            void DrawVertexArray(sf::RenderWindow* tx, float offset);
             static const int HEIGHT = 8;
             static const int WIDTH = 8;
         protected:

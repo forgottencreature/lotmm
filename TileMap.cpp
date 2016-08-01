@@ -8,7 +8,7 @@ namespace GAME
 {
     TileMap::TileMap()
     {
-
+		//sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4);
     }
     TileMap::~TileMap()
     {
@@ -65,7 +65,7 @@ namespace GAME
     {
     	// http://gamedev.stackexchange.com/questions/97881/sfml-drawing-tiles-low-fps
     	
-    	sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4);
+    	sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4); // pretty sure this is causing the low FPS
 
         for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i) {
 
@@ -94,7 +94,6 @@ namespace GAME
 	        tile[2].color = tileColor;
 	        tile[3].color = tileColor;
 
-            //t.DrawVertexArray(tx, offset);
         }
 
         tx->draw(tiles);

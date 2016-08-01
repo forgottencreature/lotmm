@@ -54,7 +54,7 @@ int main() {
 
     /* Place the player at the default location */
     player.setPosition(200,28); 
-    player.update();
+    player.update(); // Can I move this into the Player object somehow? Look into it.
 
     /* 
         Create a new render-texture for our background. Set it to the same size as the Tile Map 
@@ -168,10 +168,10 @@ int main() {
         float fps = 1.f / time1.asSeconds();
 
         /* Output FPS */
-        if(fps < 30) 
-        {
+        //if(fps < 30) 
+        //{
             std::cout << "FPS: " << fps << "\n";
-        }
+        //}
 
         window.display();
     }

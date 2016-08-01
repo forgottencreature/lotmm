@@ -42,44 +42,6 @@ namespace GAME
         return Tile::material;
     }
 
-    void Tile::DrawVertexArray(sf::RenderWindow* tx, float offset) {
-/*
-        int a = ceil(offset / 1800);
-
-        // create a quad
-        sf::VertexArray tile(sf::Quads, 4);
-
-
-//        tile[0].position = sf::Vector2f(Tile::getX() * Tile::WIDTH -offset+a*1800-900, Tile::getY() * Tile::HEIGHT);
-//       tile[1].position = sf::Vector2f(Tile::getX() * Tile::WIDTH + Tile::WIDTH -offset+a*1800-900, Tile::getY() * Tile::HEIGHT);
-//        tile[2].position = sf::Vector2f(Tile::getX() * Tile::WIDTH + Tile::WIDTH -offset+a*1800-900, Tile::getY() * Tile::HEIGHT + Tile::HEIGHT);
-//        tile[3].position = sf::Vector2f(Tile::getX() * Tile::WIDTH -offset+a*1800-900, Tile::getY() * Tile::HEIGHT + Tile::HEIGHT);
-
-
-        tile[0].position = sf::Vector2f(Tile::getX() * Tile::WIDTH, Tile::getY() * Tile::HEIGHT);
-        tile[1].position = sf::Vector2f(Tile::getX() * Tile::WIDTH + Tile::WIDTH, Tile::getY() * Tile::HEIGHT);
-        tile[2].position = sf::Vector2f(Tile::getX() * Tile::WIDTH + Tile::WIDTH , Tile::getY() * Tile::HEIGHT + Tile::HEIGHT);
-        tile[3].position = sf::Vector2f(Tile::getX() * Tile::WIDTH, Tile::getY() * Tile::HEIGHT + Tile::HEIGHT);
-
-        sf::Color tileColor;
-        if (Tile::getMaterial() == Tile::dirt) {
-            tileColor = sf::Color(160,82,45);
-        } else if (Tile::getMaterial() == Tile::snow) {
-            //tileColor = sf::Color::White;
-            tileColor = sf::Color(105,105,105);
-        } else if (Tile::getMaterial() == Tile::grass) {
-            tileColor = sf::Color::Green;
-        }
-
-        tile[0].color = tileColor;
-        tile[1].color = tileColor;
-        tile[2].color = tileColor;
-        tile[3].color = tileColor;
-
-        tx->draw(tile);
-*/
-    }
-
     sf::Color hsv(int hue, float sat, float val)
     {
       hue %= 360;
