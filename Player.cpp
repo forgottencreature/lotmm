@@ -39,6 +39,11 @@ namespace GAME
     	return sf::Vector2<int>(gridX,gridY);
     }
 
+    sf::Vector2<int> Player::getPreviousGridPosition()
+    {
+    	return previousGridPosition;
+    }
+
     void Player::setSpritePosition(sf::Vector2f pos)
     {
 		playerSprite.setPosition(pos);
@@ -49,7 +54,7 @@ namespace GAME
         return !(x == gridX * GAME::Tile::WIDTH && y == gridY * GAME::Tile::HEIGHT);
     }
 
-    void Player::setPosition(int newGridX, int newGridY)
+    void Player::setPosition(int newGridX, int newGridY, GAME::TileMap* m)
     {
         gridX = newGridX;
         gridY = newGridY;
@@ -57,7 +62,9 @@ namespace GAME
         x = newGridX * GAME::Tile::WIDTH;
         y = newGridY * GAME::Tile::WIDTH;
 
-        Player::update();
+        previousGridPosition = Player::getGridPosition();
+
+        Player::update(m);
     }
 
     void Player::move(const Dir::Type dir)
@@ -67,6 +74,8 @@ namespace GAME
             return;
         }
  
+        previousGridPosition = Player::getGridPosition();
+
         if (dir == GAME::Dir::Up)
         {
             gridY -= 1;
@@ -85,11 +94,13 @@ namespace GAME
         }
     }
 
-    void const Player::update()
+    void const Player::update(TileMap* m)
     {
 
     	/* Check boundries */
 		Player::checkBounds();
+		Player::checkTileCollision(m);
+
 
         /* Move right */
         if (x < gridX * GAME::Tile::WIDTH)
@@ -133,6 +144,18 @@ namespace GAME
 	    gridX = (gridX > maxGridX) ? maxGridX : gridX;
 		gridY = (gridY < minGridY) ? minGridY : gridY;
 		gridY = (gridY > maxGridY) ? maxGridY : gridY;
+	
+	}
+
+	void Player::checkTileCollision(TileMap* m) {
+
+		/* Get current Grid position */
+		sf::Vector2<int> pos = Player::getGridPosition();
+
+		//std::cout << pos.x << " " << pos.y << "\n";
+
+		/* Get the corresponding tile of this position */
+		Tile t = m->GetTileByGridPoint(pos);
 	
 	}
 

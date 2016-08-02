@@ -1,3 +1,5 @@
+#ifndef _tilemap_h_ 
+#define _tilemap_h_
 #include <SFML/Graphics.hpp>
 #include "Tile.hpp"
 
@@ -22,6 +24,14 @@ namespace GAME
             void DrawTileGrid(sf::RenderWindow* tx, float offset);
             void RemoveTile(sf::Vector2<int> gridPoint);
             void ToggleGrid();
+
+            // merge these functions into 1
+            Tile GetTileByGridPoint(sf::Vector2<int> gridPoint);
+            Tile GetTileByGridPointUp(sf::Vector2<int> gridPoint);
+            Tile GetTileByGridPointDown(sf::Vector2<int> gridPoint);
+            Tile GetTileByGridPointLeft(sf::Vector2<int> gridPoint);
+            Tile GetTileByGridPointRight(sf::Vector2<int> gridPoint);
+
             bool checkInView(sf::RenderWindow* tx, sf::Vector2<int> point);
             bool SHOW_GRID_LINES = true;
             static const int MAX_X = 360;
@@ -31,3 +41,5 @@ namespace GAME
             TileMatrix MapData;
     };
 }
+
+#endif

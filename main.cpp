@@ -10,7 +10,12 @@
 
 #include "Player.hpp"
 #include "TileMap.hpp"
+#include "Tile.hpp"
 #include "Camera.hpp" 
+
+struct Dir {
+    enum Type {Up, Right, Down, Left};
+};
 
 int main() {
 
@@ -52,9 +57,12 @@ int main() {
     /* Instantiate the player */
     GAME::Player player;
 
+    /* Initialize the tile map */
+    GAME::TileMap map;
+
     /* Place the player at the default location */
-    player.setPosition(200,28); 
-    player.update(); // Can I move this into the Player object somehow? Look into it.
+    player.setPosition(0,0,&map); 
+    player.update(&map); // Can I move this into the Player object somehow? Look into it.
 
     /* 
         Create a new render-texture for our background. Set it to the same size as the Tile Map 
@@ -66,12 +74,12 @@ int main() {
 
     texture.setRepeated(true);
 
-    /* Initialize the tile map */
-    GAME::TileMap map;
-
     /* Generate the tile map data */
     map.GenerateMap();
-    map.RemoveTile(sf::Vector2<int>(5,5));
+    map.RemoveTile(sf::Vector2<int>(0,0));
+    map.RemoveTile(sf::Vector2<int>(0,1));
+    map.RemoveTile(sf::Vector2<int>(1,0));
+    map.RemoveTile(sf::Vector2<int>(1,1));
 
     /* Draw the tile map */
     map.DrawVertexArray(&window, offset);
@@ -121,7 +129,7 @@ int main() {
             player.move(GAME::Dir::Up);
         }
 
-        player.update();
+        player.update(&map);
 
         //texture.clear(sf::Color::Blue);
         
@@ -160,13 +168,14 @@ int main() {
                 if(event.key.code == sf::Keyboard::Z ) { 
                     /* Toggle the show grid bool */
                     map.ToggleGrid();
-                }
-                else if(event.key.code == sf::Keyboard::Space ) { 
-                    /* Toggle the show grid bool */
+                }                
+                
+                if(event.key.code == sf::Keyboard::Space ) { 
                     //std::cout << "Player Sprite Position: " << player.getSpritePosition().x << "," << player.getSpritePosition().y << "\n";
                     //std::cout << "Player Grid Position: " << player.getGridPosition().x << "," << player.getGridPosition().y << "\n";
                     map.RemoveTile(player.getGridPosition());
                 }
+                
             }
         }
 
@@ -176,10 +185,10 @@ int main() {
         float fps = 1.f / time1.asSeconds();
 
         /* Output FPS */
-        //if(fps < 30) 
-        //{
-           // std::cout << "FPS: " << fps << "\n";
-        //}
+        if(fps < 30) 
+        {
+            std::cout << "FPS: " << fps << "\n";
+        }
 
         window.display();
     }

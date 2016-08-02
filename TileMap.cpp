@@ -30,25 +30,8 @@ namespace GAME
                 } else if(randNum == 3) {
                 	m = Tile::grass;
                 }
-				
-                // this generated snow capped mountains
-                /*
-                if (x % 180 == 68 && y == 27) {
-                    m = Tile::empty;
-                } else if (7*sin(12*x*PI/180) + 3*sin(6*x*PI/180) + -2*cos(2*x*PI/180) > y - 13) {
-                    if (y > 15 && 7*sin(12*x*PI/180) + 3*sin(6*x*PI/180) + -2*cos(2*x*PI/180) < y - 10) {
-                        m = Tile::snow;
-                    } else if (7*sin(12*x*PI/180) + 3*sin(6*x*PI/180) + -2*cos(2*x*PI/180) > y - 11) {
-                        m = Tile::dirt;
-                    } else {
-                        m = Tile::grass;
-                    }
-                } else {
-                    m = Tile::empty;
-                }
-				*/
 
-                //m = Tile::snow;
+                m = Tile::grass;
 
                 if (m != Tile::empty) {
                     t.setMaterial(m);
@@ -58,6 +41,42 @@ namespace GAME
                 }
             }
         } 
+    }
+
+    Tile TileMap::GetTileByGridPoint(sf::Vector2<int> gridPoint)
+    {
+    	// this is probably a really shitty inefficient way to do this.
+    	/* Find the matching tile based on grid coordinate */
+    	for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i) 
+    	{
+    		Tile t = i->second;
+    		if(t.getPosition() == gridPoint)
+            {
+            	return t;
+            	std::cout << " found the tile" << "\n";
+            }
+    	}
+    	//return t;
+    }
+
+    Tile TileMap::GetTileByGridPointUp(sf::Vector2<int> gridPoint)
+    {
+    	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x,gridPoint.y+1));
+    }
+
+    Tile TileMap::GetTileByGridPointDown(sf::Vector2<int> gridPoint)
+    {
+    	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x,gridPoint.y-1));
+    }
+
+    Tile TileMap::GetTileByGridPointRight(sf::Vector2<int> gridPoint)
+    {
+    	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x+1,gridPoint.y));
+    }
+
+    Tile TileMap::GetTileByGridPointLeft(sf::Vector2<int> gridPoint)
+    {
+    	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x-1,gridPoint.y));
     }
 
     void TileMap::RemoveTile(sf::Vector2<int> gridPoint)
@@ -70,7 +89,6 @@ namespace GAME
 
             if(t.getPosition() == gridPoint)
             {
-            	//std::cout << " FOUND MATCH " << "\n";
             	i = MapData.erase(i);
             	//TileMatrix::const_iterator end();
             }
