@@ -107,3 +107,4 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
+/bin/tile_sfml_game
