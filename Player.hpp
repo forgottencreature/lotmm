@@ -21,7 +21,7 @@ namespace GAME
         protected:
         private:
             float x, y;
-            float speed = 4.0f;
+            float speed = 1.0f;
             int gridX, gridY;
             void create();
             void setSpritePosition(sf::Vector2f pos);
