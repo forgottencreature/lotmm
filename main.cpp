@@ -11,7 +11,7 @@
 #include "Player.hpp"
 #include "TileMap.hpp"
 #include "Tile.hpp"
-#include "Camera.hpp" 
+#include "Camera.hpp"
 
 struct Dir {
     enum Type {Up, Right, Down, Left};
