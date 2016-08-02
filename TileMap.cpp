@@ -29,8 +29,6 @@ namespace GAME
                 	m = Tile::dirt;
                 } else if(randNum == 3) {
                 	m = Tile::grass;
-                } else {
-                	m = Tile::empty;
                 }
 				
                 // this generated snow capped mountains
@@ -72,16 +70,7 @@ namespace GAME
 
             if(t.getPosition() == gridPoint)
             {
-            	std::cout << " FOUND MATCH " << "\n";
-				
-            	// this is causing the program to error out because of this
-            	// http://stackoverflow.com/questions/11845984/why-does-my-program-crash-when-i-delete-a-member-of-stdvector
-            	// need to fix the way it's erased
-
-				// why the shit is this not working?!!?!!? /HEADSLAM
-				//Tile::Material m;
-				//m = Tile::empty;
-            	//t.setMaterial(m);
+            	//std::cout << " FOUND MATCH " << "\n";
             	i = MapData.erase(i);
             	//TileMatrix::const_iterator end();
             }
@@ -133,7 +122,7 @@ namespace GAME
 		            tileColor = sf::Color::Green;
 		        } else if (t.getMaterial() == Tile::empty) {
 		            //tileColor = sf::Color::Black;
-		            std::cout << " FOUND EMPTY TILE " << "\n";
+		            //std::cout << " FOUND EMPTY TILE " << "\n";
 		        }
 
 		        tile[0].color = tileColor;
