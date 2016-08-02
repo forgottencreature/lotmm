@@ -60,18 +60,18 @@ int main() {
         Create a new render-texture for our background. Set it to the same size as the Tile Map 
         ... not sure if I need this right now, as I'm no longer using an image for the background
     */
-    sf::RenderTexture texture;
-    if (!texture.create(GAME::TileMap::MAX_X*GAME::Tile::WIDTH, GAME::TileMap::MAX_Y*GAME::Tile::HEIGHT))
+    sf::Texture texture;
+    if (!texture.loadFromFile("assets/images/spaceTile.jpg"))
         return -1;
 
-    /* Set our background color on the texture */
-    texture.clear(sf::Color::Blue);
+    texture.setRepeated(true);
 
     /* Initialize the tile map */
     GAME::TileMap map;
 
     /* Generate the tile map data */
     map.GenerateMap();
+    map.RemoveTile(sf::Vector2<int>(5,5));
 
     /* Draw the tile map */
     map.DrawVertexArray(&window, offset);
@@ -80,7 +80,9 @@ int main() {
     /* Create a sprite from the texture. 
         NOTE this is not really doing anything important ATM
     */
-    sf::Sprite tiledBG(texture.getTexture());
+    sf::Sprite tiledBG;
+    tiledBG.setTexture(texture);
+    tiledBG.setTextureRect(sf::IntRect(0,0,1280,720));
     window.draw(tiledBG);
 
     /* The main loop - ends as soon as the window is closed */
@@ -88,14 +90,14 @@ int main() {
     {
         window.clear();
 
+        window.draw(tiledBG);
+
         /* Point the camera at our player sprite */
         camera.setTarget(player.getSpritePosition());
 
         /* Update & set the view */
         View.move(camera.update());
         window.setView(View);
-
-        //window.draw(tiledBG);
 
          /* Key Bindings */
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -121,7 +123,7 @@ int main() {
 
         player.update();
 
-        texture.clear(sf::Color::Blue);
+        //texture.clear(sf::Color::Blue);
         
         /* Draw the tile map */
         map.DrawVertexArray(&window, offset);
@@ -159,6 +161,12 @@ int main() {
                     /* Toggle the show grid bool */
                     map.ToggleGrid();
                 }
+                else if(event.key.code == sf::Keyboard::Space ) { 
+                    /* Toggle the show grid bool */
+                    //std::cout << "Player Sprite Position: " << player.getSpritePosition().x << "," << player.getSpritePosition().y << "\n";
+                    //std::cout << "Player Grid Position: " << player.getGridPosition().x << "," << player.getGridPosition().y << "\n";
+                    map.RemoveTile(player.getGridPosition());
+                }
             }
         }
 
@@ -170,7 +178,7 @@ int main() {
         /* Output FPS */
         //if(fps < 30) 
         //{
-            std::cout << "FPS: " << fps << "\n";
+           // std::cout << "FPS: " << fps << "\n";
         //}
 
         window.display();

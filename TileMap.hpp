@@ -20,7 +20,9 @@ namespace GAME
             void GenerateMap();
             void DrawVertexArray(sf::RenderWindow* tx, float offset);
             void DrawTileGrid(sf::RenderWindow* tx, float offset);
+            void RemoveTile(sf::Vector2<int> gridPoint);
             void ToggleGrid();
+            bool checkInView(sf::RenderWindow* tx, sf::Vector2<int> point);
             bool SHOW_GRID_LINES = true;
             static const int MAX_X = 360;
             static const int MAX_Y = 72;

@@ -34,6 +34,11 @@ namespace GAME
     	return playerSprite.getPosition();
     }
 
+    sf::Vector2<int> Player::getGridPosition()
+    {
+    	return sf::Vector2<int>(gridX,gridY);
+    }
+
     void Player::setSpritePosition(sf::Vector2f pos)
     {
 		playerSprite.setPosition(pos);

@@ -17,6 +17,7 @@ namespace GAME
             void draw(sf::RenderWindow* tx);
             void const update();
             sf::Vector2f getSpritePosition();
+            sf::Vector2<int> getGridPosition();
         protected:
         private:
             float x, y;

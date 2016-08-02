@@ -24,6 +24,10 @@ namespace GAME
 
     void Tile::setMaterial(Material m) {
         Tile::material = m;
+        if(m == Tile::empty)
+        {
+            std::cout << " TILE MATERIAL SET TO EMPTY" << "\n";
+        }
     }
 
     sf::Vector2<int> Tile::getPosition() {

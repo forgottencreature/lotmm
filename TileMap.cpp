@@ -8,7 +8,6 @@ namespace GAME
 {
     TileMap::TileMap()
     {
-		//sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4);
     }
     TileMap::~TileMap()
     {
@@ -49,7 +48,7 @@ namespace GAME
                 }
 				*/
 
-                //m = Tile::snow;
+                m = Tile::snow;
 
                 if (m != Tile::empty) {
                     t.setMaterial(m);
@@ -58,41 +57,86 @@ namespace GAME
                     MapData.insert( std::pair<sf::Vector2<int>, Tile>(v, t) );
                 }
             }
+        } 
+    }
+
+    void TileMap::RemoveTile(sf::Vector2<int> gridPoint)
+    {
+    	// this is probably a really shitty inefficient way to do this.
+    	/* Find the matching tile based on grid coordinate */
+    	for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i) {
+
+            Tile t = i->second;
+
+            if(t.getPosition() == gridPoint)
+            {
+            	std::cout << " FOUND MATCH " << "\n";
+				
+				Tile::Material m;
+				m = Tile::empty;
+            	t.setMaterial(m);
+
+            	TileMatrix::const_iterator end();
+            }
+
+	        
+
         }
     }
 
+    bool TileMap::checkInView(sf::RenderWindow* tx, sf::Vector2<int> point)
+    {
+    	/* Grab the view from the window */
+    	//sf::View view = tx->getView();
+    	//sf::FloatRect viewRect(view.getCenter() - view.getSize() / 2.f, view.getSize());
+    	//bool visible = viewRect.contains(point);
+    	//return visible;
+    	return true;
+    }
+
+    // Optimization idea - build the vertex array to the size of what is actually seen on the screen at a given time
     void TileMap::DrawVertexArray(sf::RenderWindow* tx, float offset)
     {
     	// http://gamedev.stackexchange.com/questions/97881/sfml-drawing-tiles-low-fps
     	
-    	sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4); // pretty sure this is causing the low FPS
+    	sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4); // Pretty sure this is causing the low FPS. Do I need it in every loop iteration? 
 
         for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i) {
 
             Tile t = i->second;
 
-            sf::Vertex* tile = &tiles[(t.getX() + t.getY() * MAX_X) * 4];
+            /* Only add the tile if it's in the view - CURRENTLY EXPERIMENTAL.
+            	Doesn't seem to have a beneficial effect. I think the problem is that the "tiles" vertex array is still being
+            	initialized as the entire width & height of the tile map. It should only be the size of what is actually in the view.
+            */
+            if (TileMap::checkInView(tx, t.getPosition()))
+            {
 
-			tile[0].position = sf::Vector2f(t.getX() * Tile::WIDTH, t.getY() * Tile::HEIGHT);
-	        tile[1].position = sf::Vector2f(t.getX() * Tile::WIDTH + Tile::WIDTH, t.getY() * Tile::HEIGHT);
-	        tile[2].position = sf::Vector2f(t.getX() * Tile::WIDTH + Tile::WIDTH , t.getY() * Tile::HEIGHT + Tile::HEIGHT);
-	        tile[3].position = sf::Vector2f(t.getX() * Tile::WIDTH, t.getY() * Tile::HEIGHT + Tile::HEIGHT);
+	            sf::Vertex* tile = &tiles[(t.getX() + t.getY() * MAX_X) * 4];
 
-	        sf::Color tileColor;
-	        if (t.getMaterial() == Tile::dirt) {
-	            tileColor = sf::Color(160,82,45);
-	        } else if (t.getMaterial() == Tile::snow) {
-	            //tileColor = sf::Color::White;
-	            //tileColor = sf::Color(105,105,105);
-	            tileColor = sf::Color(25,25,112);
-	        } else if (t.getMaterial() == Tile::grass) {
-	            tileColor = sf::Color::Green;
-	        }
+				tile[0].position = sf::Vector2f(t.getX() * Tile::WIDTH, t.getY() * Tile::HEIGHT);
+		        tile[1].position = sf::Vector2f(t.getX() * Tile::WIDTH + Tile::WIDTH, t.getY() * Tile::HEIGHT);
+		        tile[2].position = sf::Vector2f(t.getX() * Tile::WIDTH + Tile::WIDTH , t.getY() * Tile::HEIGHT + Tile::HEIGHT);
+		        tile[3].position = sf::Vector2f(t.getX() * Tile::WIDTH, t.getY() * Tile::HEIGHT + Tile::HEIGHT);
 
-	        tile[0].color = tileColor;
-	        tile[1].color = tileColor;
-	        tile[2].color = tileColor;
-	        tile[3].color = tileColor;
+		        sf::Color tileColor;
+		        if (t.getMaterial() == Tile::dirt) {
+		            tileColor = sf::Color(160,82,45);
+		        } else if (t.getMaterial() == Tile::snow) {
+		            tileColor = sf::Color(25,25,112);
+		        } else if (t.getMaterial() == Tile::grass) {
+		            tileColor = sf::Color::Green;
+		        } else if (t.getMaterial() == Tile::empty) {
+		            tileColor = sf::Color::Black;
+		            std::cout << " FOUND EMPTY TILE " << "\n";
+		        }
+
+		        tile[0].color = tileColor;
+		        tile[1].color = tileColor;
+		        tile[2].color = tileColor;
+		        tile[3].color = tileColor;
+
+		    }
 
         }
 
