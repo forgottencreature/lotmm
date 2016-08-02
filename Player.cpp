@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Player.hpp"
 #include "TileMap.hpp"
-#include "Camera.hpp" 
+#include "Camera.hpp"
 
 namespace GAME
 {

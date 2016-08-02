@@ -10,7 +10,7 @@
 
 #include "Player.hpp"
 #include "TileMap.hpp"
-#include "Camera.hpp" 
+#include "Camera.hpp"
 
 int main() {
 
