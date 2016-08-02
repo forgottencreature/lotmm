@@ -19,7 +19,7 @@ struct Dir {
 
 int main() {
 
-	/* Initialize random seed */
+    /* Initialize random seed */
     srand ( time(NULL) );
 
     /* What are these for? I think I may have removed all offset functionality. */
@@ -27,7 +27,7 @@ int main() {
     float offset = 0.00f; // wtf is this even doing?
 
     /* Game clock declarations */
-	sf::Clock clock;
+    sf::Clock clock;
     sf::Time time;
     float lastTime = 0;
 
@@ -42,7 +42,7 @@ int main() {
     //camera.move(sf::Vector2f(8,8));
 
     /* Set context */
-	sf::ContextSettings(0,0,4,2,0);
+    sf::ContextSettings(0,0,4,2,0);
 
     /* Declare and create a new window */
     sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML Window");
@@ -61,7 +61,7 @@ int main() {
     GAME::TileMap map;
 
     /* Place the player at the default location */
-    player.setPosition(0,0,&map); 
+    player.setPosition(0,0,&map);
     player.update(&map); // Can I move this into the Player object somehow? Look into it.
 
     /* 
@@ -94,7 +94,7 @@ int main() {
     window.draw(tiledBG);
 
     /* The main loop - ends as soon as the window is closed */
-    while (window.isOpen()) 
+    while (window.isOpen())
     {
         window.clear();
 
@@ -107,10 +107,10 @@ int main() {
         View.move(camera.update());
         window.setView(View);
 
-         /* Key Bindings */
+        /* Key Bindings */
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         {
-             window.close();
+            window.close();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
@@ -132,7 +132,7 @@ int main() {
         player.update(&map);
 
         //texture.clear(sf::Color::Blue);
-        
+
         /* Draw the tile map */
         map.DrawVertexArray(&window, offset);
         map.DrawTileGrid(&window, offset);
@@ -143,10 +143,10 @@ int main() {
 
         /* Event processing */
         sf::Event event;
-        while (window.pollEvent(event)) 
+        while (window.pollEvent(event))
         {
             // Request for closing the window
-            if (event.type == sf::Event::Closed) 
+            if (event.type == sf::Event::Closed)
             {
                 window.close();
             }
@@ -154,10 +154,10 @@ int main() {
             if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
             {
                 int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
-                if(mouseWheelDelta > 0) 
+                if(mouseWheelDelta > 0)
                 {
                     View.zoom(.90f);
-                } 
+                }
                 else if(mouseWheelDelta < 0)
                 {
                     View.zoom(1.10f);
@@ -165,17 +165,17 @@ int main() {
             }
 
             if(event.type == sf::Event::KeyPressed) {
-                if(event.key.code == sf::Keyboard::Z ) { 
+                if(event.key.code == sf::Keyboard::Z ) {
                     /* Toggle the show grid bool */
                     map.ToggleGrid();
-                }                
-                
-                if(event.key.code == sf::Keyboard::Space ) { 
+                }
+
+                if(event.key.code == sf::Keyboard::Space ) {
                     //std::cout << "Player Sprite Position: " << player.getSpritePosition().x << "," << player.getSpritePosition().y << "\n";
                     //std::cout << "Player Grid Position: " << player.getGridPosition().x << "," << player.getGridPosition().y << "\n";
                     map.RemoveTile(player.getGridPosition());
                 }
-                
+
             }
         }
 
@@ -185,7 +185,7 @@ int main() {
         float fps = 1.f / time1.asSeconds();
 
         /* Output FPS */
-        if(fps < 30) 
+        if(fps < 30)
         {
             std::cout << "FPS: " << fps << "\n";
         }
@@ -193,5 +193,5 @@ int main() {
         window.display();
     }
 
-	return 0;
+    return 0;
 }
