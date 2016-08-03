@@ -110,3 +110,6 @@ CTestTestfile.cmake
 /bin/tile_sfml_game
 /bin/tilemap
 /bin/*.exe
+makefile
+/CMakeLists.txt
+/cmake_modules/
