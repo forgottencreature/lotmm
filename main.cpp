@@ -22,6 +22,11 @@ int main() {
     /* Initialize random seed */
     srand ( time(NULL) );
 
+    /* Constant to define speed of each frame 
+    NOT CURRENTLY IN USE. NEED TO FIGURE THIS OUT.
+    */
+    const sf::Time timePerFrame = sf::seconds(1.f/60.f);
+
     /* What are these for? I think I may have removed all offset functionality. */
     bool left;
     float offset = 0.00f; // wtf is this even doing?
@@ -30,6 +35,11 @@ int main() {
     sf::Clock clock;
     sf::Time time;
     float lastTime = 0;
+
+    /* Keep track of the time since our last update 
+    NOT CURRENTLY IN USE. NEED TO FIGURE THIS OUT.
+    */
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
     /* Initialize the tile map */
     GAME::TileMap map;
@@ -96,123 +106,131 @@ int main() {
     /* The main loop - ends as soon as the window is closed */
     while (window.isOpen())
     {
-        window.clear();
-
-        window.draw(tiledBG);
-
-        /* Point the camera at our player sprite */
-        camera.setTarget(player.getSpritePosition());
-
-        /* Update & set the view */
-        View.move(camera.update());
-        window.setView(View);
-
-        /* Key Bindings */
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        /* Figure out how much time has passed 
+        NOT CURRENTLY IN USE. NEED TO FIGURE THIS OUT.
+        */
+        sf::Time elapsedTime = clock.restart();
+        timeSinceLastUpdate += elapsedTime;
+        
+        /* Only process when enough time has passed.
+        NOT CURRENTLY IN USE. NEED TO FIGURE THIS OUT.
+        while (timeSinceLastUpdate > timePerFrame)
         {
-            window.close();
-        }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        {
-            sf::Vector2<int> pos = player.getGridPosition();
-            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
-            map.RemoveTile(newPos);
-        }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        {
-            sf::Vector2<int> pos = player.getGridPosition();
-            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
-            map.RemoveTile(newPos);
-        }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        {
-            sf::Vector2<int> pos = player.getGridPosition();
-            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
-            map.RemoveTile(newPos);
-        }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        {
-            sf::Vector2<int> pos = player.getGridPosition();
-            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
-            map.RemoveTile(newPos);
-        }
+            timeSinceLastUpdate -= timePerFrame;
+        */
+            window.clear();
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        {
-            player.move(GAME::Dir::Left);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        {
-            player.move(GAME::Dir::Down);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        {
-            player.move(GAME::Dir::Right);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        {
-            player.move(GAME::Dir::Up);
-        }
+            window.draw(tiledBG);
 
-        player.update(&map);
+            /* Point the camera at our player sprite */
+            camera.setTarget(player.getSpritePosition());
 
-        //texture.clear(sf::Color::Blue);
+            /* Update & set the view */
+            View.move(camera.update());
+            window.setView(View);
 
-        /* Draw the tile map */
-        map.DrawVertexArray(&window, offset);
-        map.DrawTileGrid(&window, offset);
-
-
-        /* Draw our character */
-        player.draw(&window);
-
-        /* Event processing */
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            // Request for closing the window
-            if (event.type == sf::Event::Closed)
+            /* Key Bindings */
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
                 window.close();
             }
-
-            if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
             {
-                int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
-                if(mouseWheelDelta > 0)
-                {
-                    View.zoom(.90f);
-                }
-                else if(mouseWheelDelta < 0)
-                {
-                    View.zoom(1.10f);
-                }
+                sf::Vector2<int> pos = player.getGridPosition();
+                sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
+                map.RemoveTile(newPos);
+            }
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            {
+                sf::Vector2<int> pos = player.getGridPosition();
+                sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
+                map.RemoveTile(newPos);
+            }
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+            {
+                sf::Vector2<int> pos = player.getGridPosition();
+                sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
+                map.RemoveTile(newPos);
+            }
+            else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            {
+                sf::Vector2<int> pos = player.getGridPosition();
+                sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
+                map.RemoveTile(newPos);
             }
 
-            if(event.type == sf::Event::KeyPressed) {
-                if(event.key.code == sf::Keyboard::Z ) {
-                    /* Toggle the show grid bool */
-                    map.ToggleGrid();
-                }
-
-                if(event.key.code == sf::Keyboard::Space ) {
-                    //std::cout << "Player Sprite Position: " << player.getSpritePosition().x << "," << player.getSpritePosition().y << "\n";
-                    //std::cout << "Player Grid Position: " << player.getGridPosition().x << "," << player.getGridPosition().y << "\n";
-                    //map.RemoveTile(player.getGridPosition());
-                }
-
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            {
+                player.move(GAME::Dir::Left);
             }
-        }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+            {
+                player.move(GAME::Dir::Down);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            {
+                player.move(GAME::Dir::Right);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            {
+                player.move(GAME::Dir::Up);
+            }
 
-        /* Calculations for FPS */
-        sf::Time time1 = clock.getElapsedTime();
-        sf::Time time2 = clock.restart();
-        float fps = 1.f / time1.asSeconds();
+            player.update(&map);
 
-        /* Output FPS */
-        if(fps < 30)
-        {
-            std::cout << "FPS: " << fps << "\n";
+            //texture.clear(sf::Color::Blue);
+
+            /* Draw the tile map */
+            map.DrawVertexArray(&window, offset);
+            map.DrawTileGrid(&window, offset);
+
+
+            /* Draw our character */
+            player.draw(&window);
+
+            /* Event processing */
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                // Request for closing the window
+                if (event.type == sf::Event::Closed)
+                {
+                    window.close();
+                }
+
+                if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
+                {
+                    int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
+                    if(mouseWheelDelta > 0)
+                    {
+                        View.zoom(.90f);
+                    }
+                    else if(mouseWheelDelta < 0)
+                    {
+                        View.zoom(1.10f);
+                    }
+                }
+
+                /* Toggle the show grid bool */
+                if(event.type == sf::Event::KeyPressed) 
+                {
+                    if(event.key.code == sf::Keyboard::Z ) 
+                    {
+                        map.ToggleGrid();
+                    }
+                }
+            //}
+
+            /* Calculations for FPS */
+            sf::Time time1 = clock.getElapsedTime();
+            sf::Time time2 = clock.restart();
+            float fps = 1.f / time1.asSeconds();
+
+            /* Output FPS */
+            if(fps < 30)
+            {
+                std::cout << "FPS: " << fps << "\n";
+            }
         }
 
         window.display();
