@@ -1,5 +1,3 @@
-#ifndef _tile_h_ 
-#define _tile_h_
 #include <SFML/Graphics.hpp>
 
 namespace GAME
@@ -33,5 +31,3 @@ namespace GAME
 
     sf::Color hsv(int hue, float sat, float val);
 }
-
-#endif

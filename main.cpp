@@ -64,8 +64,8 @@ int main() {
     player.setPosition(0,0,&map);
     player.update(&map); // Can I move this into the Player object somehow? Look into it.
 
-    /* 
-        Create a new render-texture for our background. Set it to the same size as the Tile Map 
+    /*
+        Create a new render-texture for our background. Set it to the same size as the Tile Map
         ... not sure if I need this right now, as I'm no longer using an image for the background
     */
     sf::Texture texture;
@@ -85,7 +85,7 @@ int main() {
     map.DrawVertexArray(&window, offset);
     map.DrawTileGrid(&window, offset);
 
-    /* Create a sprite from the texture. 
+    /* Create a sprite from the texture.
         NOTE this is not really doing anything important ATM
     */
     sf::Sprite tiledBG;
