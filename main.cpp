@@ -31,15 +31,25 @@ int main() {
     sf::Time time;
     float lastTime = 0;
 
+    /* Initialize the tile map */
+    GAME::TileMap map;
+
+    /* Instantiate the player */
+    GAME::Player player;
+
+    /* Place the player at the default location */
+    player.setPosition(0,0,&map);
+    player.update(&map); // Can I move this into the Player object somehow? Look into it.
+
     /* Set up our view */
-    sf::Vector2f Center(1800, 300);
+    sf::Vector2f Center(player.getGridPosition());
     sf::Vector2f HalfSize(640, 360);
     sf::View View(Center, HalfSize);
 
     /* Set up our camera */
     GAME::camera camera;
     camera.move(Center);
-    //camera.move(sf::Vector2f(8,8));
+    //camera.move(sf::Vector2f(0,0));
 
     /* Set context */
     sf::ContextSettings(0,0,4,2,0);
@@ -53,16 +63,6 @@ int main() {
 
     /* Activate the window for OpenGL rendering */
     window.setActive();
-
-    /* Instantiate the player */
-    GAME::Player player;
-
-    /* Initialize the tile map */
-    GAME::TileMap map;
-
-    /* Place the player at the default location */
-    player.setPosition(0,0,&map);
-    player.update(&map); // Can I move this into the Player object somehow? Look into it.
 
     /* 
         Create a new render-texture for our background. Set it to the same size as the Tile Map 
@@ -112,6 +112,31 @@ int main() {
         {
             window.close();
         }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        {
+            sf::Vector2<int> pos = player.getGridPosition();
+            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
+            map.RemoveTile(newPos);
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            sf::Vector2<int> pos = player.getGridPosition();
+            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
+            map.RemoveTile(newPos);
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+            sf::Vector2<int> pos = player.getGridPosition();
+            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
+            map.RemoveTile(newPos);
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+            sf::Vector2<int> pos = player.getGridPosition();
+            sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
+            map.RemoveTile(newPos);
+        }
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
             player.move(GAME::Dir::Left);
@@ -173,7 +198,7 @@ int main() {
                 if(event.key.code == sf::Keyboard::Space ) {
                     //std::cout << "Player Sprite Position: " << player.getSpritePosition().x << "," << player.getSpritePosition().y << "\n";
                     //std::cout << "Player Grid Position: " << player.getGridPosition().x << "," << player.getGridPosition().y << "\n";
-                    map.RemoveTile(player.getGridPosition());
+                    //map.RemoveTile(player.getGridPosition());
                 }
 
             }

@@ -43,57 +43,37 @@ namespace GAME
         } 
     }
 
-    Tile TileMap::GetTileByGridPoint(sf::Vector2<int> gridPoint)
+    Tile* TileMap::GetTileByGridPoint(sf::Vector2<int> gridPoint)
     {
-    	// this is probably a really shitty inefficient way to do this.
-    	/* Find the matching tile based on grid coordinate */
-    	for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i) 
-    	{
-    		Tile t = i->second;
-    		if(t.getPosition() == gridPoint)
-            {
-            	return t;
-            	std::cout << " found the tile" << "\n";
-            }
-    	}
-    	//return t;
+        // how do I return NULL if no tile is found?!
+        // also, should we be using references or pointers.
+        //return MapData.find(gridPoint) != MapData.end();
+        return &MapData.find(gridPoint)->second;
     }
 
-    Tile TileMap::GetTileByGridPointUp(sf::Vector2<int> gridPoint)
+    Tile* TileMap::GetTileByGridPointUp(sf::Vector2<int> gridPoint)
     {
     	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x,gridPoint.y+1));
     }
 
-    Tile TileMap::GetTileByGridPointDown(sf::Vector2<int> gridPoint)
+    Tile* TileMap::GetTileByGridPointDown(sf::Vector2<int> gridPoint)
     {
     	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x,gridPoint.y-1));
     }
 
-    Tile TileMap::GetTileByGridPointRight(sf::Vector2<int> gridPoint)
+    Tile* TileMap::GetTileByGridPointRight(sf::Vector2<int> gridPoint)
     {
     	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x+1,gridPoint.y));
     }
 
-    Tile TileMap::GetTileByGridPointLeft(sf::Vector2<int> gridPoint)
+    Tile* TileMap::GetTileByGridPointLeft(sf::Vector2<int> gridPoint)
     {
     	return TileMap::GetTileByGridPoint(sf::Vector2<int>(gridPoint.x-1,gridPoint.y));
     }
 
     void TileMap::RemoveTile(sf::Vector2<int> gridPoint)
     {
-    	// this is probably a really shitty inefficient way to do this.
-    	/* Find the matching tile based on grid coordinate */
-    	for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i) {
-
-            Tile t = i->second;
-
-            if(t.getPosition() == gridPoint)
-            {
-            	i = MapData.erase(i);
-            	//TileMatrix::const_iterator end();
-            }
-	        
-        }
+        MapData.erase(gridPoint);
     }
 
     bool TileMap::checkInView(sf::RenderWindow* tx, sf::Vector2<int> point)

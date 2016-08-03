@@ -151,12 +151,26 @@ namespace GAME
 
 		/* Get current Grid position */
 		sf::Vector2<int> pos = Player::getGridPosition();
-
-		//std::cout << pos.x << " " << pos.y << "\n";
+        sf::Vector2<int> prevPos = Player::getPreviousGridPosition();
 
 		/* Get the corresponding tile of this position */
-		Tile t = m->GetTileByGridPoint(pos);
-	
+		Tile *t = m->GetTileByGridPoint(pos);
+
+        /* This is haxored to fuck. The tile object above should return a null pointer or something if no 
+            tile is found. Instead it returns an absurdly high coordinate. So checking for that at the moment.
+            THIS NEEDS TO BE FIXED!!!
+        */
+        if(t->getPosition().x > GAME::TileMap::MAX_X || t->getPosition().y > GAME::TileMap::MAX_Y)
+        {
+            //std::cout << "FOUND NULL TILE" << "\n";
+        }
+        else
+        {
+            gridX = prevPos.x;
+            gridY = prevPos.y;
+            //std::cout << "COLLISION: BRINGING TO PREVIOUS POSITION: " << "\n";
+            //std::cout << prevPos.x << " " << prevPos.y << "\n";
+	    }
 	}
 
     sf::Vector2f Player::getCoors() 
