@@ -111,5 +111,3 @@ CTestTestfile.cmake
 /bin/tilemap
 /bin/*.exe
 makefile
-/CMakeLists.txt
-/cmake_modules/
