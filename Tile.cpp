@@ -2,77 +2,48 @@
 #include <math.h>
 #include "Tile.hpp"
 
-namespace GAME
+Tile::Tile()
 {
-    Tile::Tile()
-    {
 
-    }
+}
 
-    Tile::~Tile()
-    {
+Tile::~Tile()
+{
 
-    }
+}
 
-    void Tile::setPosition(sf::Vector2<int> p) {
-        Tile::position = p;
-    }
+void Tile::setPosition(sf::Vector2<int> p) 
+{
+    Tile::position = p;
+}
 
-    void Tile::setPosition(int x, int y) {
-        Tile::position = sf::Vector2<int>(x, y);
-    }
+void Tile::setPosition(int x, int y) 
+{
+    Tile::position = sf::Vector2<int>(x, y);
+}
 
-    void Tile::setMaterial(Material m) {
-        Tile::material = m;
-        if(m == Tile::empty)
-        {
-            std::cout << " TILE MATERIAL SET TO EMPTY" << "\n";
-        }
-    }
 
-    sf::Vector2<int> Tile::getPosition() {
-        return Tile::position;
-    }
+void Tile::setType(Type t) 
+{
+    Tile::type = t;
+}
 
-    int Tile::getX() {
-        return Tile::position.x;
-    }
+Tile::Type Tile::getType() 
+{
+    return Tile::type;
+}
 
-    int Tile::getY() {
-        return Tile::position.y;
-    }
+sf::Vector2<int> Tile::getPosition() 
+{
+    return Tile::position;
+}
 
-    Tile::Material Tile::getMaterial() {
-        return Tile::material;
-    }
+int Tile::getX() 
+{
+    return Tile::position.x;
+}
 
-    sf::Color hsv(int hue, float sat, float val)
-    {
-      hue %= 360;
-      while(hue<0) hue += 360;
-
-      if(sat<0.f) sat = 0.f;
-      if(sat>1.f) sat = 1.f;
-
-      if(val<0.f) val = 0.f;
-      if(val>1.f) val = 1.f;
-
-      int h = hue/60;
-      float f = float(hue)/60-h;
-      float p = val*(1.f-sat);
-      float q = val*(1.f-sat*f);
-      float t = val*(1.f-sat*(1-f));
-
-      switch(h)
-      {
-          default:
-          case 0:
-          case 6: return sf::Color(val*255, t*255, p*255);
-          case 1: return sf::Color(q*255, val*255, p*255);
-          case 2: return sf::Color(p*255, val*255, t*255);
-          case 3: return sf::Color(p*255, q*255, val*255);
-          case 4: return sf::Color(t*255, p*255, val*255);
-          case 5: return sf::Color(val*255, p*255, q*255);
-      }
-    }
+int Tile::getY() 
+{
+    return Tile::position.y;
 }

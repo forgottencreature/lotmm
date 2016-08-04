@@ -1,43 +1,43 @@
-#ifndef _player_h_ 
-#define _player_h_
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 #include <SFML/Graphics.hpp>
 
-namespace GAME
+class TileMap;
+
+class Player
 {
+public:
+    Player();
+    virtual ~Player();
 
-    class TileMap;
+    //enum Dir {UP, DOWN, LEFT, RIGHT};
 
-    struct Dir {
-        enum Type {Up, Right, Down, Left, None};
-    };
+    void setGridPosition(int newGridX, int newGridY, TileMap* m);
+    void move(std::string dir);
+    sf::RectangleShape get();
 
-    class Player
-    {
-        public:
-            Player();
-            virtual ~Player();
-            void setPosition(int newGridX, int newGridY, GAME::TileMap* m);
-            void move(const GAME::Dir::Type dir);
-            void draw(sf::RenderWindow* tx);
-            void const update(GAME::TileMap* m);
-            sf::Vector2f getSpritePosition();
-            sf::Vector2<int> getGridPosition();
-            sf::Vector2<int> getPreviousGridPosition();
-        protected:
-        private:
-            float x, y;
-            float speed = 1.0f;
-            int gridX, gridY;
-            void create();
-            void setSpritePosition(sf::Vector2f pos);
-            void checkBounds();
-            void checkTileCollision(TileMap* m);
-            bool const isMoving();
-            sf::Vector2f getCoors();
-            sf::RectangleShape playerSprite;
-            sf::Vector2<int> previousGridPosition;
-    };
+    void update(TileMap* m);
 
-}
+    sf::Vector2f getSpritePosition();
+    sf::Vector2<int> getGridPosition();
+    sf::Vector2<int> getPreviousGridPosition();
 
-#endif
+    int gridX = 0, gridY = 0;
+
+private:
+    float speed = 3.0f;
+    float x, y;
+
+    void create();
+    void checkBounds();
+    void setSpritePosition(sf::Vector2f pos);
+    void checkTileCollision(TileMap* m);
+
+    bool const isMoving();
+
+    sf::Vector2f getCoors();
+    sf::Vector2<int> previousGridPosition;
+    sf::RectangleShape playerSprite;
+};
+
+#endif // PLAYER_HPP

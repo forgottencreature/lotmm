@@ -1,37 +1,41 @@
-#ifndef _tile_h_ 
-#define _tile_h_
+#ifndef TILE_HPP
+#define TILE_HPP
 #include <SFML/Graphics.hpp>
 
-namespace GAME
+class Tile
 {
-    class Tile
-    {
-        public:
-            enum Material
-            {
-                empty,
-                dirt,
-                snow,
-                grass,
-            };
-            Tile();
-            virtual ~Tile();
-            void setPosition(sf::Vector2<int> p);
-            void setPosition(int x, int y);
-            void setMaterial(Material m);
-            sf::Vector2<int> getPosition();
-            int getX();
-            int getY();
-            Material getMaterial();
-            static const int HEIGHT = 8;
-            static const int WIDTH = 8;
-        protected:
-        private:
-            Material material;
-            sf::Vector2<int> position;
-    };
+public:
+    /* 
+    * Type will probably have to be refactored.
+    * Different classes for different types, maybe? 
+    */
 
-    sf::Color hsv(int hue, float sat, float val);
-}
+    enum Type
+    {
+        empty,
+        dirt,
+        snow,
+        grass,
+    };
+    
+    Tile();
+    virtual ~Tile();
+
+    void setPosition(sf::Vector2<int> p);
+    void setPosition(int x, int y);
+    void setType(Type t);
+
+    Type getType();
+    sf::Vector2<int> getPosition();
+
+    int getX();
+    int getY();
+
+    static const int HEIGHT = 16;
+    static const int WIDTH = 16;
+private:
+    Type type;
+    sf::Vector2<int> position;
+};
 
 #endif
