@@ -101,19 +101,19 @@ void PlayState::updateInput()
         tileMap.digTile(newPos);
     }
 
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         player.move("LEFT");
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         player.move("DOWN");
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         player.move("RIGHT");
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         player.move("UP");
     }
