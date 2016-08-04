@@ -1,0 +1,33 @@
+stages:
+  - build
+#  - test # Will add this eventually? Maybe we will use a test suite or something.
+
+before_script:
+  - hostname
+
+Build OS X:
+  stage: build
+  script:
+    - cmake .
+    - cmake --build .
+  tags:
+    - cmake
+    - osx
+
+Build Debian:
+  stage: build
+  script:
+    - cmake .
+    - cmake --build .
+  tags:
+    - cmake
+    - jessie
+
+Build Windows:
+  stage: build
+  script:
+    - cmake .
+    - cmake --build .
+  tags:
+    - cmake
+    - server-2012

@@ -25,17 +25,23 @@ public:
     void setPosition(int x, int y);
     void setType(Type t);
 
+    void removeHealth(int i);
+
     Type getType();
     sf::Vector2<int> getPosition();
 
     int getX();
     int getY();
 
-    static const int HEIGHT = 16;
-    static const int WIDTH = 16;
+    int health = 100;
+
+    sf::Color color;
+
+    static const int HEIGHT = 32;
+    static const int WIDTH = 32;
 private:
     Type type;
     sf::Vector2<int> position;
-};
+}; 
 
 #endif

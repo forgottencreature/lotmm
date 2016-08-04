@@ -1,6 +1,7 @@
 #ifndef TILEMAP_HPP
 #define TILEMAP_HPP
 #include "Tile.hpp"
+#include "Player.hpp"
 
 /* A temporary object to hold properties of different types of tiles */
 /*
@@ -9,6 +10,8 @@ struct TileTypes {
     int weight;
 }, empty, dirt, snow, grass;
 */
+
+class Player;
 
 struct classcomp {
     bool operator() (const sf::Vector2<int>& a, const sf::Vector2<int>& b) const
@@ -30,6 +33,7 @@ public:
 	void generate();
     void toggleGrid();
     void removeTile(sf::Vector2<int> gridPoint);
+    void digTile(sf::Vector2<int> gridPoint);
 
     /* This is a temporary function until an object is made for different types of tiles. */
     sf::Color getTileColorByType(Tile::Type);
