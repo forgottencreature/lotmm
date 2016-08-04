@@ -50,7 +50,11 @@ void MainMenuState::update()
                     case sf::Keyboard::N:
                         m_next = m_game.build<PlayState>( true );
 						break;
+					default:
+						break;
 				}
+				break;
+			default:
 				break;
 		}
 	}

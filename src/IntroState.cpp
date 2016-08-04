@@ -54,8 +54,12 @@ void IntroState::update()
                     case sf::Keyboard::Escape:
                         m_game.quit();
                         break;
+					default:
+						break;
                 }
                 break;
+			default:
+				break;
             }
 		}
 	}

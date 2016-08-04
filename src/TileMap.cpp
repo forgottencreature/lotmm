@@ -58,7 +58,7 @@ sf::VertexArray TileMap::getGridLines()
 	lines.setPrimitiveType(sf::Lines);
 
 	/* Only get the grid lines if they're set to be displayed */
-	if(SHOW_GRID_LINES == true)
+	if(SHOW_GRID_LINES)
 	{
 	    for (int y = 0; y < MAX_Y + 1; y++)
         {
@@ -70,9 +70,8 @@ sf::VertexArray TileMap::getGridLines()
 	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*x,0), sf::Color::White));
 	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*x,Tile::HEIGHT*MAX_Y), sf::Color::White));
 	    }
-
-	    return lines;
 	}
+	return lines;
 }
 
 void TileMap::toggleGrid()
