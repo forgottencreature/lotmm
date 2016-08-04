@@ -16,7 +16,7 @@ public:
     void move(std::string dir);
     sf::RectangleShape get();
 
-    void update(TileMap* m);
+    void update(TileMap* m, float t);
 
     sf::Vector2f getSpritePosition();
     sf::Vector2<int> getGridPosition();

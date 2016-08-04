@@ -24,8 +24,8 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     /* Instantiate the player */
     Player player;
-    player.setGridPosition(0,0,&tileMap);
-    player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.
+    //player.setGridPosition(0,0,&tileMap);
+    //player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.
 }
 
 void PlayState::pause()
@@ -49,7 +49,7 @@ void PlayState::update()
     npcManager.checkCollision(m_game.textureManager);
 */
 
-    player.update(&tileMap);
+    player.update(&tileMap,elapsedTime);
 
 
     PlayState::updateInput();

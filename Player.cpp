@@ -43,7 +43,7 @@ void Player::setGridPosition(int newGridX, int newGridY, TileMap* m)
     /* Now record the previous position for future use */
     previousGridPosition = Player::getGridPosition();
 
-    Player::update(m);
+    //Player::update(m);
 }
 
 void Player::move(std::string dir)
@@ -75,7 +75,7 @@ void Player::move(std::string dir)
 
 }
 
-void Player::update(TileMap* m)
+void Player::update(TileMap* m, float t)
 {
 
 	/* Check boundries */
