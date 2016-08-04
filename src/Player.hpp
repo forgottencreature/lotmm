@@ -22,7 +22,7 @@ public:
     sf::Vector2<int> getGridPosition();
     sf::Vector2<int> getPreviousGridPosition();
 
-    int gridX = 0, gridY = 0;
+    int gridX = 1, gridY = 1;
 
     int const damagePerTick = 10;
 

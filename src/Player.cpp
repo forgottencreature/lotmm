@@ -82,29 +82,50 @@ void Player::update(TileMap* m, float t)
 	Player::checkBounds();
 	Player::checkTileCollision(m);
 
+    /* THIS IS THE FUCKING BUG I'VE BEEN LOOKING FOR FOR 6 HOURS.
+     * BUT HOW TO FIX?!!?
+     *
+     * BASICALLY THE PROBLEM IS THAT THE CONDITIONALS DON'T FUNCTION PROPERLY.
+     * THE ARGUMENT ON THE RIGHT SIDE IS ALWAYS DISTORTED WHEN THE GRID POSITION IS ON THE EDGE
+     * DUE TO GRIDX / GRIDY EQUALLYING ZERO. THAT MAKES THE CONDITIONAL SET OFF EVEN THOUGH
+     * IT SHOULDN'T.
+     *
+     * DOES THAT MAKE SENSE?
+     *
+     * CAN SOMEONE PLZ FIX THIS FOR ME. IT HAS KILLED MY BRAIN.
+     *
+     * KTHX
+     *
+     * - PAT
+     * /
+
     /* Move right */
     if (x < gridX * Tile::WIDTH)
     {
+        //std::cout << "test 1" << "\n";
         x = std::min(x + speed, float(gridX * Tile::WIDTH));
     }
 
     /* Move left */
-    else if (x > gridX * Tile::WIDTH)
+    else if (x > * Tile::WIDTH)
     {
+        //std::cout << "test 2" << "\n";
+        std::cout << x << " > " << gridX << " * " << Tile::WIDTH << "\n";
         x = std::max(x - speed, float(gridX * Tile::WIDTH));
+        std::cout << "new x" << x << "\n";
     }
 
     /* Move Down */
     if (y < gridY * Tile::WIDTH)
     {
-    	//std::cout << "movign down" << "\n";
+        //std::cout << "test 3" << "\n";
         y = std::min(y + speed, float(gridY * Tile::WIDTH));
     }
 
     /* Move Up */
     else if (y > gridY * Tile::WIDTH) 
     {
-    	//std::cout << "movign up" << "\n";
+        //std::cout << "test 4" << "\n";
         y = std::max(y - speed, float(gridY * Tile::WIDTH));
     }
 
