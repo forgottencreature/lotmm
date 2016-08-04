@@ -44,6 +44,7 @@ void TileMap::generate()
 
                 t.setType(type);
                 t.setPosition(x, y);
+                t.color = TileMap::getTileColorByType(type);
                 sf::Vector2<int> v(x, y);
                 MapData.insert( std::pair<sf::Vector2<int>, Tile>(v, t) );
             }
@@ -104,7 +105,7 @@ sf::VertexArray TileMap::getTiles()
 	        tile[3].position = sf::Vector2f(t.getX() * Tile::WIDTH, t.getY() * Tile::HEIGHT + Tile::HEIGHT);
 
 	        sf::Color tileColor;
-			tileColor = TileMap::getTileColorByType(t.getType());
+			tileColor = t.color;
 
 	        tile[0].color = tileColor;
 	        tile[1].color = tileColor;
@@ -123,19 +124,36 @@ sf::Color TileMap::getTileColorByType(Tile::Type type)
     if (type == Tile::dirt) {
         return sf::Color(160,82,45);
     } else if (type == Tile::snow) {
-        return sf::Color(25,25,112);
+        return sf::Color(25,25,112,255);
     } else if (type == Tile::grass) {
         return sf::Color::Green;
     } else if (type == Tile::empty) {
     	return sf::Color::Transparent;
     }
 
-    return sf::Color::Red;
+    return sf::Color::Yellow;
 }
 
 void TileMap::removeTile(sf::Vector2<int> gridPoint)
 {
-    MapData.erase(gridPoint);
+	MapData.erase(gridPoint);
+}
+
+void TileMap::digTile(sf::Vector2<int> gridPoint)
+{
+	/* Get the tile we're destorying */
+	Tile* t = TileMap::getTileByGridPoint(gridPoint);
+	
+	if(t->health <= 0)
+	{
+		MapData.erase(gridPoint);
+	}
+	else
+	{
+		t->removeHealth(5);
+		t->color.a = (t->color.a > 0) ? t->color.a - 5 : t->color.a;
+       //std::cout << "damaging tile" << "\n";
+	}
 }
 
 /* Check if a specific grid point is in the current view.

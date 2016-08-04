@@ -24,6 +24,8 @@ public:
 
     int gridX = 0, gridY = 0;
 
+    int const damagePerTick = 10;
+
 private:
     float speed = 3.0f;
     float x, y;

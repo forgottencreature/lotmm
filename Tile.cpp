@@ -28,6 +28,11 @@ void Tile::setType(Type t)
     Tile::type = t;
 }
 
+void Tile::removeHealth(int i) 
+{
+    this->health = this->health - i;
+}
+
 Tile::Type Tile::getType() 
 {
     return Tile::type;
