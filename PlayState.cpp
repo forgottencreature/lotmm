@@ -101,19 +101,19 @@ void PlayState::updateInput()
         tileMap.removeTile(newPos);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         player.move("LEFT");
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         player.move("DOWN");
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         player.move("RIGHT");
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         player.move("UP");
     }

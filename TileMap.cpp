@@ -38,7 +38,7 @@ void TileMap::generate()
             	type = Tile::grass;
             }
 
-            //type = Tile::grass;
+            type = Tile::snow;
 
             if (type != Tile::empty) {
 
