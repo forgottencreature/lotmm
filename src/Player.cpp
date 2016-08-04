@@ -5,7 +5,7 @@
 
 Player::Player()
 {
-	/* Create the player */
+	// Create the player
 	create();
 }
 
