@@ -66,13 +66,13 @@ sf::VertexArray TileMap::getGridLines()
 	{
 	    for (int y = 0; y < MAX_Y + 1; y++)
         {
-	    	lines.append(sf::Vertex(sf::Vector2f(0,Tile::HEIGHT*y), sf::Color::White));
-	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*MAX_X,Tile::HEIGHT*y), sf::Color::White));
+	    	lines.append(sf::Vertex(sf::Vector2f(0,Tile::HEIGHT*y), sf::Color(255,255,255,75)));
+	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*MAX_X,Tile::HEIGHT*y), sf::Color(255,255,255,75)));
 	    }
 	    for (int x = 0; x < MAX_X + 1; x++)
         {
-	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*x,0), sf::Color::White));
-	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*x,Tile::HEIGHT*MAX_Y), sf::Color::White));
+	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*x,0), sf::Color(255,255,255,75)));
+	    	lines.append(sf::Vertex(sf::Vector2f(Tile::WIDTH*x,Tile::HEIGHT*MAX_Y), sf::Color(255,255,255,75)));
 	    }
 	}
 	return lines;
