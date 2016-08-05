@@ -27,28 +27,19 @@ void TileMap::generate()
         {
         	
             Tile t;
-            Tile::Type type;
-            /*
-            int randNum = (rand() % 4) + 1;
-            if(randNum == 1) {
-            	type = Tile::snow;
-            } else if(randNum == 2) {
-            	type = Tile::dirt;
-            } else if(randNum == 3) {
-            	type = Tile::grass;
-            }
-			*/
+            Tile::Floor floor;
+
 			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1) {
-				type = Tile::grass;
+				floor = Tile::grass;
 			} else {
-				type = Tile::snow;
+				floor = Tile::snow;
 			}
 
-            if (type != Tile::empty) {
+            if (floor != Tile::empty) {
 
-                t.setType(type);
+                t.setFloor(floor);
                 t.setPosition(x, y);
-                t.color = TileMap::getTileColorByType(type);
+                t.color = TileMap::getTileColorByFloor(floor);
                 sf::Vector2<int> v(x, y);
                 MapData.insert( std::pair<sf::Vector2<int>, Tile>(v, t) );
             }
@@ -120,17 +111,17 @@ sf::VertexArray TileMap::getTiles()
 }
 
 /* This is a temporary function */
-sf::Color TileMap::getTileColorByType(Tile::Type type)
+sf::Color TileMap::getTileColorByFloor(Tile::Floor floor)
 {
 	sf::Color tileColor;
 
-    if (type == Tile::dirt) {
+    if (floor == Tile::dirt) {
         return sf::Color(160,82,45);
-    } else if (type == Tile::snow) {
+    } else if (floor == Tile::snow) {
         return sf::Color(25,25,112,255);
-    } else if (type == Tile::grass) {
+    } else if (floor == Tile::grass) {
         return sf::Color::Green;
-    } else if (type == Tile::empty) {
+    } else if (floor == Tile::empty) {
     	return sf::Color::Transparent;
     }
 

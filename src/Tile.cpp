@@ -23,9 +23,9 @@ void Tile::setPosition(int x, int y)
 }
 
 
-void Tile::setType(Type t) 
+void Tile::setFloor(Floor f)
 {
-    Tile::type = t;
+    Tile::floor = f;
 }
 
 void Tile::removeHealth(int i) 
@@ -33,9 +33,9 @@ void Tile::removeHealth(int i)
     this->health = this->health - i;
 }
 
-Tile::Type Tile::getType() 
+Tile::Floor Tile::getFloor()
 {
-    return Tile::type;
+    return Tile::floor;
 }
 
 sf::Vector2<int> Tile::getPosition() 

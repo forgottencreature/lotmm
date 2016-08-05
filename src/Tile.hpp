@@ -10,7 +10,7 @@ public:
     * Different classes for different types, maybe? 
     */
 
-    enum Type
+    enum Floor
     {
         empty,
         dirt,
@@ -23,11 +23,11 @@ public:
 
     void setPosition(sf::Vector2<int> p);
     void setPosition(int x, int y);
-    void setType(Type t);
+    void setFloor(Floor f);
 
     void removeHealth(int i);
 
-    Type getType();
+    Floor getFloor();
     sf::Vector2<int> getPosition();
 
     int getX();
@@ -40,7 +40,7 @@ public:
     static const int HEIGHT = 24;
     static const int WIDTH = 24;
 private:
-    Type type;
+    Floor floor;
     sf::Vector2<int> position;
 }; 
 

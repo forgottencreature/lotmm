@@ -36,7 +36,7 @@ public:
     void digTile(sf::Vector2<int> gridPoint);
 
     /* This is a temporary function until an object is made for different types of tiles. */
-    sf::Color getTileColorByType(Tile::Type);
+    sf::Color getTileColorByFloor(Tile::Floor);
 
     Tile* getTileByGridPoint(sf::Vector2<int> gridPoint);
     Tile* getTileByGridPoint(sf::Vector2<int> gridPoint, Direction dir);
