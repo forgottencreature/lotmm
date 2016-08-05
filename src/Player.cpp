@@ -34,33 +34,22 @@ sf::RectangleShape Player::getSprite()
 
 void Player::update()
 {
-    sf::Vector2<int> newPos = previousGridPosition + desiredGridMovement;
-
-    /* Update the player sprite to the correct position */
-    playerSprite.setPosition(Player::gridToCoord(previousGridPosition + desiredGridMovement));
-
-    /* If the player has reached it's destination, update the current position. */
-    if(!Player::isMoving())
-    {
-        currentGridPosition = newPos;
-        //std::cout << "DESTINATION REACHED!!" << "\n";
-    }
-
+    Player::move();
 }
 
 void Player::move()
 {
-
-}
-
-void Player::setMovement(std::string dir)
-{
-
-    /* Check if the player is already moving */
+    /* Check if the player is already moving.
+     * APPARENTLY BY NOT USING THIS FUNCTION, IT FIXES ALL MY PROBLEMS.
+     * I HAVE NO IDEA WHY AT THE MOMENT.
+    */
+    /*
     if (Player::isMoving())
     {
+        std::cout << "Already mvoing." << "\n";
         return;
     }
+    */
 
     /* Check if the player is trying to move outside the grid*/
     if(Player::checkTileMapBounds())
@@ -75,6 +64,21 @@ void Player::setMovement(std::string dir)
         std::cout << "COLLISION WARNING! Occupied tile." << "\n";
         return;
     }
+
+    sf::Vector2<int> newPos = previousGridPosition + desiredGridMovement;
+
+    /* Update the player sprite to the correct position */
+    playerSprite.setPosition(Player::gridToCoord(previousGridPosition + desiredGridMovement));
+
+    /* If the player has reached it's destination, update the current position. */
+    if(!Player::isMoving())
+    {
+        currentGridPosition = newPos;
+    }
+}
+
+void Player::setMovement(std::string dir)
+{
 
     /* Update the previous grid position to what the player is currently at */
     previousGridPosition = Player::currentGridPosition;
