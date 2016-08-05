@@ -115,7 +115,7 @@ void Player::update(TileMap* m, float t)
         std::cout << "new x" << x << "\n";
     }
 
-    /* Move Down */git add
+    /* Move Down */
     if (y < gridY * Tile::WIDTH)
     {
         //std::cout << "test 3" << "\n";
