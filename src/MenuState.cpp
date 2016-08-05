@@ -41,7 +41,11 @@ void MenuState::update()
 					case sf::Keyboard::Escape:
 						m_game.lastState();
 						break;
+					default:
+						break;
 				}
+				break;
+			default:
 				break;
 		}
 	}

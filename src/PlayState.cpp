@@ -142,8 +142,12 @@ void PlayState::updateInput()
 						break;
                     case sf::Keyboard::Space:
                         break;
+                    default:
+                        break;
 				}
 				break;
+            default:
+                break;
 		}
 
         if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)

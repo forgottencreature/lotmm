@@ -97,7 +97,7 @@ void Player::update(TileMap* m, float t)
      * KTHX
      *
      * - PAT
-     * /
+     */
 
     /* Move right */
     if (x < gridX * Tile::WIDTH)
