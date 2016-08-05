@@ -155,13 +155,16 @@ void PlayState::updateInput()
         if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel)
         {
             int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
+
+            std::cout << mouseWheelDelta << "\n";
+
             if(mouseWheelDelta > 0)
             {
-                //View.zoom(.90f);
+                this->screenView.zoom(.90f);
             }
             else if(mouseWheelDelta < 0)
             {
-                //View.zoom(1.10f);
+                this->screenView.zoom(1.10f);
             }
         }
 

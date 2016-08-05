@@ -32,6 +32,8 @@ private:
 	sf::Texture m_bgTex;
 	sf::Sprite m_bg;
 
+	sf::View screenView;
+
     float time;
 
 };

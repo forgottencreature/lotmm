@@ -28,7 +28,7 @@ void TileMap::generate()
         	
             Tile t;
             Tile::Type type;
-            
+            /*
             int randNum = (rand() % 4) + 1;
             if(randNum == 1) {
             	type = Tile::snow;
@@ -37,8 +37,12 @@ void TileMap::generate()
             } else if(randNum == 3) {
             	type = Tile::grass;
             }
-
-            type = Tile::snow;
+			*/
+			if(y == 1 or x == 1) {
+				type = Tile::grass;
+			} else {
+				type = Tile::snow;
+			}
 
             if (type != Tile::empty) {
 

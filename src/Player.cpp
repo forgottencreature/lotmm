@@ -43,7 +43,7 @@ void Player::update()
     if(!Player::isMoving())
     {
         currentGridPosition = newPos;
-        std::cout << "DESTINATION REACHED!!" << "\n";
+        //std::cout << "DESTINATION REACHED!!" << "\n";
     }
 
 }
@@ -53,21 +53,21 @@ void Player::move(std::string dir)
     /* Check if the player is already moving */
     if (Player::isMoving())
     {
-        std::cout << "Player already moving." << "\n";
+        //std::cout << "Player already moving." << "\n";
         return;
     }
 
     /* Check if the player is trying to move outside the grid*/
     if(Player::checkTileMapBounds())
     {
-        std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
+        //std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
         return;
     }
 
     /* Check if the player is trying to move onto occupied tile */
     if(Player::checkTileCollision())
     {
-        std::cout << "COLLISION WARNING! Occupied tile." << "\n";
+        //std::cout << "COLLISION WARNING! Occupied tile." << "\n";
         return;
     }
 
@@ -100,7 +100,35 @@ sf::Vector2f Player::gridToCoord(sf::Vector2<int> pos)
 
 bool Player::checkTileMapBounds()
 {
+    /* Subtract 1 to account for the grid loop starting at 0 */
+    float maxGridX = TileMap::MAX_X - 1;
+    float maxGridY = TileMap::MAX_Y - 1;
+
+    float minGridX = 3;
+    float minGridY = 3;
+
+    sf::Vector2<int> desiredGridPosition = previousGridPosition + desiredGridMovement;
+
+    /*
+    std::cout << desiredGridPosition.x << " " << maxGridX << "\n";
+    std::cout << desiredGridPosition.x << " " << minGridX << "\n";
+    std::cout << desiredGridPosition.y << " " << maxGridY << "\n";
+    std::cout << desiredGridPosition.y << " " << minGridY << "\n\n";
+    */
+/*
+    if(desiredGridPosition.x > maxGridX || desiredGridPosition.x < minGridX || desiredGridPosition.y > maxGridY || desiredGridPosition.y < minGridY)
+    {
+        return true;
+        std::cout << "True" << "\n";
+    }
+    else {
+        std::cout << "False" << "\n";
+    }
+
     return false;
+*/
+    return desiredGridPosition.x > maxGridX || desiredGridPosition.x < minGridX || desiredGridPosition.y > maxGridY || desiredGridPosition.y < minGridY;
+
 }
 
 bool Player::checkTileCollision()
