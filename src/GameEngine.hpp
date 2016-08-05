@@ -15,7 +15,7 @@ class TextureManager;
 class GameEngine
 {
 public:
-	GameEngine( const std::string& title, const unsigned int width = 1280, const unsigned int height = 720, const unsigned int bpp = 32, const bool fullscreen = false );
+	GameEngine( const std::string& title, const unsigned int width = 1280, const unsigned int height = 800, const unsigned int bpp = 32, const bool fullscreen = false );
 
 	void run( std::unique_ptr<GameState> state );
 
