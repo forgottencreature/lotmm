@@ -107,7 +107,7 @@ void Player::update(TileMap* m, float t)
     }
 
     /* Move left */
-    else if (x > * Tile::WIDTH)
+    else if (x > gridY * Tile::WIDTH)
     {
         //std::cout << "test 2" << "\n";
         std::cout << x << " > " << gridX << " * " << Tile::WIDTH << "\n";
