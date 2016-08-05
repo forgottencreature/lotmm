@@ -23,11 +23,11 @@ Build Debian:
     - cmake
     - jessie
 
-Build Windows:
-  stage: build
-  script:
-    - cmake .
-    - cmake --build .
-  tags:
-    - cmake
-    - server-2012
+#Build Windows:
+#  stage: build
+#  script:
+#    - cmake .
+#    - cmake --build .
+#  tags:
+#    - cmake
+#    - server-2012
