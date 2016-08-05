@@ -16,14 +16,15 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     sf::View screenView(center,halfsize);
     m_game.screen.setView(screenView);
 
+    std::cout << "PlayState Init" << std::endl;
+
     tileMap.generate();
     tileMap.removeTile(sf::Vector2<int>(0,0));
     tileMap.removeTile(sf::Vector2<int>(0,1));
     tileMap.removeTile(sf::Vector2<int>(1,0));
     tileMap.removeTile(sf::Vector2<int>(1,1));
 
-    /* Instantiate the player */
-    Player player;
+    player.create(sf::Vector2<int>(5,5));
 
     //player.setGridPosition(0,0,&tileMap);
     //player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.
@@ -50,9 +51,8 @@ void PlayState::update()
     npcManager.checkCollision(m_game.textureManager);
 */
 
-    player.update(&tileMap,elapsedTime);
-
-
+    //player.update(&tileMap,elapsedTime);
+    player.update();
     PlayState::updateInput();
 }
 
@@ -68,7 +68,7 @@ void PlayState::draw()
     m_game.screen.draw(tileMap.getGridLines());
 
     /* Draw our character */
-    m_game.screen.draw(player.get());
+    m_game.screen.draw(player.getSprite());
 
 	m_game.screen.display();
 }
@@ -77,6 +77,7 @@ void PlayState::updateInput()
 {
 
     /* Key Bindings */
+    /*
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         sf::Vector2<int> pos = player.getGridPosition();
@@ -101,6 +102,7 @@ void PlayState::updateInput()
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
         tileMap.digTile(newPos);
     }
+*/
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {

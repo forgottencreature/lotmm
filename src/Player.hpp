@@ -10,35 +10,42 @@ public:
     Player();
     virtual ~Player();
 
-    //enum Dir {UP, DOWN, LEFT, RIGHT};
+    void create(sf::Vector2<int> pos);
 
-    void setGridPosition(int newGridX, int newGridY, TileMap* m);
+    /* Process the movement input */
     void move(std::string dir);
-    sf::RectangleShape get();
 
+    /* Retrieves the player sprite */
+    sf::RectangleShape getSprite();
+
+    /* Updates the logic */
     void update(TileMap* m, float t);
+    void update();
 
-    sf::Vector2f getSpritePosition();
-    sf::Vector2<int> getGridPosition();
-    sf::Vector2<int> getPreviousGridPosition();
-
-    int gridX = 1, gridY = 1;
-
+    /* Rate at which tile takes damage */
     int const damagePerTick = 10;
 
 private:
     float speed = 3.0f;
-    float x, y;
 
-    void create();
-    void checkBounds();
-    void setSpritePosition(sf::Vector2f pos);
-    void checkTileCollision(TileMap* m);
+    bool checkTileMapBounds();
+    bool checkTileCollision(TileMap* m);
+    bool checkTileCollision();
 
-    bool const isMoving();
+    bool isMoving();
 
-    sf::Vector2f getCoors();
+    /* Convert a position on the grid to a coordinate on the view */
+    sf::Vector2f gridToCoord(sf::Vector2<int> pos);
+
+    /* This is where the player currently is in the grid */
+    sf::Vector2<int> currentGridPosition;
+
+    /* This is where the player last was in the grid */
     sf::Vector2<int> previousGridPosition;
+
+    /* This is the direction the player currently wants to move in */
+    sf::Vector2<int> desiredGridMovement;
+
     sf::RectangleShape playerSprite;
 };
 

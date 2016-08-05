@@ -5,8 +5,7 @@
 
 Player::Player()
 {
-	// Create the player
-	create();
+
 }
 
 Player::~Player()
@@ -14,192 +13,102 @@ Player::~Player()
 
 }
 
-void Player::create()
+void Player::create(sf::Vector2<int> pos)
 {
-	playerSprite.setPosition(Player::getCoors());
+	playerSprite.setPosition(Player::gridToCoord(pos));
     playerSprite.setSize(sf::Vector2f(Tile::WIDTH, Tile::HEIGHT));
     playerSprite.setFillColor(sf::Color::Red);
     playerSprite.setOutlineThickness(0);
+
+    /* Set the current position */
+    currentGridPosition = pos;
+
+    /* When we start out, populate previous position with where they start so that it isn't moving */
+    previousGridPosition = pos;
 }
 
-sf::RectangleShape Player::get()
+sf::RectangleShape Player::getSprite()
 {
-	return playerSprite;
+    return playerSprite;
 }
 
-void Player::setSpritePosition(sf::Vector2f pos)
+void Player::update()
 {
-	playerSprite.setPosition(pos);
-}
+    sf::Vector2<int> newPos = previousGridPosition + desiredGridMovement;
 
-void Player::setGridPosition(int newGridX, int newGridY, TileMap* m)
-{
-    gridX = newGridX;
-    gridY = newGridY;
+    /* Update the player sprite to the correct position */
+    playerSprite.setPosition(Player::gridToCoord(previousGridPosition + desiredGridMovement));
 
-    x = newGridX * Tile::WIDTH;
-    y = newGridY * Tile::HEIGHT;
+    /* If the player has reached it's destination, update the current position. */
+    if(!Player::isMoving())
+    {
+        currentGridPosition = newPos;
+        std::cout << "DESTINATION REACHED!!" << "\n";
+    }
 
-    /* Now record the previous position for future use */
-    previousGridPosition = Player::getGridPosition();
-
-    //Player::update(m);
 }
 
 void Player::move(std::string dir)
 {
-	
+    /* Check if the player is already moving */
     if (Player::isMoving())
     {
+        std::cout << "Player already moving." << "\n";
         return;
     }
 
-    previousGridPosition = Player::getGridPosition();
+    /* Check if the player is trying to move outside the grid*/
+    if(Player::checkTileMapBounds())
+    {
+        std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
+        return;
+    }
+
+    /* Check if the player is trying to move onto occupied tile */
+    if(Player::checkTileCollision())
+    {
+        std::cout << "COLLISION WARNING! Occupied tile." << "\n";
+        return;
+    }
+
+    /* Update the previous grid position to what the player is currently at */
+    previousGridPosition = Player::currentGridPosition;
 
     if (dir == "UP")
     {
-        gridY -= 1;
+        desiredGridMovement = sf::Vector2<int>(0,-1);
     }
     else if (dir == "DOWN")
     {
-        gridY += 1;
+        desiredGridMovement = sf::Vector2<int>(0,1);
     }
     if (dir == "LEFT")
     {
-        gridX -= 1;
+        desiredGridMovement = sf::Vector2<int>(-1,0);
     }
     else if (dir == "RIGHT")
     {
-        gridX += 1;
+        desiredGridMovement = sf::Vector2<int>(1,0);
     }
 
 }
 
-void Player::update(TileMap* m, float t)
+sf::Vector2f Player::gridToCoord(sf::Vector2<int> pos)
 {
-
-	/* Check boundries */
-	Player::checkBounds();
-	Player::checkTileCollision(m);
-
-    /* THIS IS THE FUCKING BUG I'VE BEEN LOOKING FOR FOR 6 HOURS.
-     * BUT HOW TO FIX?!!?
-     *
-     * BASICALLY THE PROBLEM IS THAT THE CONDITIONALS DON'T FUNCTION PROPERLY.
-     * THE ARGUMENT ON THE RIGHT SIDE IS ALWAYS DISTORTED WHEN THE GRID POSITION IS ON THE EDGE
-     * DUE TO GRIDX / GRIDY EQUALLYING ZERO. THAT MAKES THE CONDITIONAL SET OFF EVEN THOUGH
-     * IT SHOULDN'T.
-     *
-     * DOES THAT MAKE SENSE?
-     *
-     * CAN SOMEONE PLZ FIX THIS FOR ME. IT HAS KILLED MY BRAIN.
-     *
-     * KTHX
-     *
-     * - PAT
-     */
-
-    /* Move right */
-    if (x < gridX * Tile::WIDTH)
-    {
-        //std::cout << "test 1" << "\n";
-        x = std::min(x + speed, float(gridX * Tile::WIDTH));
-    }
-
-    /* Move left */
-    else if (x > gridY * Tile::WIDTH)
-    {
-        //std::cout << "test 2" << "\n";
-        std::cout << x << " > " << gridX << " * " << Tile::WIDTH << "\n";
-        x = std::max(x - speed, float(gridX * Tile::WIDTH));
-        std::cout << "new x" << x << "\n";
-    }
-
-    /* Move Down */
-    if (y < gridY * Tile::WIDTH)
-    {
-        //std::cout << "test 3" << "\n";
-        y = std::min(y + speed, float(gridY * Tile::WIDTH));
-    }
-
-    /* Move Up */
-    else if (y > gridY * Tile::WIDTH) 
-    {
-        //std::cout << "test 4" << "\n";
-        y = std::max(y - speed, float(gridY * Tile::WIDTH));
-    }
-
-    /* Move the sprite when it's position changes */
-    playerSprite.setPosition(Player::getCoors());
-
+    return sf::Vector2f((pos.x-1)*Tile::WIDTH,(pos.y-1)*Tile::HEIGHT);
 }
 
-/* Returns the physical coordinates of where the sprite currently is in the screen */
-sf::Vector2f Player::getSpritePosition()
+bool Player::checkTileMapBounds()
 {
-	return playerSprite.getPosition();
+    return false;
 }
 
-/* Returns the most recent X,Y coordinates of object */
-sf::Vector2f Player::getCoors() 
+bool Player::checkTileCollision()
 {
-    return sf::Vector2f(x,y); 
+    return false;
 }
 
-/* Returns where the player is on the grid */
-sf::Vector2<int> Player::getGridPosition()
+bool Player::isMoving()
 {
-	return sf::Vector2<int>(gridX,gridY);
-}
-
-sf::Vector2<int> Player::getPreviousGridPosition()
-{
-	return previousGridPosition;
-}
-
-bool const Player::isMoving()
-{
-    return !(x == gridX * Tile::WIDTH && y == gridY * Tile::HEIGHT);
-}
-
-void Player::checkBounds() {
-
-	/* Subtract 1 to account for the grid loop starting at 0 */
-    float maxGridX = TileMap::MAX_X - 1;
-    float maxGridY = TileMap::MAX_Y - 1;
-
-    float minGridX = 0;
-    float minGridY = 0;
-
-    /* If new grid coordinates are outside of the bounds, override it and set them back. */
-    gridX = (gridX < minGridX) ? minGridX : gridX;
-    gridX = (gridX > maxGridX) ? maxGridX : gridX;
-	gridY = (gridY < minGridY) ? minGridY : gridY;
-	gridY = (gridY > maxGridY) ? maxGridY : gridY;
-
-}
-
-void Player::checkTileCollision(TileMap* m) {
-
-	/* Get current Grid position */
-	sf::Vector2<int> pos = Player::getGridPosition();
-    sf::Vector2<int> prevPos = Player::getPreviousGridPosition();
-
-	/* Get the corresponding tile of this position */
-	Tile *t = m->getTileByGridPoint(pos);
-
-    /* This is haxored to fuck. The tile object above should return a null pointer or something if no 
-        tile is found. Instead it returns an absurdly high coordinate. So checking for that at the moment.
-        THIS NEEDS TO BE FIXED!!!
-    */
-    if(t->getPosition().x > TileMap::MAX_X || t->getPosition().y > TileMap::MAX_Y)
-    {
-        //std::cout << "FOUND NULL TILE" << "\n";
-    }
-    else
-    {
-        gridX = prevPos.x;
-        gridY = prevPos.y;
-    }
-
+    return Player::gridToCoord(previousGridPosition + desiredGridMovement) != playerSprite.getPosition();
 }

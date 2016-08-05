@@ -14,17 +14,17 @@ MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game
 
 	m_bg.setTexture( m_bgTex, true );
 
-	std::cout << "MenuState Init" << std::endl;
+	std::cout << "MainMenuState Init" << std::endl;
 }
 
 void MainMenuState::pause()
 {
-	std::cout << "MenuState Pause" << std::endl;
+	std::cout << "MainMenuState Pause" << std::endl;
 }
 
 void MainMenuState::resume()
 {
-	std::cout << "MenuState Resume" << std::endl;
+	std::cout << "MainMenuState Resume" << std::endl;
 }
 
 void MainMenuState::update()
