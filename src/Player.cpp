@@ -104,8 +104,8 @@ bool Player::checkTileMapBounds()
     int minGridY = TileMap::MIN_Y + 1;
 
     /* Subtract 1 to account for the grid loop starting at 0 */
-    int maxGridX = TileMap::MAX_X - 1;
-    int maxGridY = TileMap::MAX_Y - 1;
+    int maxGridX = TileMap::MAX_X ;
+    int maxGridY = TileMap::MAX_Y;
 
     /* Figure out where the player wants to be, given the provided input */
     sf::Vector2<int> desiredGridPosition = previousGridPosition + desiredGridMovement;

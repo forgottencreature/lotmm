@@ -37,8 +37,8 @@ public:
 
     sf::Color color;
 
-    static const int HEIGHT = 32;
-    static const int WIDTH = 32;
+    static const int HEIGHT = 24;
+    static const int WIDTH = 24;
 private:
     Type type;
     sf::Vector2<int> position;
