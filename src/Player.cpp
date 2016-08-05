@@ -48,7 +48,12 @@ void Player::update()
 
 }
 
-void Player::move(std::string dir)
+void Player::move()
+{
+
+}
+
+void Player::setMovement(std::string dir)
 {
 
     /* Check if the player is already moving */

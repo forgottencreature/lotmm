@@ -12,8 +12,11 @@ public:
 
     void create(sf::Vector2<int> pos);
 
+    /* Move the player */
+    void move();
+
     /* Process the movement input */
-    void move(std::string dir);
+    void setMovement(std::string dir);
 
     /* Retrieves the player sprite */
     sf::RectangleShape getSprite();

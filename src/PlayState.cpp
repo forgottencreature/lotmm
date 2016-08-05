@@ -108,19 +108,19 @@ void PlayState::updateInput()
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        player.move("LEFT");
+        player.setMovement("LEFT");
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        player.move("DOWN");
+        player.setMovement("DOWN");
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        player.move("RIGHT");
+        player.setMovement("RIGHT");
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        player.move("UP");
+        player.setMovement("UP");
     }
 
     sf::Event event;
