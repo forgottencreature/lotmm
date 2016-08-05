@@ -38,7 +38,7 @@ void TileMap::generate()
             	type = Tile::grass;
             }
 			*/
-			if(y == 1 or x == 1) {
+			if(y == MIN_Y or x == MIN_X) {
 				type = Tile::grass;
 			} else {
 				type = Tile::snow;

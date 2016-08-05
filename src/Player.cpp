@@ -50,24 +50,24 @@ void Player::update()
 
 void Player::move(std::string dir)
 {
+
     /* Check if the player is already moving */
     if (Player::isMoving())
     {
-        //std::cout << "Player already moving." << "\n";
         return;
     }
 
     /* Check if the player is trying to move outside the grid*/
     if(Player::checkTileMapBounds())
     {
-        //std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
+        std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
         return;
     }
 
     /* Check if the player is trying to move onto occupied tile */
     if(Player::checkTileCollision())
     {
-        //std::cout << "COLLISION WARNING! Occupied tile." << "\n";
+        std::cout << "COLLISION WARNING! Occupied tile." << "\n";
         return;
     }
 
@@ -100,34 +100,26 @@ sf::Vector2f Player::gridToCoord(sf::Vector2<int> pos)
 
 bool Player::checkTileMapBounds()
 {
+    int minGridX = TileMap::MIN_X + 1;
+    int minGridY = TileMap::MIN_Y + 1;
+
     /* Subtract 1 to account for the grid loop starting at 0 */
-    float maxGridX = TileMap::MAX_X - 1;
-    float maxGridY = TileMap::MAX_Y - 1;
+    int maxGridX = TileMap::MAX_X - 1;
+    int maxGridY = TileMap::MAX_Y - 1;
 
-    float minGridX = 3;
-    float minGridY = 3;
-
+    /* Figure out where the player wants to be, given the provided input */
     sf::Vector2<int> desiredGridPosition = previousGridPosition + desiredGridMovement;
 
-    /*
-    std::cout << desiredGridPosition.x << " " << maxGridX << "\n";
-    std::cout << desiredGridPosition.x << " " << minGridX << "\n";
-    std::cout << desiredGridPosition.y << " " << maxGridY << "\n";
-    std::cout << desiredGridPosition.y << " " << minGridY << "\n\n";
-    */
-/*
-    if(desiredGridPosition.x > maxGridX || desiredGridPosition.x < minGridX || desiredGridPosition.y > maxGridY || desiredGridPosition.y < minGridY)
+    /* Check if the desired position is outside the bounds */
+    bool collision = desiredGridPosition.x > maxGridX || desiredGridPosition.x < minGridX || desiredGridPosition.y > maxGridY || desiredGridPosition.y < minGridY;
+
+    /* If there is collision, we need to void out the desired movement. */
+    if(collision)
     {
-        return true;
-        std::cout << "True" << "\n";
-    }
-    else {
-        std::cout << "False" << "\n";
+        desiredGridMovement = sf::Vector2<int>(0, 0);
     }
 
-    return false;
-*/
-    return desiredGridPosition.x > maxGridX || desiredGridPosition.x < minGridX || desiredGridPosition.y > maxGridY || desiredGridPosition.y < minGridY;
+    return collision;
 
 }
 

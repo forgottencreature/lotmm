@@ -46,9 +46,12 @@ public:
 
     static const int MAX_X = 50;
     static const int MAX_Y = 50;
+    static const int MIN_X = 0;
+    static const int MIN_Y = 0;
+
 private:
     bool checkInView(sf::Vector2<int> point);
-    bool SHOW_GRID_LINES = true;
+    bool SHOW_GRID_LINES = false;
 
 	TileMatrix MapData;
 	//sf::VertexArray tiles;

@@ -19,10 +19,12 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     std::cout << "PlayState Init" << std::endl;
 
     tileMap.generate();
+    /*
     tileMap.removeTile(sf::Vector2<int>(0,0));
     tileMap.removeTile(sf::Vector2<int>(0,1));
     tileMap.removeTile(sf::Vector2<int>(1,0));
     tileMap.removeTile(sf::Vector2<int>(1,1));
+    */
 
     player.create(sf::Vector2<int>(5,5));
 
@@ -156,7 +158,7 @@ void PlayState::updateInput()
         {
             int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
 
-            std::cout << mouseWheelDelta << "\n";
+            //std::cout << mouseWheelDelta << "\n";
 
             if(mouseWheelDelta > 0)
             {
