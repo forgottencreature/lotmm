@@ -6,8 +6,6 @@
 
 #include "PlayState.hpp"
 #include "MainMenuState.hpp"
-#include "MenuState.hpp"
-#include "GameEngine.hpp"
 
 
 PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replace )
@@ -16,7 +14,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 	sf::Vector2f halfsize(1280,720);
     sf::View screenView(center,halfsize);
 
-    camera.move(sf::Vector2f(5,5));
+    //camera.move(sf::Vector2f(5,5));
 
     m_game.screen.setView(screenView);
 
@@ -33,7 +31,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     player.create(sf::Vector2<int>(5,5));
 
-    camera.setTarget(player.getSprite().getPosition());
+    //camera.setTarget(player.getSprite().getPosition());
 
     //player.setGridPosition(0,0,&tileMap);
     //player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.

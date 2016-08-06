@@ -9,8 +9,7 @@
 #include "Camera.hpp"
 
 class GameEngine;
-class TileMap;
-class Camera;
+//class TileMap;
 
 class PlayState : public GameState
 {
