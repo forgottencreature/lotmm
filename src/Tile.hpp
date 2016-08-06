@@ -2,46 +2,36 @@
 #define TILE_HPP
 #include <SFML/Graphics.hpp>
 
+#include "TileFloor.hpp"
+
+class TileFloor;
+
 class Tile
 {
 public:
-    /* 
-    * Type will probably have to be refactored.
-    * Different classes for different types, maybe? 
-    */
-
-    enum Floor
-    {
-        empty,
-        dirt,
-        snow,
-        grass,
-    };
-    
     Tile();
     virtual ~Tile();
 
     void setPosition(sf::Vector2<int> p);
     void setPosition(int x, int y);
-    void setFloor(Floor f);
+    void setFloor(TileFloor f);
 
-    void removeHealth(int i);
+    //void removeHealth(int i);
 
-    Floor getFloor();
+    TileFloor getFloor();
     sf::Vector2<int> getPosition();
 
     int getX();
     int getY();
 
-    int health = 100;
-
-    sf::Color color;
-
     static const int HEIGHT = 24;
     static const int WIDTH = 24;
+
+    TileFloor floor;
+
 private:
-    Floor floor;
     sf::Vector2<int> position;
+    //TileFloor floor;
 }; 
 
 #endif

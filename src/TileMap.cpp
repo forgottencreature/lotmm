@@ -19,30 +19,30 @@ TileMap::~TileMap()
 	
 }
 
+
 void TileMap::generate()
 {
     for (int x = 0; x < MAX_X; x++)
     {
         for (int y = 0; y < MAX_Y; y++)
         {
-        	
             Tile t;
-            Tile::Floor floor;
+			TileFloor::Type chosenType;
 
-			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1) {
-				floor = Tile::grass;
+			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)  {
+				chosenType = TileFloor::DIRT;
 			} else {
-				floor = Tile::snow;
+				chosenType = TileFloor::SNOW;
 			}
 
-            if (floor != Tile::empty) {
+			TileFloor tf(chosenType);
 
-                t.setFloor(floor);
-                t.setPosition(x, y);
-                t.color = TileMap::getTileColorByFloor(floor);
-                sf::Vector2<int> v(x, y);
-                MapData.insert( std::pair<sf::Vector2<int>, Tile>(v, t) );
-            }
+			t.setFloor(tf);
+
+            t.setPosition(x, y);
+
+            sf::Vector2<int> v(x, y);
+            MapData.insert( std::pair<sf::Vector2<int>, Tile>(v, t) );
         }
     } 
 }
@@ -98,54 +98,34 @@ sf::VertexArray TileMap::getTiles()
 	        tile[2].position = sf::Vector2f(t.getX() * Tile::WIDTH + Tile::WIDTH , t.getY() * Tile::HEIGHT + Tile::HEIGHT);
 	        tile[3].position = sf::Vector2f(t.getX() * Tile::WIDTH, t.getY() * Tile::HEIGHT + Tile::HEIGHT);
 
-	        sf::Color tileColor;
-			tileColor = t.color;
-
-	        tile[0].color = tileColor;
-	        tile[1].color = tileColor;
-	        tile[2].color = tileColor;
-	        tile[3].color = tileColor;
+            /* For now, set the color of the tile to that of the tile's floor */
+	        tile[0].color = t.getFloor().getColor();
+	        tile[1].color = t.getFloor().getColor();
+	        tile[2].color = t.getFloor().getColor();
+	        tile[3].color = t.getFloor().getColor();
 	    }
     }
     return tiles;
 }
 
-/* This is a temporary function */
-sf::Color TileMap::getTileColorByFloor(Tile::Floor floor)
-{
-	sf::Color tileColor;
-
-    if (floor == Tile::dirt) {
-        return sf::Color(160,82,45);
-    } else if (floor == Tile::snow) {
-        return sf::Color(25,25,112,255);
-    } else if (floor == Tile::grass) {
-        return sf::Color::Green;
-    } else if (floor == Tile::empty) {
-    	return sf::Color::Transparent;
-    }
-
-    return sf::Color::Yellow;
-}
-
 void TileMap::removeTile(sf::Vector2<int> gridPoint)
 {
-	MapData.erase(gridPoint);
+	//MapData.erase(gridPoint);
 }
 
 void TileMap::digTile(sf::Vector2<int> gridPoint)
 {
-	/* Get the tile we're destorying */
+	/* Get the tile we're destroying */
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 	
-	if(t->health <= 0)
+	if(t->getFloor().getHealth() <= 0)
 	{
 		MapData.erase(gridPoint);
 	}
 	else
 	{
-		t->removeHealth(5);
-		t->color.a = (t->color.a > 0) ? t->color.a - 5 : t->color.a;
+		t->getFloor().setHealth(t->getFloor().getHealth() - 5);
+		t->getFloor().getColor().a = (t->getFloor().getColor().a > 0) ? t->getFloor().getColor().a - 5 : t->getFloor().getColor().a;
        //std::cout << "damaging tile" << "\n";
 	}
 }

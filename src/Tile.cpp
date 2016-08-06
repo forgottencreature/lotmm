@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include "Tile.hpp"
+#include "TileFloor.hpp"
 
 Tile::Tile()
 {
@@ -23,17 +24,19 @@ void Tile::setPosition(int x, int y)
 }
 
 
-void Tile::setFloor(Floor f)
+void Tile::setFloor(TileFloor f)
 {
     Tile::floor = f;
 }
 
+/*
 void Tile::removeHealth(int i) 
 {
-    this->health = this->health - i;
+    Tile::floor.health = Tile::floor.health - i;
 }
+*/
 
-Tile::Floor Tile::getFloor()
+TileFloor Tile::getFloor()
 {
     return Tile::floor;
 }

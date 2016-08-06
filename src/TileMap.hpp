@@ -3,14 +3,6 @@
 #include "Tile.hpp"
 #include "Player.hpp"
 
-/* A temporary object to hold properties of different types of tiles */
-/*
-struct TileTypes {
-    sf::Color color;
-    int weight;
-}, empty, dirt, snow, grass;
-*/
-
 class Player;
 
 struct classcomp {
@@ -34,9 +26,6 @@ public:
     void toggleGrid();
     void removeTile(sf::Vector2<int> gridPoint);
     void digTile(sf::Vector2<int> gridPoint);
-
-    /* This is a temporary function until an object is made for different types of tiles. */
-    sf::Color getTileColorByFloor(Tile::Floor);
 
     Tile* getTileByGridPoint(sf::Vector2<int> gridPoint);
     Tile* getTileByGridPoint(sf::Vector2<int> gridPoint, Direction dir);

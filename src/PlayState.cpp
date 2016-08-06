@@ -5,6 +5,7 @@
 #include <SFML/System.hpp>
 
 #include "PlayState.hpp"
+#include "MainMenuState.hpp"
 #include "MenuState.hpp"
 #include "GameEngine.hpp"
 
@@ -19,8 +20,9 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     std::cout << "PlayState Init" << std::endl;
 
     tileMap.generate();
+    tileMap.removeTile(sf::Vector2<int>(5,5));
+
     /*
-    tileMap.removeTile(sf::Vector2<int>(0,0));
     tileMap.removeTile(sf::Vector2<int>(0,1));
     tileMap.removeTile(sf::Vector2<int>(1,0));
     tileMap.removeTile(sf::Vector2<int>(1,1));
@@ -43,15 +45,6 @@ void PlayState::resume()
 void PlayState::update()
 {
     float elapsedTime = gameClock.restart().asSeconds();
-
-    //std::cout << "grid position set to  " << player.gridX << " " << player.gridY << "\n";
-/*
-    for (int i = 0; i < npcManager.npcs.size(); i++) {
-        npcManager.npcs[i]->update(elapsedTime);
-    }
-
-    npcManager.checkCollision(m_game.textureManager);
-*/
 
     //player.update(&tileMap,elapsedTime);
     player.update();
@@ -129,20 +122,21 @@ void PlayState::updateInput()
 		switch( event.type )
 		{
 			case sf::Event::Closed:
-				m_game.quit();
+                m_next = m_game.build<MainMenuState>( true );
+                //m_game.lastState();
 				break;
 
 			case sf::Event::KeyPressed:
 				switch( event.key.code )
 				{
 					case sf::Keyboard::Escape:
-						m_game.quit();
+                        m_next = m_game.build<MainMenuState>( true );
 						break;
                     case sf::Keyboard::Z:
                         tileMap.toggleGrid();
                         break;
 					case sf::Keyboard::M:
-						m_next = m_game.build<MenuState>( false );
+						//m_next = m_game.build<MenuState>( false );
 						break;
                     case sf::Keyboard::Space:
                         break;
