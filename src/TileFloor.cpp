@@ -13,7 +13,6 @@ TileFloor::~TileFloor()
 
 void TileFloor::setType(Type t)
 {
-    //std::cout << "UPDATING TILE FLOOR TYPE" << "\n";
 
     switch(t)
     {
@@ -41,8 +40,10 @@ void TileFloor::setType(Type t)
             this->color = sf::Color::Transparent;
             this->health = 0;
             this->identifier = "default";
-
     }
+
+    std::cout << "UPDATING TILE FLOOR TYPE TO " << this->identifier << "\n";
+
 }
 
 void TileFloor::setColor(sf::Color c)
