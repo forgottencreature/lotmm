@@ -6,9 +6,11 @@
 #include "TextureManager.hpp"
 #include "TileMap.hpp"
 #include "Player.hpp"
+#include "Camera.hpp"
 
 class GameEngine;
 class TileMap;
+class Camera;
 
 class PlayState : public GameState
 {
@@ -28,6 +30,7 @@ public:
 private:
 	TileMap tileMap;
 	Player player;
+    Camera camera;
 
 	sf::Texture m_bgTex;
 	sf::Sprite m_bg;

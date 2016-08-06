@@ -15,6 +15,9 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     sf::Vector2f center(1280/2,720/2);
 	sf::Vector2f halfsize(1280,720);
     sf::View screenView(center,halfsize);
+
+    camera.move(sf::Vector2f(5,5));
+
     m_game.screen.setView(screenView);
 
     std::cout << "PlayState Init" << std::endl;
@@ -29,6 +32,8 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     */
 
     player.create(sf::Vector2<int>(5,5));
+
+    camera.setTarget(player.getSprite().getPosition());
 
     //player.setGridPosition(0,0,&tileMap);
     //player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.
@@ -154,7 +159,7 @@ void PlayState::updateInput()
                     std::cout << "grid y: " << gY << std::endl;
 
                     std::cout << "tile health: " << t->getFloor().getHealth() << std::endl;
-                    
+
                     std::cout << t->getFloor().getIdentity() << std::endl;
 
                 }
