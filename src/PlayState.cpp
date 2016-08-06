@@ -122,7 +122,7 @@ void PlayState::updateInput()
 		switch( event.type )
 		{
 			case sf::Event::Closed:
-                m_game.lastState();
+                m_game.quit();
 				break;
 
 			case sf::Event::KeyPressed:
