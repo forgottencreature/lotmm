@@ -1,7 +1,17 @@
 #include <iostream>
 #include "TileFloor.hpp"
 
-TileFloor::TileFloor(Type t)
+TileFloor::TileFloor()
+{
+
+}
+
+TileFloor::~TileFloor()
+{
+
+}
+
+void TileFloor::setType(Type t)
 {
     switch(t)
     {
@@ -26,11 +36,6 @@ TileFloor::TileFloor(Type t)
             this->health = 0;
 
     }
-}
-
-TileFloor::~TileFloor()
-{
-
 }
 
 void TileFloor::setColor(sf::Color c)

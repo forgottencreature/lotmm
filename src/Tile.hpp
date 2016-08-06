@@ -27,11 +27,9 @@ public:
     static const int HEIGHT = 24;
     static const int WIDTH = 24;
 
-    TileFloor floor;
-
 private:
     sf::Vector2<int> position;
-    //TileFloor floor;
+    TileFloor floor;
 }; 
 
 #endif

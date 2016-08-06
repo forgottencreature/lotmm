@@ -27,6 +27,7 @@ void TileMap::generate()
         for (int y = 0; y < MAX_Y; y++)
         {
             Tile t;
+            TileFloor tf;
 			TileFloor::Type chosenType;
 
 			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)  {
@@ -35,7 +36,7 @@ void TileMap::generate()
 				chosenType = TileFloor::SNOW;
 			}
 
-			TileFloor tf(chosenType);
+			tf.setType(chosenType);
 
 			t.setFloor(tf);
 
@@ -125,7 +126,7 @@ void TileMap::digTile(sf::Vector2<int> gridPoint)
 	else
 	{
 		t->getFloor().setHealth(t->getFloor().getHealth() - 5);
-		t->getFloor().getColor().a = (t->getFloor().getColor().a > 0) ? t->getFloor().getColor().a - 5 : t->getFloor().getColor().a;
+		//t->getFloor().getColor().a = (t->getFloor().getColor().a > 0) ? t->getFloor().getColor().a - 5 : t->getFloor().getColor().a;
        //std::cout << "damaging tile" << "\n";
 	}
 }

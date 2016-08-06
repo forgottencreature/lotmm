@@ -1,7 +1,6 @@
 #include <iostream>
 #include <math.h>
 #include "Tile.hpp"
-#include "TileFloor.hpp"
 
 Tile::Tile()
 {
