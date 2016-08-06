@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "MenuState.hpp"
-#include "GameEngine.hpp"
 
 MenuState::MenuState( GameEngine& game, bool replace ) : GameState( game, replace )
 {

@@ -14,14 +14,14 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 	sf::Vector2f halfsize(1280,720);
     sf::View screenView(center,halfsize);
 
-    //camera.move(sf::Vector2f(5,5));
+ //   camera.move(sf::Vector2f(5,5));
 
     m_game.screen.setView(screenView);
 
-    std::cout << "PlayState Init" << std::endl;
+    std::cout << "PlayState cpp undefined Init" << std::endl;
 
     tileMap.generate();
-    tileMap.removeTile(sf::Vector2<int>(5,5));
+    tileMap.removeTile(sf::Vector2<int>(0,0));
 
     /*
     tileMap.removeTile(sf::Vector2<int>(0,1));
@@ -29,7 +29,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     tileMap.removeTile(sf::Vector2<int>(1,1));
     */
 
-    player.create(sf::Vector2<int>(5,5));
+    player.create(sf::Vector2<int>(0,0));
 
     //camera.setTarget(player.getSprite().getPosition());
 
@@ -49,8 +49,8 @@ void PlayState::update()
 {
     float elapsedTime = gameClock.restart().asSeconds();
 
-    //player.update(&tileMap,elapsedTime);
-    player.update();
+    player.update(&tileMap,elapsedTime);
+
     PlayState::updateInput();
 }
 

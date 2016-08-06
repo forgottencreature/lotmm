@@ -32,25 +32,13 @@ sf::RectangleShape Player::getSprite()
     return playerSprite;
 }
 
-void Player::update()
+void Player::update(TileMap* m, float t)
 {
-    Player::move();
+    Player::move(m);
 }
 
-void Player::move()
+void Player::move(TileMap* m)
 {
-    /* Check if the player is already moving.
-     * APPARENTLY BY NOT USING THIS FUNCTION, IT FIXES ALL MY PROBLEMS.
-     * I HAVE NO IDEA WHY AT THE MOMENT.
-    */
-    /*
-    if (Player::isMoving())
-    {
-        std::cout << "Already mvoing." << "\n";
-        return;
-    }
-    */
-
     /* Check if the player is trying to move outside the grid*/
     if(Player::checkTileMapBounds())
     {
@@ -58,10 +46,9 @@ void Player::move()
         return;
     }
 
-    /* Check if the player is trying to move onto occupied tile */
-    if(Player::checkTileCollision())
+    /* Check if the player is trying to move onto tile with floor that has collision */
+    if(!Player::checkTileFloorCollision(m))
     {
-        std::cout << "COLLISION WARNING! Occupied tile." << "\n";
         return;
     }
 
@@ -132,9 +119,15 @@ bool Player::checkTileMapBounds()
 
 }
 
-bool Player::checkTileCollision()
+bool Player::checkTileFloorCollision(TileMap* m)
 {
-    return false;
+    /* Figure out where the player wants to be, given the provided input */
+    sf::Vector2<int> desiredGridPosition = previousGridPosition + desiredGridMovement;
+
+    /* Get the corresponding tile of this position */
+    Tile *t = m->getTileByGridPoint(desiredGridPosition);
+
+    return t->getFloor().canPassThrough();
 }
 
 bool Player::isMoving()

@@ -18,6 +18,8 @@ public:
     void setHealth(int h);
     int getHealth();
 
+    bool canPassThrough();
+
     std::string getIdentity();
 
     std::string identifier;
@@ -25,6 +27,7 @@ public:
 private:
     sf::Color color;
     int health;
+    bool passThrough;
 };
 
 #endif // TILEFLOOR_HPP

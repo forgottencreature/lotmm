@@ -30,9 +30,22 @@ void TileMap::generate()
             TileFloor tf;
 			TileFloor::Type chosenType;
 
-			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)  {
-				chosenType = TileFloor::DIRT;
-			} else {
+			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)
+			{
+				chosenType = TileFloor::GRASS;
+			}
+			else
+			{
+
+				if(y % 6 == 0)
+				{
+					chosenType = TileFloor::GRASS;
+				}
+				else
+				{
+					chosenType = TileFloor::SNOW;
+				}
+				/*
 				int randNum = (rand() % 3) + 1;
 				if(randNum == 1)
 				{
@@ -42,6 +55,7 @@ void TileMap::generate()
 				{
 					chosenType = TileFloor::SNOW;
 				}
+				*/
 			}
 
 			tf.setType(chosenType);

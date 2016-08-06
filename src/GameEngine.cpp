@@ -6,8 +6,6 @@
 
 #include "IntroState.hpp"
 #include "MenuState.hpp"
-#include "GameState.hpp"
-#include "TextureManager.hpp"
 
 GameEngine::GameEngine( const std::string& title, const unsigned int width, const unsigned int height, const unsigned int bpp, const bool fullscreen ) :
     m_resume( false ),

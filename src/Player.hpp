@@ -13,7 +13,7 @@ public:
     void create(sf::Vector2<int> pos);
 
     /* Move the player */
-    void move();
+    void move(TileMap* m);
 
     /* Process the movement input */
     void setMovement(std::string dir);
@@ -32,8 +32,7 @@ private:
     float speed = 3.0f;
 
     bool checkTileMapBounds();
-    bool checkTileCollision(TileMap* m);
-    bool checkTileCollision();
+    bool checkTileFloorCollision(TileMap* m);
 
     bool isMoving();
 

@@ -13,8 +13,8 @@ private:
     sf::Vector2f _lastdist;
 
 public:
-    void move(sf::Vector2f target);
-    void setTarget(sf::Vector2f target);
+    void move(sf::Vector2<float> target);
+    void setTarget(sf::Vector2<float> target);
     sf::Vector2f update();
 
 };
