@@ -54,7 +54,7 @@ void Player::move()
     /* Check if the player is trying to move outside the grid*/
     if(Player::checkTileMapBounds())
     {
-        std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
+        //std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
         return;
     }
 
@@ -104,17 +104,17 @@ void Player::setMovement(std::string dir)
 
 sf::Vector2f Player::gridToCoord(sf::Vector2<int> pos)
 {
-    return sf::Vector2f((pos.x-1)*Tile::WIDTH,(pos.y-1)*Tile::HEIGHT);
+    return sf::Vector2f((pos.x)*Tile::WIDTH,(pos.y)*Tile::HEIGHT);
 }
 
 bool Player::checkTileMapBounds()
 {
-    int minGridX = TileMap::MIN_X + 1;
-    int minGridY = TileMap::MIN_Y + 1;
+    int minGridX = TileMap::MIN_X;
+    int minGridY = TileMap::MIN_Y;
 
     /* Subtract 1 to account for the grid loop starting at 0 */
-    int maxGridX = TileMap::MAX_X;
-    int maxGridY = TileMap::MAX_Y;
+    int maxGridX = TileMap::MAX_X - 1;
+    int maxGridY = TileMap::MAX_Y - 1;
 
     /* Figure out where the player wants to be, given the provided input */
     sf::Vector2<int> desiredGridPosition = previousGridPosition + desiredGridMovement;

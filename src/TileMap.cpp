@@ -33,7 +33,15 @@ void TileMap::generate()
 			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)  {
 				chosenType = TileFloor::DIRT;
 			} else {
-				chosenType = TileFloor::SNOW;
+				int randNum = (rand() % 3) + 1;
+				if(randNum == 1)
+				{
+					chosenType = TileFloor::GRASS;
+				}
+				else
+				{
+					chosenType = TileFloor::SNOW;
+				}
 			}
 
 			tf.setType(chosenType);
@@ -111,7 +119,14 @@ sf::VertexArray TileMap::getTiles()
 
 void TileMap::removeTile(sf::Vector2<int> gridPoint)
 {
-	//MapData.erase(gridPoint);
+	std::cout << "REMOVED TILE" << "\n";
+
+	Tile* t = TileMap::getTileByGridPoint(gridPoint);
+
+	TileFloor::Type newType;
+	newType = TileFloor::EMPTY;
+
+	t->getFloor().setType(newType);
 }
 
 void TileMap::digTile(sf::Vector2<int> gridPoint)

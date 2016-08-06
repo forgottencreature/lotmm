@@ -18,6 +18,10 @@ public:
     void setHealth(int h);
     int getHealth();
 
+    std::string getIdentity();
+
+    std::string identifier;
+
 private:
     sf::Color color;
     int health;

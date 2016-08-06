@@ -13,27 +13,34 @@ TileFloor::~TileFloor()
 
 void TileFloor::setType(Type t)
 {
+    //std::cout << "UPDATING TILE FLOOR TYPE" << "\n";
+
     switch(t)
     {
         case EMPTY:
             this->color = sf::Color::Transparent;
             this->health = 0;
+            this->identifier = "empty";
             break;
         case DIRT:
             this->color = sf::Color(160,82,45);
             this->health = 100;
+            this->identifier = "dirt";
             break;
         case SNOW:
             this->color = sf::Color(25,25,112,255);
             this->health = 100;
+            this->identifier = "snow";
             break;
         case GRASS:
             this->color = sf::Color::Green;
             this->health = 100;
+            this->identifier = "grass";
             break;
         default:
             this->color = sf::Color::Transparent;
             this->health = 0;
+            this->identifier = "default";
 
     }
 }
@@ -56,4 +63,9 @@ void TileFloor::setHealth(int h)
 int TileFloor::getHealth()
 {
     return this->health;
+}
+
+std::string TileFloor::getIdentity()
+{
+    return this->identifier;
 }

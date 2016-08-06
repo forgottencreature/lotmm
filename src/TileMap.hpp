@@ -33,8 +33,8 @@ public:
     sf::VertexArray getGridLines();
     sf::VertexArray getTiles();
 
-    static const int MAX_X = 25;
-    static const int MAX_Y = 20;
+    static const int MAX_X = 53;
+    static const int MAX_Y = 30;
     static const int MIN_X = 0;
     static const int MIN_Y = 0;
 
