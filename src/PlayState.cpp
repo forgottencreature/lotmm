@@ -6,6 +6,7 @@
 
 #include "PlayState.hpp"
 #include "MainMenuState.hpp"
+#include "MenuState.hpp"
 
 
 PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replace )
@@ -139,7 +140,7 @@ void PlayState::updateInput()
                         tileMap.toggleGrid();
                         break;
 					case sf::Keyboard::M:
-						//m_next = m_game.build<MenuState>( false );
+						m_next = m_game.build<MenuState>( false );
 						break;
                     case sf::Keyboard::Space:
                         break;
