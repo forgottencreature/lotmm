@@ -160,20 +160,6 @@ void PlayState::updateInput()
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right)
                 {
-                    /*
-                    int gX = floor(event.mouseButton.x / Tile::WIDTH);
-                    int gY = floor(event.mouseButton.y / Tile::HEIGHT);
-                    Tile* t = tileMap.getTileByGridPoint(sf::Vector2<int>(gX,gY));
-
-                    std::cout << "the left button was pressed" << std::endl;
-                    std::cout << "grid x: " << gX << std::endl;
-                    std::cout << "grid y: " << gY << std::endl;
-
-                    std::cout << "tile health: " << t->getFloor().getHealth() << std::endl;
-
-                    tileMap.removeTile(sf::Vector2<int>(gX,gY));
-                    t->getFloor().setHealth(50);
-                     */
                 }
             default:
                 break;
