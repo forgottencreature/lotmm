@@ -13,11 +13,11 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 {
     sf::Vector2f center(1280/2,800/2);
 	sf::Vector2f halfsize(1280,800);
-    sf::View screenView(center,halfsize);
+    screenView = sf::View(center,halfsize);
 
- //   camera.move(sf::Vector2f(5,5));
+    camera.move(sf::Vector2f(5,5));
 
-    m_game.screen.setView(screenView);
+    m_game.screen.setView(sf::View(center,halfsize));
 
     std::cout << "PlayState cpp undefined Init" << std::endl;
 
@@ -32,7 +32,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     player.create(sf::Vector2<int>(0,0));
 
-    //camera.setTarget(player.getSprite().getPosition());
+    camera.setTarget(player.getSprite().getPosition());
 
     //player.setGridPosition(0,0,&tileMap);
     //player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.
@@ -51,6 +51,8 @@ void PlayState::update()
     float elapsedTime = gameClock.restart().asSeconds();
 
     player.update(&tileMap,elapsedTime);
+    camera.setTarget(player.getSprite().getPosition());
+		screenView.move(camera.update());
 
     PlayState::updateInput();
 }
