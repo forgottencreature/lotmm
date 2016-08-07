@@ -31,6 +31,11 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     camera.setTarget(player.getSprite().getPosition());
 
+    m_soundBuff.loadFromFile("assets/audio/AlexsBeatportHit1.wav");
+    m_music.setBuffer(m_soundBuff);
+    m_music.play();
+    m_music.setLoop(true);
+
     //player.setGridPosition(0,0,&tileMap);
     //player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.
 }

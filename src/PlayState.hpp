@@ -2,6 +2,7 @@
 #define PLAYSTATE_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "GameState.hpp"
 #include "TextureManager.hpp"
 #include "TileMap.hpp"
@@ -35,6 +36,9 @@ private:
 	sf::Sprite m_bg;
 
 	sf::View screenView;
+
+	sf::SoundBuffer m_soundBuff;
+	sf::Sound m_music;
 
     float time;
 
