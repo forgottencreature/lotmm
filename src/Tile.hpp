@@ -24,8 +24,8 @@ public:
     int getX();
     int getY();
 
-    static const int HEIGHT = 24;
-    static const int WIDTH = 24;
+    static const int HEIGHT = 32;
+    static const int WIDTH = 32;
 
 private:
     sf::Vector2<int> position;

@@ -20,9 +20,6 @@ public:
 
     bool canPassThrough();
 
-    std::string getIdentity();
-    std::string identifier;
-
 private:
     sf::Color color;
     int health;

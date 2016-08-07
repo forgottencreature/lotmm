@@ -17,18 +17,15 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     camera.move(sf::Vector2f(5,5));
 
-    m_game.screen.setView(sf::View(center,halfsize));
+    m_game.screen.setView(screenView);
 
     std::cout << "PlayState cpp undefined Init" << std::endl;
 
     tileMap.generate();
     tileMap.removeTile(sf::Vector2<int>(0,0));
-
-    /*
     tileMap.removeTile(sf::Vector2<int>(0,1));
     tileMap.removeTile(sf::Vector2<int>(1,0));
     tileMap.removeTile(sf::Vector2<int>(1,1));
-    */
 
     player.create(sf::Vector2<int>(0,0));
 
@@ -51,8 +48,15 @@ void PlayState::update()
     float elapsedTime = gameClock.restart().asSeconds();
 
     player.update(&tileMap,elapsedTime);
+
+    /* Setting the camera to follow the player */
     camera.setTarget(player.getSprite().getPosition());
-		screenView.move(camera.update());
+
+    /* Move the view to where the camera wants it to go */
+    screenView.move(camera.update());
+
+    /* This works, but disabling the camera for the time being */
+     // m_game.screen.setView(screenView);
 
     PlayState::updateInput();
 }
@@ -153,18 +157,6 @@ void PlayState::updateInput()
             case sf::Event::MouseButtonPressed:
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    /*
-                    int gX = floor(event.mouseButton.x / Tile::WIDTH);
-                    int gY = floor(event.mouseButton.y / Tile::HEIGHT);
-                    Tile* t = tileMap.getTileByGridPoint(sf::Vector2<int>(gX,gY));
-
-                    std::cout << "grid x: " << gX << std::endl;
-                    std::cout << "grid y: " << gY << std::endl;
-
-                    std::cout << "tile health: " << t->getFloor().getHealth() << std::endl;
-
-                    std::cout << t->getFloor().getIdentity() << std::endl;
-                    */
                 }
                 else if (event.mouseButton.button == sf::Mouse::Right)
                 {
@@ -193,11 +185,11 @@ void PlayState::updateInput()
 
             if(mouseWheelDelta > 0)
             {
-                this->screenView.zoom(.90f);
+                screenView.zoom(.90f);
             }
             else if(mouseWheelDelta < 0)
             {
-                this->screenView.zoom(1.10f);
+                screenView.zoom(1.10f);
             }
         }
 

@@ -134,8 +134,6 @@ sf::VertexArray TileMap::getTiles()
 
 void TileMap::removeTile(sf::Vector2<int> gridPoint)
 {
-	std::cout << "REMOVED TILE" << "\n";
-
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
 	TileFloor::Type newType;
