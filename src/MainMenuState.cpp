@@ -9,8 +9,12 @@
 
 MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game, replace )
 {
-    m_bgTex.create(800,600);
+	m_bgTex.create(800,600);
 	m_bgTex.loadFromFile( "assets/img/mainmenu.png" );
+	m_soundBuff.loadFromFile("assets/audio/main_menu.wav");
+	m_music.setBuffer(m_soundBuff);
+	m_music.play();
+	m_music.setLoop(true);
 
 	m_bg.setTexture( m_bgTex, true );
 
@@ -43,12 +47,20 @@ void MainMenuState::update()
 				switch( event.key.code )
 				{
 					case sf::Keyboard::Escape:
-                        m_next = m_game.build<IntroState>( true );
-                        //m_game.lastState();
+						m_music.stop();
+						m_next = m_game.build<IntroState>( true );
+						//m_game.lastState();
 						//m_game.quit();
 						break;
-                    case sf::Keyboard::N:
-                        m_next = m_game.build<PlayState>( true );
+					case sf::Keyboard::N:
+						m_music.stop();
+						m_next = m_game.build<PlayState>( true );
+						break;
+					case sf::Keyboard::P:
+						m_music.pause();
+						break;
+					case sf::Keyboard::G:
+						m_music.play();
 						break;
 					default:
 						break;
