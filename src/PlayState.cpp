@@ -88,25 +88,25 @@ void PlayState::updateInput()
 
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
-        tileMap.removeTile(newPos);
+        tileMap.digTile(newPos);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
-        tileMap.removeTile(newPos);
+        tileMap.digTile(newPos);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
-        tileMap.removeTile(newPos);
+        tileMap.digTile(newPos);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
-        tileMap.removeTile(newPos);
+        tileMap.digTile(newPos);
     }
 
 
