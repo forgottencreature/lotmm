@@ -44,11 +44,12 @@ void MainMenuState::update()
 				{
 					case sf::Keyboard::Escape:
                         m_next = m_game.build<IntroState>( true );
-                        //m_game.lastState();
-						//m_game.quit();
 						break;
                     case sf::Keyboard::N:
                         m_next = m_game.build<PlayState>( true );
+						break;
+					case sf::Keyboard::Q:
+						m_game.quit();
 						break;
 					default:
 						break;

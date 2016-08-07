@@ -159,7 +159,7 @@ void TileMap::digTile(sf::Vector2<int> gridPoint)
         sf::Color currentColor = t->getFloor().getColor();
 
         /* Modify the transparency to give it the effect of breaking */
-		int newAlpha = (currentColor.a > 0) ? currentColor.a - 5 : currentColor.a;
+		int newAlpha = (currentColor.a > 0) ? currentColor.a - Player::damagePerTick : currentColor.a;
         t->getFloor().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
 	}
 }
