@@ -31,8 +31,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     camera.setTarget(player.getSprite().getPosition());
 
-    m_soundBuff.loadFromFile("assets/audio/AlexsBeatportHit1.wav");
-    m_music.setBuffer(m_soundBuff);
+    m_music.openFromFile("assets/audio/AlexsBeatportHit1.ogg");
     m_music.play();
     m_music.setLoop(true);
 
@@ -145,6 +144,7 @@ void PlayState::updateInput()
 				switch( event.key.code )
 				{
 					case sf::Keyboard::Escape:
+                        m_music.stop();
                         m_next = m_game.build<MainMenuState>( true );
 						break;
                     case sf::Keyboard::Z:

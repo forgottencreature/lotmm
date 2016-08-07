@@ -37,8 +37,7 @@ private:
 
 	sf::View screenView;
 
-	sf::SoundBuffer m_soundBuff;
-	sf::Sound m_music;
+	sf::Music m_music;
 
     float time;
 
