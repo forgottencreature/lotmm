@@ -213,6 +213,7 @@ GitHub.sublime-settings
 [._]s[a-w][a-z]
 # session
 Session.vim
+session.vim
 # temporary
 .netrwhist
 *~
