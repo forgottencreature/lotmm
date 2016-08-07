@@ -10,8 +10,8 @@
 
 PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replace )
 {
-    sf::Vector2f center(1280/2,720/2);
-	sf::Vector2f halfsize(1280,720);
+    sf::Vector2f center(1280/2,800/2);
+	sf::Vector2f halfsize(1280,800);
     sf::View screenView(center,halfsize);
 
  //   camera.move(sf::Vector2f(5,5));

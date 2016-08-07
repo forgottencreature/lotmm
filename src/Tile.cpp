@@ -35,7 +35,7 @@ void Tile::removeHealth(int i)
 }
 */
 
-TileFloor Tile::getFloor()
+TileFloor& Tile::getFloor()
 {
     return Tile::floor;
 }

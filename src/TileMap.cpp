@@ -36,7 +36,7 @@ void TileMap::generate()
 			}
 			else
 			{
-
+				/*
 				if(y % 6 == 0)
 				{
 					chosenType = TileFloor::GRASS;
@@ -45,7 +45,8 @@ void TileMap::generate()
 				{
 					chosenType = TileFloor::SNOW;
 				}
-				/*
+				 */
+
 				int randNum = (rand() % 3) + 1;
 				if(randNum == 1)
 				{
@@ -55,7 +56,7 @@ void TileMap::generate()
 				{
 					chosenType = TileFloor::SNOW;
 				}
-				*/
+
 			}
 
 			tf.setType(chosenType);

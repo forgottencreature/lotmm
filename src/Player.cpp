@@ -42,7 +42,6 @@ void Player::move(TileMap* m)
     /* Check if the player is trying to move outside the grid*/
     if(Player::checkTileMapBounds())
     {
-        //std::cout << "COLLISION WARNING! Tile map bounds." << "\n";
         return;
     }
 

@@ -18,7 +18,7 @@ public:
 
     //void removeHealth(int i);
 
-    TileFloor getFloor();
+    TileFloor &getFloor();
     sf::Vector2<int> getPosition();
 
     int getX();

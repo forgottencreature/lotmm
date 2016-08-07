@@ -23,7 +23,6 @@ public:
 
     /* Updates the logic */
     void update(TileMap* m, float t);
-    void update();
 
     /* Rate at which tile takes damage */
     int const damagePerTick = 10;

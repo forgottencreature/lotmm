@@ -21,7 +21,6 @@ public:
     bool canPassThrough();
 
     std::string getIdentity();
-
     std::string identifier;
 
 private:
