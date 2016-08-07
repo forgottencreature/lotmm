@@ -54,6 +54,9 @@ void Player::move(TileMap* m)
     sf::Vector2<int> newPos = previousGridPosition + desiredGridMovement;
 
     /* Update the player sprite to the correct position */
+
+    //playerSprite.setPosition(playerSprite.getPosition()+sf::Vector2<float>(desiredGridMovement.x * Player::speed,desiredGridMovement.y * Player::speed));
+
     playerSprite.setPosition(Player::gridToCoord(previousGridPosition + desiredGridMovement));
 
     /* If the player has reached it's destination, update the current position. */
@@ -91,6 +94,11 @@ void Player::setMovement(std::string dir)
 sf::Vector2f Player::gridToCoord(sf::Vector2<int> pos)
 {
     return sf::Vector2f((pos.x)*Tile::WIDTH,(pos.y)*Tile::HEIGHT);
+}
+
+sf::Vector2<int> Player::getCurrentGridPosition()
+{
+    return currentGridPosition;
 }
 
 bool Player::checkTileMapBounds()

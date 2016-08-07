@@ -24,6 +24,8 @@ public:
     /* Updates the logic */
     void update(TileMap* m, float t);
 
+    sf::Vector2<int> getCurrentGridPosition();
+
     /* Rate at which tile takes damage */
     int const damagePerTick = 10;
 
