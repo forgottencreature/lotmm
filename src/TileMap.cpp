@@ -149,13 +149,18 @@ void TileMap::digTile(sf::Vector2<int> gridPoint)
 	
 	if(t->getFloor().getHealth() <= 0)
 	{
-		MapData.erase(gridPoint);
+        TileMap::removeTile(gridPoint);
 	}
 	else
 	{
 		t->getFloor().setHealth(t->getFloor().getHealth() - 5);
-		//t->getFloor().getColor().a = (t->getFloor().getColor().a > 0) ? t->getFloor().getColor().a - 5 : t->getFloor().getColor().a;
-       //std::cout << "damaging tile" << "\n";
+
+        /* Get the current color of the floor */
+        sf::Color currentColor = t->getFloor().getColor();
+
+        /* Modify the transparency to give it the effect of breaking */
+		int newAlpha = (currentColor.a > 0) ? currentColor.a - 5 : currentColor.a;
+        t->getFloor().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
 	}
 }
 
