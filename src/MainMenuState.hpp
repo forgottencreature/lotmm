@@ -1,5 +1,5 @@
-#ifndef MENUSTATE_HPP
-#define MENUSTATE_HPP
+#ifndef MAINMENUSTATE_HPP
+#define MAINMENUSTATE_HPP
 
 #include <SFML/Graphics.hpp>
 #include "GameState.hpp"
@@ -23,4 +23,4 @@ private:
 	sf::Sprite m_bg;
 };
 
-#endif // MENUSTATE_HPP
+#endif // MAINMENUSTATE_HPP
