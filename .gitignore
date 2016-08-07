@@ -240,3 +240,5 @@ tags
 
 # Directories potentially created on remote AFP share
 ### CMake template
+
+/tilemap
