@@ -2,6 +2,7 @@
 #define MAINMENUSTATE_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "GameState.hpp"
 
 class GameEngine;
@@ -21,6 +22,8 @@ private:
 
 	sf::Texture m_bgTex;
 	sf::Sprite m_bg;
+	sf::SoundBuffer m_soundBuff;
+	sf::Sound m_music;
 };
 
 #endif // MAINMENUSTATE_HPP
