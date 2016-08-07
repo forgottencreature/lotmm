@@ -11,7 +11,7 @@ MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game
 {
 	m_bgTex.create(800,600);
 	m_bgTex.loadFromFile( "assets/img/mainmenu.png" );
-	m_soundBuff.loadFromFile("assets/audio/main_menu.wav");
+	m_soundBuff.loadFromFile("assets/audio/main_menu_2.wav");
 	m_music.setBuffer(m_soundBuff);
 	m_music.play();
 	m_music.setLoop(true);
@@ -57,10 +57,11 @@ void MainMenuState::update()
 						m_next = m_game.build<PlayState>( true );
 						break;
 					case sf::Keyboard::P:
-						m_music.pause();
-						break;
-					case sf::Keyboard::G:
-						m_music.play();
+						if (m_music.getStatus() == sf::Music::Playing) {
+							m_music.pause();
+						} else {
+							m_music.play();
+						}
 						break;
 					case sf::Keyboard::Q:
 						m_game.quit();
