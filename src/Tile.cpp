@@ -28,6 +28,11 @@ void Tile::setFloor(TileFloor f)
     Tile::floor = f;
 }
 
+void Tile::setBlock(TileBlock b)
+{
+    Tile::block = b;
+}
+
 /*
 void Tile::removeHealth(int i) 
 {
@@ -38,6 +43,11 @@ void Tile::removeHealth(int i)
 TileFloor& Tile::getFloor()
 {
     return Tile::floor;
+}
+
+TileBlock& Tile::getBlock()
+{
+    return Tile::block;
 }
 
 sf::Vector2<int> Tile::getPosition() 

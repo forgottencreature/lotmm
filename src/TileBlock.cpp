@@ -11,7 +11,7 @@ TileBlock::~TileBlock()
 
 }
 
-void TileBlock::setType(Block b)
+void TileBlock::setType(Type b)
 {
 
     switch(b)

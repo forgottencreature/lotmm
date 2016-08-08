@@ -16,11 +16,15 @@ public:
 
     void setPosition(sf::Vector2<int> p);
     void setPosition(int x, int y);
+
     void setFloor(TileFloor f);
+    void setBlock(TileBlock b);
 
     //void removeHealth(int i);
 
     TileFloor &getFloor();
+    TileBlock &getBlock();
+
     sf::Vector2<int> getPosition();
 
     int getX();
@@ -32,6 +36,7 @@ public:
 private:
     sf::Vector2<int> position;
     TileFloor floor;
+    TileBlock block;
 }; 
 
 #endif
