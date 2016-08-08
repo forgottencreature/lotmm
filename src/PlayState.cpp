@@ -22,11 +22,12 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     std::cout << "PlayState cpp Init" << std::endl;
 
     tileMap.generate();
+    /*
     tileMap.removeTile(sf::Vector2<int>(0,0));
     tileMap.removeTile(sf::Vector2<int>(0,1));
     tileMap.removeTile(sf::Vector2<int>(1,0));
     tileMap.removeTile(sf::Vector2<int>(1,1));
-
+    */
     player.create(sf::Vector2<int>(0,0));
 
     camera.setTarget(player.getSprite().getPosition());
