@@ -3,8 +3,10 @@
 #include <SFML/Graphics.hpp>
 
 #include "TileFloor.hpp"
+#include "TileBlock.hpp"
 
 class TileFloor;
+class TileBlock;
 
 class Tile
 {
