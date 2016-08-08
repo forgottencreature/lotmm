@@ -11,7 +11,7 @@ public:
     TileBlock();
     virtual ~TileBlock();
 
-    void setBlock(Type t);
+    void setType(Type t);
     void setColor(sf::Color c);
     sf::Color getColor();
 

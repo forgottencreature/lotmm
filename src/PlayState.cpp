@@ -19,7 +19,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     m_game.screen.setView(screenView);
 
-    std::cout << "PlayState cpp undefined Init" << std::endl;
+    std::cout << "PlayState cpp Init" << std::endl;
 
     tileMap.generate();
     tileMap.removeTile(sf::Vector2<int>(0,0));

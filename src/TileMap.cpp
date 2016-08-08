@@ -26,45 +26,55 @@ void TileMap::generate()
     {
         for (int y = 0; y < MAX_Y; y++)
         {
+            /* Create a tile */
             Tile t;
-            TileFloor tf;
-			TileFloor::Type chosenType;
 
-			if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)
+            /* Create a Floor */
+            TileFloor tf;
+            /* Create a Floor Type enum */
+			TileFloor::Type chosenFloorType;
+
+            /* Create a Block */
+            TileBlock tb;
+            /* Create a Block Type enum */
+            TileBlock::Type chosenBlockType;
+
+            /* For now, set block type to empty. */
+            chosenBlockType = TileBlock::EMPTY;
+
+            /* TILE GENERATION
+             * For now I'm just creating an edge of grass and randomly populating the rest of the map
+             * This should be procedurally generated at some point.
+             */
+            if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)
 			{
-				chosenType = TileFloor::GRASS;
+				chosenFloorType = TileFloor::GRASS;
 			}
 			else
 			{
-				/*
-				if(y % 6 == 0)
-				{
-					chosenType = TileFloor::GRASS;
-				}
-				else
-				{
-					chosenType = TileFloor::SNOW;
-				}
-				 */
-
 				int randNum = (rand() % 3) + 1;
 				if(randNum == 1)
 				{
-					chosenType = TileFloor::GRASS;
+					chosenFloorType = TileFloor::GRASS;
 				}
 				else
 				{
-					chosenType = TileFloor::SNOW;
+					chosenFloorType = TileFloor::SNOW;
 				}
-
 			}
 
-			tf.setType(chosenType);
+            /* Set the floor type */
+			tf.setType(chosenFloorType);
 
+            /* Set the block type */
+            tb.setType(chosenBlockType);
+
+            /* Update the tile properties */
 			t.setFloor(tf);
-
+            t.setBlock(tb);
             t.setPosition(x, y);
 
+            /* Add the tile to our tile map object */
             sf::Vector2<int> v(x, y);
             MapData.insert( std::pair<sf::Vector2<int>, Tile>(v, t) );
         }
