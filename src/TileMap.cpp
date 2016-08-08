@@ -39,8 +39,28 @@ void TileMap::generate()
             /* Create a Block Type enum */
             TileBlock::Type chosenBlockType;
 
-            /* For now, set block type to empty. */
-            chosenBlockType = TileBlock::EMPTY;
+            /* For now, randomly generate block type. */
+            int randNum = (rand() % 5) + 1;
+            if(randNum == 1)
+            {
+                chosenBlockType = TileBlock::STONE;
+            }
+            else if(randNum == 2)
+            {
+                chosenBlockType = TileBlock::PEAT;
+            }
+            else if(randNum == 3)
+            {
+                chosenBlockType = TileBlock::DIRT;
+            }
+            else if(randNum == 4)
+            {
+                chosenBlockType = TileBlock::SAND;
+            }
+            else
+            {
+                chosenBlockType = TileBlock::EMPTY;
+            }
 
             /* TILE GENERATION
              * For now I'm just creating an edge of grass and randomly populating the rest of the map
@@ -62,6 +82,9 @@ void TileMap::generate()
 					chosenFloorType = TileFloor::SNOW;
 				}
 			}
+
+            /* For now, override the above and set the entire map to grass */
+            chosenFloorType = TileFloor::GRASS;
 
             /* Set the floor type */
 			tf.setType(chosenFloorType);

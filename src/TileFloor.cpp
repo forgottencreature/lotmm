@@ -34,7 +34,7 @@ void TileFloor::setType(Type t)
         case GRASS:
             this->color = sf::Color::Green;
             this->health = 100;
-            this->passThrough = false;
+            this->passThrough = true;
             break;
         default:
             this->color = sf::Color::Transparent;
