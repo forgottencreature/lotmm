@@ -2,7 +2,6 @@
 #define TILEBLOCK_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Tile.hpp"
 
 class TileBlock
 {
