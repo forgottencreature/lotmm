@@ -32,6 +32,7 @@ public:
 
     sf::VertexArray getGridLines();
     sf::VertexArray getTiles();
+	sf::VertexArray getBlocks();
 
     static const int MAX_X = 40;
     static const int MAX_Y = 25;

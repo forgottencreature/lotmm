@@ -2,6 +2,9 @@
 #define TILEFLOOR_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Tile.hpp"
+
+class Tile;
 
 class TileFloor
 {

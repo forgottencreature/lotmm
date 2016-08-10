@@ -165,6 +165,29 @@ sf::VertexArray TileMap::getTiles()
     return tiles;
 }
 
+sf::VertexArray TileMap::getBlocks()
+{
+    sf::VertexArray floor(sf::Quads, MAX_X*MAX_Y*4);
+    for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i)
+    {
+        Tile t = i->second;
+
+        sf::Vertex* tile = &floor[(t.getX() + t.getY() * MAX_X) * 4];
+
+        tile[0].position = sf::Vector2f(t.getX() * TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT);
+        tile[1].position = sf::Vector2f(t.getX() * TileBlock::WIDTH + TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT);
+        tile[2].position = sf::Vector2f(t.getX() * TileBlock::WIDTH + TileBlock::WIDTH , t.getY() * TileBlock::HEIGHT + TileBlock::HEIGHT);
+        tile[3].position = sf::Vector2f(t.getX() * TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT + TileBlock::HEIGHT);
+
+        /* For now, set the color of the tile to that of the tile's floor */
+        tile[0].color = t.getBlock().getColor();
+        tile[1].color = t.getBlock().getColor();
+        tile[2].color = t.getBlock().getColor();
+        tile[3].color = t.getBlock().getColor();
+    }
+    return floor;
+}
+
 void TileMap::removeTile(sf::Vector2<int> gridPoint)
 {
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);

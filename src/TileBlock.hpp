@@ -2,6 +2,7 @@
 #define TILEBLOCK_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Tile.hpp"
 
 class TileBlock
 {
@@ -19,6 +20,14 @@ public:
     int getHealth();
 
     bool canPassThrough();
+
+    static const int HEIGHT = 16;
+    static const int WIDTH = 16;
+
+    /* This isn't working
+    static const int HEIGHT = Tile::HEIGHT - 10;
+    static const int WIDTH = Tile::WIDTH - 10;
+    */
 
 private:
     sf::Color color;

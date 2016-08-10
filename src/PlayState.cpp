@@ -74,6 +74,9 @@ void PlayState::draw()
     /* Draw the tiles */
     m_game.screen.draw(tileMap.getTiles());
 
+    /* Draw the floor */
+    m_game.screen.draw(tileMap.getBlocks());
+
     /* Draw the grid lines. These have to be drawn after so that the tiles do not cover them up. */
     m_game.screen.draw(tileMap.getGridLines());
 
