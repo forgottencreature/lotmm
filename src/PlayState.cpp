@@ -72,7 +72,7 @@ void PlayState::draw()
     m_game.screen.clear(sf::Color::Black);
 
     /* Draw the tiles */
-    m_game.screen.draw(tileMap.getTiles());
+    m_game.screen.draw(tileMap.getFloor());
 
     /* Draw the floor */
     m_game.screen.draw(tileMap.getBlocks());
@@ -96,25 +96,25 @@ void PlayState::updateInput()
 
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
-        tileMap.digTile(newPos);
+        tileMap.digFloor(newPos);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
-        tileMap.digTile(newPos);
+        tileMap.digFloor(newPos);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
-        tileMap.digTile(newPos);
+        tileMap.digFloor(newPos);
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         sf::Vector2<int> pos = player.getCurrentGridPosition();
         sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
-        tileMap.digTile(newPos);
+        tileMap.digFloor(newPos);
     }
 
 

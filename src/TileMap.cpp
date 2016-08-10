@@ -132,7 +132,7 @@ void TileMap::toggleGrid()
 }
 
 // Optimization idea - build the vertex array to the size of what is actually seen on the screen at a given time
-sf::VertexArray TileMap::getTiles()
+sf::VertexArray TileMap::getFloor()
 {
 	// http://gamedev.stackexchange.com/questions/97881/sfml-drawing-tiles-low-fps
 
@@ -174,10 +174,10 @@ sf::VertexArray TileMap::getBlocks()
 
         sf::Vertex* tile = &floor[(t.getX() + t.getY() * MAX_X) * 4];
 
-        tile[0].position = sf::Vector2f(t.getX() * TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT);
-        tile[1].position = sf::Vector2f(t.getX() * TileBlock::WIDTH + TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT);
-        tile[2].position = sf::Vector2f(t.getX() * TileBlock::WIDTH + TileBlock::WIDTH , t.getY() * TileBlock::HEIGHT + TileBlock::HEIGHT);
-        tile[3].position = sf::Vector2f(t.getX() * TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT + TileBlock::HEIGHT);
+        tile[0].position = sf::Vector2f((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::WIDTH, (t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::HEIGHT);
+        tile[1].position = sf::Vector2f(((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2)) * TileBlock::WIDTH + TileBlock::WIDTH, ((t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2)) * TileBlock::HEIGHT);
+        tile[2].position = sf::Vector2f((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::WIDTH + TileBlock::WIDTH, (t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::HEIGHT + TileBlock::HEIGHT);
+        tile[3].position = sf::Vector2f((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::WIDTH, (t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::HEIGHT + TileBlock::HEIGHT);
 
         /* For now, set the color of the tile to that of the tile's floor */
         tile[0].color = t.getBlock().getColor();
@@ -188,7 +188,7 @@ sf::VertexArray TileMap::getBlocks()
     return floor;
 }
 
-void TileMap::removeTile(sf::Vector2<int> gridPoint)
+void TileMap::removeFloor(sf::Vector2<int> gridPoint)
 {
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
@@ -198,14 +198,14 @@ void TileMap::removeTile(sf::Vector2<int> gridPoint)
 	t->getFloor().setType(newType);
 }
 
-void TileMap::digTile(sf::Vector2<int> gridPoint)
+void TileMap::digFloor(sf::Vector2<int> gridPoint)
 {
 	/* Get the tile we're destroying */
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 	
 	if(t->getFloor().getHealth() <= 0)
 	{
-        TileMap::removeTile(gridPoint);
+        TileMap::removeFloor(gridPoint);
 	}
 	else
 	{

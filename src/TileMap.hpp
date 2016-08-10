@@ -24,14 +24,14 @@ public:
 
 	void generate();
     void toggleGrid();
-    void removeTile(sf::Vector2<int> gridPoint);
-    void digTile(sf::Vector2<int> gridPoint);
+    void removeFloor(sf::Vector2<int> gridPoint);
+    void digFloor(sf::Vector2<int> gridPoint);
 
     Tile* getTileByGridPoint(sf::Vector2<int> gridPoint);
     Tile* getTileByGridPoint(sf::Vector2<int> gridPoint, Direction dir);
 
     sf::VertexArray getGridLines();
-    sf::VertexArray getTiles();
+    sf::VertexArray getFloor();
 	sf::VertexArray getBlocks();
 
     static const int MAX_X = 40;
