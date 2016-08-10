@@ -174,10 +174,12 @@ sf::VertexArray TileMap::getBlocks()
 
         sf::Vertex* tile = &floor[(t.getX() + t.getY() * MAX_X) * 4];
 
-        tile[0].position = sf::Vector2f((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::WIDTH, (t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::HEIGHT);
-        tile[1].position = sf::Vector2f(((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2)) * TileBlock::WIDTH + TileBlock::WIDTH, ((t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2)) * TileBlock::HEIGHT);
-        tile[2].position = sf::Vector2f((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::WIDTH + TileBlock::WIDTH, (t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::HEIGHT + TileBlock::HEIGHT);
-        tile[3].position = sf::Vector2f((t.getX()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::WIDTH, (t.getY()+(Tile::WIDTH-TileBlock::WIDTH)/2) * TileBlock::HEIGHT + TileBlock::HEIGHT);
+            // (Tile::WIDTH-TileBlock::WIDTH)/2
+
+        tile[0].position = sf::Vector2f(t.getX() * TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT);
+        tile[1].position = sf::Vector2f(t.getX() * TileBlock::WIDTH + TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT);
+        tile[2].position = sf::Vector2f(t.getX() * TileBlock::WIDTH + TileBlock::WIDTH , t.getY() * TileBlock::HEIGHT + TileBlock::HEIGHT);
+        tile[3].position = sf::Vector2f(t.getX() * TileBlock::WIDTH, t.getY() * TileBlock::HEIGHT + TileBlock::HEIGHT);
 
         /* For now, set the color of the tile to that of the tile's floor */
         tile[0].color = t.getBlock().getColor();
@@ -218,6 +220,38 @@ void TileMap::digFloor(sf::Vector2<int> gridPoint)
 		int newAlpha = (currentColor.a > 0) ? currentColor.a - Player::damagePerTick : currentColor.a;
         t->getFloor().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
 	}
+}
+
+void TileMap::removeBlock(sf::Vector2<int> gridPoint)
+{
+    Tile* t = TileMap::getTileByGridPoint(gridPoint);
+
+    TileBlock::Type newType;
+    newType = TileBlock::EMPTY;
+
+    t->getBlock().setType(newType);
+}
+
+void TileMap::digBlock(sf::Vector2<int> gridPoint)
+{
+    /* Get the tile we're destroying */
+    Tile* t = TileMap::getTileByGridPoint(gridPoint);
+
+    if(t->getFloor().getHealth() <= 0)
+    {
+        TileMap::removeBlock(gridPoint);
+    }
+    else
+    {
+        t->getBlock().setHealth(t->getBlock().getHealth() - 5);
+
+        /* Get the current color of the floor */
+        sf::Color currentColor = t->getBlock().getColor();
+
+        /* Modify the transparency to give it the effect of breaking */
+        int newAlpha = (currentColor.a > 0) ? currentColor.a - Player::damagePerTick : currentColor.a;
+        t->getBlock().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
+    }
 }
 
 /* Check if a specific grid point is in the current view.
