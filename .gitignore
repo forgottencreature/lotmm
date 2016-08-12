@@ -152,6 +152,8 @@ Thumbs.db
 ### Windows template
 # Windows image file caches
 ehthumbs.db
+thumbs.db
+Thumbs.db
 
 # Folder config file
 Desktop.ini
