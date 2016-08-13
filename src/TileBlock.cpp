@@ -31,11 +31,13 @@ void TileBlock::setType(Type b)
             this->health = 100;
             this->passThrough = false;
 						this->hardness = 1;
+            break;
         case DIRT:
             this->color = sf::Color(60,100,60);
             this->health = 50;
             this->passThrough = false;
 						this->hardness = 0.5;
+            break;
         case SAND:
             this->color = sf::Color(100,100,60);
             this->health = 50;
