@@ -134,7 +134,7 @@ bool Player::checkTileFloorCollision(TileMap* m)
     /* Get the corresponding tile of this position */
     Tile *t = m->getTileByGridPoint(desiredGridPosition);
 
-    return t->getFloor().canPassThrough();
+    return t->getBlock().canPassThrough();
 }
 
 bool Player::isMoving()

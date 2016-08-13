@@ -22,17 +22,17 @@ void TileFloor::setType(Type t)
             this->passThrough = true;
             break;
         case DIRT:
-            this->color = sf::Color(160,82,45);
+            this->color = sf::Color(30,30,30);
             this->health = 100;
             this->passThrough = false;
             break;
         case SNOW:
-            this->color = sf::Color(25,25,112,255);
+            this->color = sf::Color(40,40,40);
             this->health = 100;
             this->passThrough = false;
             break;
         case GRASS:
-            this->color = sf::Color::Green;
+            this->color = sf::Color(50,50,50);
             this->health = 100;
             this->passThrough = true;
             break;

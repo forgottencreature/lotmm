@@ -17,11 +17,12 @@ public:
 
     void setHealth(int h);
     int getHealth();
+		float getHardness();
 
     bool canPassThrough();
 
-    static const int HEIGHT = 16;
-    static const int WIDTH = 16;
+    static const int HEIGHT = 24;
+    static const int WIDTH = 24;
 
     /* This isn't working
     static const int HEIGHT = Tile::HEIGHT - 10;
@@ -31,6 +32,7 @@ public:
 private:
     sf::Color color;
     int health;
+		float hardness;
     bool passThrough;
 };
 

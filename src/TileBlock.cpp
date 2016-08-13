@@ -21,27 +21,32 @@ void TileBlock::setType(Type b)
             this->passThrough = true;
             break;
         case STONE:
-            this->color = sf::Color(28,128,128);
-            this->health = 200;
+            this->color = sf::Color(60,60,100);
+            this->health = 125;
             this->passThrough = false;
+						this->hardness = 0.9;
             break;
         case PEAT:
-            this->color = sf::Color(205,133,63);
+            this->color = sf::Color(100,60,60);
             this->health = 100;
             this->passThrough = false;
+						this->hardness = 1;
         case DIRT:
-            this->color = sf::Color(139,69,19);
+            this->color = sf::Color(60,100,60);
             this->health = 50;
             this->passThrough = false;
+						this->hardness = 0.5;
         case SAND:
-            this->color = sf::Color(255,222,173);
+            this->color = sf::Color(100,100,60);
             this->health = 50;
             this->passThrough = false;
+						this->hardness = 0.85;
             break;
         default:
             this->color = sf::Color::Transparent;
             this->health = 0;
             this->passThrough = true;
+						this->hardness = 1;
     }
 
 }
