@@ -247,13 +247,13 @@ void TileMap::digBlock(sf::Vector2<int> gridPoint)
     }
     else
     {
-        t->getBlock().setHealth(t->getBlock().getHealth() - 5);
+        t->getBlock().setHealth(t->getBlock().getHealth() - Player::damagePerTick * t->getBlock().getHardness());
 
         /* Get the current color of the floor */
         sf::Color currentColor = t->getBlock().getColor();
 
         /* Modify the transparency to give it the effect of breaking */
-        int newAlpha = (currentColor.a > 0 && currentColor.a - t->getBlock().getHealth() / 8 > 0) ? currentColor.a - t->getBlock().getHealth() / 8 : currentColor.a;
+        int newAlpha = (currentColor.a > 0 && currentColor.a - t->getBlock().getHealth() / 12 > 0) ? currentColor.a - t->getBlock().getHealth() / 12 : currentColor.a;
         t->getBlock().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
     }
 }

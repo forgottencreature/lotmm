@@ -22,9 +22,9 @@ void TileBlock::setType(Type b)
             break;
         case STONE:
             this->color = sf::Color(60,60,100);
-            this->health = 125;
+            this->health = 110;
             this->passThrough = false;
-						this->hardness = 0.9;
+						this->hardness = 0.4;
             break;
         case PEAT:
             this->color = sf::Color(100,60,60);
@@ -42,7 +42,7 @@ void TileBlock::setType(Type b)
             this->color = sf::Color(100,100,60);
             this->health = 50;
             this->passThrough = false;
-						this->hardness = 0.85;
+						this->hardness = 1;
             break;
         default:
             this->color = sf::Color::Transparent;
@@ -71,6 +71,11 @@ void TileBlock::setHealth(int h)
 int TileBlock::getHealth()
 {
     return this->health;
+}
+
+float TileBlock::getHardness()
+{
+    return this->hardness;
 }
 
 bool TileBlock::canPassThrough()
