@@ -14,7 +14,7 @@ void Camera::setTarget(sf::Vector2<float> target)
 sf::Vector2f Camera::update()
 {
     sf::Vector2f resultant,resp,resd,resi;
-    float m=.04,n=.001,o=.01;
+    float m=.08,n=.001,o=.008;
 
     _dist = _target - _pos;
     _deriv = _dist - _lastdist;

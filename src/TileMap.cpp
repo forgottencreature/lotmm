@@ -69,6 +69,7 @@ void TileMap::generate()
             if(y == MIN_Y || x == MIN_X || y == MAX_Y-1 || x == MAX_X-1)
             {
                 chosenFloorType = TileFloor::GRASS;
+								chosenBlockType = TileBlock::EMPTY;
             }
             else
             {
