@@ -55,13 +55,13 @@ void PlayState::update()
     player.update(&tileMap,elapsedTime);
 
     /* Setting the camera to follow the player */
-    camera.setTarget(player.getSprite().getPosition());
+    camera.setTarget(player.getSprite().getPosition()-sf::Vector2f(1280/2,800/2)+sf::Vector2f(32/2,32/2));
 
     /* Move the view to where the camera wants it to go */
     screenView.move(camera.update());
 
     /* This works, but disabling the camera for the time being */
-     // m_game.screen.setView(screenView);
+    m_game.screen.setView(screenView);
 
     PlayState::updateInput();
 }

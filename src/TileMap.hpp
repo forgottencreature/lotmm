@@ -38,8 +38,8 @@ public:
     sf::VertexArray getFloor();
 	sf::VertexArray getBlocks();
 
-    static const int MAX_X = 40;
-    static const int MAX_Y = 25;
+    static const int MAX_X = 160;
+    static const int MAX_Y = 100;
     static const int MIN_X = 0;
     static const int MIN_Y = 0;
 
