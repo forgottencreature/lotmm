@@ -9,6 +9,7 @@
 
 MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game, replace )
 {
+
 	m_bgTex.create(800,600);
 	m_bgTex.loadFromFile( "assets/img/mainmenu.png" );
 	m_soundBuff.loadFromFile("assets/audio/main_menu_2.ogg");
@@ -17,6 +18,14 @@ MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game
 	m_music.setLoop(true);
 
 	m_bg.setTexture( m_bgTex, true );
+
+	sf::Vector2f center(1280/2,800/2);
+	sf::Vector2f halfsize(1280,800);
+	sf::View screenView(center,halfsize);
+
+	// Set the view
+	m_game.screen.setView(screenView);
+
 
 	std::cout << "MainMenuState Init" << std::endl;
 }

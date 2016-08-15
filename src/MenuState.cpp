@@ -9,6 +9,13 @@ MenuState::MenuState( GameEngine& game, bool replace ) : GameState( game, replac
 
 	m_bg.setTexture( m_bgTex, true );
 
+	sf::Vector2f center(1280/2,800/2);
+	sf::Vector2f halfsize(1280,800);
+	sf::View screenView(center,halfsize);
+
+	// Set the view
+	m_game.screen.setView(screenView);
+
 	std::cout << "MenuState Init" << std::endl;
 }
 
