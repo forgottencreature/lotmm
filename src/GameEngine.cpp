@@ -27,12 +27,12 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 	
 	screen = sfg::Window::Create();
 	screen->SetTitle("SFML Canvas");
-	screen->SetPosition(sf::Vector2f(800.f,400.f));
+	screen->SetPosition(sf::Vector2f(-10.f,-10.f));
 
 	canvas = sfg::Canvas::Create();
 	screen->Add(canvas);
 
-	canvas->SetRequisition(sf::Vector2f(800.f,200.f));
+	canvas->SetRequisition(sf::Vector2f(1280.f,800.f));
 	desktop.Add(canvas);
 	desktop.Update(0.f);
 
