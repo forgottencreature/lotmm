@@ -5,6 +5,9 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <SFGUI/SFGUI.hpp>
+#include <SFGUI/Renderers.hpp>
+#include <SFGUI/Widgets.hpp>
 
 #include <SFML/Graphics.hpp>
 #include "TextureManager.hpp"
@@ -31,9 +34,14 @@ public:
 	template <typename T>
 	std::unique_ptr<T> build( bool replace = true );
 
-	sf::RenderWindow screen;
+	std::shared_ptr<sfg::Window> screen;
+	std::shared_ptr<sfg::Canvas> canvas;
+	sfg::Desktop desktop;
+	sf::RenderWindow app_window;
 
-    TextureManager textureManager;
+	sfg::SFGUI sfgui_wrap;
+
+	TextureManager textureManager;
 
 private:
 	// the stack of states

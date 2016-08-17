@@ -17,7 +17,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     camera.move(sf::Vector2f(5,5));
 
-    m_game.screen.setView(screenView);
+    m_game.canvas->SetView(screenView);
 
     std::cout << "PlayState cpp Init" << std::endl;
 
@@ -61,7 +61,7 @@ void PlayState::update()
     screenView.move(camera.update());
 
     /* This works, but disabling the camera for the time being */
-    m_game.screen.setView(screenView);
+    m_game.canvas->SetView(screenView);
 
     PlayState::updateInput();
 }
@@ -69,21 +69,27 @@ void PlayState::update()
 void PlayState::draw()
 {
 
-    m_game.screen.clear(sf::Color::Black);
+    m_game.app_window.clear(sf::Color::Black);
 
     /* Draw the tiles */
-    m_game.screen.draw(tileMap.getFloor());
+		m_game.canvas->Bind();
+		m_game.canvas->Clear(sf::Color(100,100,100,0));
+		
+    m_game.canvas->Draw(tileMap.getFloor());
 
     /* Draw the floor */
-    m_game.screen.draw(tileMap.getBlocks());
+    m_game.canvas->Draw(tileMap.getBlocks());
 
     /* Draw the grid lines. These have to be drawn after so that the tiles do not cover them up. */
-    m_game.screen.draw(tileMap.getGridLines());
+    m_game.canvas->Draw(tileMap.getGridLines());
 
     /* Draw our character */
-    m_game.screen.draw(player.getSprite());
+    m_game.canvas->Draw(player.getSprite());
 
-	m_game.screen.display();
+		m_game.canvas->Display();
+		m_game.app_window.setActive(true);
+		m_game.sfgui_wrap.Display(m_game.app_window);
+		m_game.app_window.display();
 }
 
 void PlayState::updateInput()
@@ -136,7 +142,7 @@ void PlayState::updateInput()
     }
 
     sf::Event event;
-    while( m_game.screen.pollEvent( event ) )
+    while( m_game.app_window.pollEvent( event ) )
 	{
 		switch( event.type )
 		{

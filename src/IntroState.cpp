@@ -7,7 +7,7 @@
 
 IntroState::IntroState( GameEngine& game, bool replace ) : GameState( game, replace )
 {
-    m_bgTex.create(1280,760);
+	m_bgTex.create(1280,760);
 	m_bgTex.loadFromFile( "assets/img/splashscreen.png" );
 	m_bg.setTexture( m_bgTex, true );
 
@@ -35,7 +35,7 @@ void IntroState::update()
 {
     sf::Event event;
 
-	while( m_game.screen.pollEvent( event ) )
+	while( m_game.app_window.pollEvent( event ) )
 	{
 		switch( event.type )
 		{
@@ -73,14 +73,14 @@ void IntroState::update()
 void IntroState::draw()
 {
 	// Clear the previous drawing
-	m_game.screen.clear();
+	m_game.app_window.clear();
 
-	m_game.screen.draw( m_bg );
+	m_game.app_window.draw( m_bg );
 
 	// no need to draw if it's transparent
 	if( m_alpha.a != 0 )
-		m_game.screen.draw( m_fader );
+		m_game.app_window.draw( m_fader );
 
-	m_game.screen.display();
+	m_game.app_window.display();
 }
 

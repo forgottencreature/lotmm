@@ -20,16 +20,30 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 		flags = sf::Style::Default;
 
 	// Create render window
-    screen.create( sf::VideoMode( width, height, bpp ), title, flags, sf::ContextSettings(0,0,8,0,0) );
-	screen.setFramerateLimit( 60 );
+    app_window.create( sf::VideoMode( width, height, bpp ), title, flags, sf::ContextSettings(0,0,8,0,0) );
+	app_window.setFramerateLimit( 60 );
 
+	app_window.resetGLStates();
+	
+	screen = sfg::Window::Create();
+	screen->SetTitle("SFML Canvas");
+	screen->SetPosition(sf::Vector2f(800.f,400.f));
 
-    sf::Vector2f center(width/2,height/2);
+	canvas = sfg::Canvas::Create();
+	screen->Add(canvas);
+
+	canvas->SetRequisition(sf::Vector2f(800.f,200.f));
+	desktop.Add(canvas);
+	desktop.Update(0.f);
+
+	sf::Vector2f center(width/2,height/2);
 	sf::Vector2f halfsize(width,height);
-    sf::View screenView(center,halfsize);
+	sf::View screenView(center,halfsize);
+	canvas->SetView(screenView);
 
-    // Set the view
-    screen.setView(screenView);
+
+	// Set the view
+	/* screen.setView(screenView); */
 
 	std::cout << "GameEngine Init" << std::endl;
 }
