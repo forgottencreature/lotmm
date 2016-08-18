@@ -1,18 +1,15 @@
 #include <iostream>
 #include "Camera.hpp"
 
-void Camera::move(sf::Vector2<float> target)
-{
+void Camera::move(sf::Vector2<float> target){
 	_pos = _pos + target;
 }
 
-void Camera::setTarget(sf::Vector2<float> target)
-{
+void Camera::setTarget(sf::Vector2<float> target){
 	_target = target;
 }
 
-sf::Vector2f Camera::update()
-{
+sf::Vector2f Camera::update(){
 	sf::Vector2f resultant,resp,resd,resi;
 	float m=.08,n=.001,o=.008;
 
