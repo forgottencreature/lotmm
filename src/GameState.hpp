@@ -5,8 +5,7 @@
 
 #include "GameEngine.hpp"
 
-class GameState
-{
+class GameState{
 public:
 	GameState( GameEngine& game, bool replace = true ) : m_game( game ), m_replacing( replace ) {}
 	virtual void pause() = 0;
@@ -15,13 +14,11 @@ public:
 	virtual void update() = 0;
 	virtual void draw() = 0;
 
-	std::unique_ptr<GameState> next()
-	{
+	std::unique_ptr<GameState> next(){
 		return std::move( m_next );
 	}
 
-	bool isReplacing()
-	{
+	bool isReplacing(){
 		return m_replacing;
 	}
 

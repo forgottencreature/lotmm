@@ -12,34 +12,33 @@
 class GameEngine;
 //class TileMap;
 
-class PlayState : public GameState
-{
-public:
+class PlayState : public GameState{
+	public:
 
-	PlayState( GameEngine& game, bool replace = true );
+		PlayState( GameEngine& game, bool replace = true );
 
-	void pause();
-	void resume();
+		void pause();
+		void resume();
 
-	void update();
-	void draw();
-	void updateInput();
+		void update();
+		void draw();
+		void updateInput();
 
-    sf::Clock gameClock;
+		sf::Clock gameClock;
 
-private:
-	TileMap tileMap;
-	Player player;
-    Camera camera;
+	private:
+		TileMap tileMap;
+		Player player;
+		Camera camera;
 
-	sf::Texture m_bgTex;
-	sf::Sprite m_bg;
+		sf::Texture m_bgTex;
+		sf::Sprite m_bg;
 
-	sf::View screenView;
+		sf::View screenView;
 
-	sf::Music m_music;
+		sf::Music m_music;
 
-    float time;
+		float time;
 
 };
 

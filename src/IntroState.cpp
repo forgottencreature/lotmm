@@ -5,8 +5,7 @@
 #include "MainMenuState.hpp"
 #include "GameEngine.hpp"
 
-IntroState::IntroState( GameEngine& game, bool replace ) : GameState( game, replace )
-{
+IntroState::IntroState( GameEngine& game, bool replace ) : GameState( game, replace ){
 	m_bgTex.create(1280,760);
 	m_bgTex.loadFromFile( "assets/img/splashscreen.png" );
 	m_bg.setTexture( m_bgTex, true );
@@ -21,46 +20,39 @@ IntroState::IntroState( GameEngine& game, bool replace ) : GameState( game, repl
 	std::cout << "IntroState Init" << std::endl;
 }
 
-void IntroState::pause()
-{
+void IntroState::pause(){
 	std::cout << "IntroState Pause" << std::endl;
 }
 
-void IntroState::resume()
-{
+void IntroState::resume(){
 	std::cout << "IntroState Resume" << std::endl;
 }
 
-void IntroState::update()
-{
-    sf::Event event;
+void IntroState::update(){
+	sf::Event event;
 
-	while( m_game.app_window.pollEvent( event ) )
-	{
-		switch( event.type )
-		{
-            case sf::Event::Closed:
-                m_game.quit();
-                break;
-
-            case sf::Event::KeyPressed:
-            {
-                switch( event.key.code )
-                {
-                    case sf::Keyboard::Space:
-                        m_next = m_game.build<MainMenuState>( true );
-                        break;
-
-                    case sf::Keyboard::Escape:
-                        m_game.quit();
-                        break;
-					default:
-						break;
-                }
-                break;
-			default:
+	while( m_game.app_window.pollEvent( event ) ){
+		switch( event.type ){
+			case sf::Event::Closed:
+				m_game.quit();
 				break;
-            }
+
+			case sf::Event::KeyPressed:{
+					switch( event.key.code ){
+						case sf::Keyboard::Space:
+							m_next = m_game.build<MainMenuState>( true );
+							break;
+
+						case sf::Keyboard::Escape:
+							m_game.quit();
+							break;
+						default:
+							break;
+					}
+					break;
+		 }
+			default:
+					break;
 		}
 	}
 
@@ -70,8 +62,7 @@ void IntroState::update()
 	m_fader.setFillColor( m_alpha );
 }
 
-void IntroState::draw()
-{
+void IntroState::draw(){
 	// Clear the previous drawing
 	m_game.app_window.clear();
 

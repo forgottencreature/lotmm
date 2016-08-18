@@ -7,9 +7,7 @@
 #include "GameEngine.hpp"
 
 
-MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game, replace )
-{
-
+MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game, replace ){
 	m_bgTex.create(800,600);
 	m_bgTex.loadFromFile( "assets/img/mainmenu.png" );
 	m_soundBuff.loadFromFile("assets/audio/main_menu_2.ogg");
@@ -30,31 +28,25 @@ MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game
 	std::cout << "MainMenuState Init" << std::endl;
 }
 
-void MainMenuState::pause()
-{
+void MainMenuState::pause(){
 	std::cout << "MainMenuState Pause" << std::endl;
 }
 
-void MainMenuState::resume()
-{
+void MainMenuState::resume(){
 	std::cout << "MainMenuState Resume" << std::endl;
 }
 
-void MainMenuState::update()
-{
+void MainMenuState::update(){
 	sf::Event event;
 
-	while( m_game.app_window.pollEvent( event ) )
-	{
-		switch( event.type )
-		{
+	while( m_game.app_window.pollEvent( event ) ){
+		switch( event.type ){
 			case sf::Event::Closed:
 				m_game.quit();
 				break;
 
 			case sf::Event::KeyPressed:
-				switch( event.key.code )
-				{
+				switch( event.key.code ){
 					case sf::Keyboard::Escape:
 						m_music.stop();
 						m_next = m_game.build<IntroState>( true );
@@ -85,8 +77,7 @@ void MainMenuState::update()
 	}
 }
 
-void MainMenuState::draw()
-{
+void MainMenuState::draw(){
 	// Clear the previous drawing
 	m_game.app_window.clear();
 	m_game.app_window.draw( m_bg );

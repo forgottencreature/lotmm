@@ -4,8 +4,7 @@
 
 class TileMap;
 
-class Player
-{
+class Player{
 public:
     Player();
     virtual ~Player();

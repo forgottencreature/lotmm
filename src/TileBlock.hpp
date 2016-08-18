@@ -3,37 +3,36 @@
 
 #include <SFML/Graphics.hpp>
 
-class TileBlock
-{
-public:
-    enum Type { EMPTY, STONE, PEAT, DIRT, SAND };
+class TileBlock{
+	public:
+		enum Type { EMPTY, STONE, PEAT, DIRT, SAND };
 
-    TileBlock();
-    virtual ~TileBlock();
+		TileBlock();
+		virtual ~TileBlock();
 
-    void setType(Type t);
-    void setColor(sf::Color c);
-    sf::Color getColor();
+		void setType(Type t);
+		void setColor(sf::Color c);
+		sf::Color getColor();
 
-    void setHealth(int h);
-    int getHealth();
+		void setHealth(int h);
+		int getHealth();
 		float getHardness();
 
-    bool canPassThrough();
+		bool canPassThrough();
 
-    static const int HEIGHT = 24;
-    static const int WIDTH = 24;
+		static const int HEIGHT = 24;
+		static const int WIDTH = 24;
 
-    /* This isn't working
-    static const int HEIGHT = Tile::HEIGHT - 10;
-    static const int WIDTH = Tile::WIDTH - 10;
-    */
+		/* This isn't working
+			 static const int HEIGHT = Tile::HEIGHT - 10;
+			 static const int WIDTH = Tile::WIDTH - 10;
+			 */
 
-private:
-    sf::Color color;
-    int health;
+	private:
+		sf::Color color;
+		int health;
 		float hardness;
-    bool passThrough;
+		bool passThrough;
 };
 
 #endif // TILEBLOCK_HPP

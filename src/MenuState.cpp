@@ -3,8 +3,7 @@
 
 #include "MenuState.hpp"
 
-MenuState::MenuState( GameEngine& game, bool replace ) : GameState( game, replace )
-{
+MenuState::MenuState( GameEngine& game, bool replace ) : GameState( game, replace ){
 	m_bgTex.loadFromFile( "assets/img/menu.png" );
 
 	m_bg.setTexture( m_bgTex, true );
@@ -19,31 +18,25 @@ MenuState::MenuState( GameEngine& game, bool replace ) : GameState( game, replac
 	std::cout << "MenuState Init" << std::endl;
 }
 
-void MenuState::pause()
-{
+void MenuState::pause(){
 	std::cout << "MenuState Pause" << std::endl;
 }
 
-void MenuState::resume()
-{
+void MenuState::resume(){
 	std::cout << "MenuState Resume" << std::endl;
 }
 
-void MenuState::update()
-{
+void MenuState::update(){
 	sf::Event event;
 
-	while( m_game.app_window.pollEvent( event ) )
-	{
-		switch( event.type )
-		{
+	while( m_game.app_window.pollEvent( event ) ){
+		switch( event.type ){
 			case sf::Event::Closed:
 				m_game.quit();
 				break;
 
 			case sf::Event::KeyPressed:
-				switch( event.key.code )
-				{
+				switch( event.key.code ){
 					case sf::Keyboard::Escape:
 						m_game.lastState();
 						break;
@@ -57,8 +50,7 @@ void MenuState::update()
 	}
 }
 
-void MenuState::draw()
-{
+void MenuState::draw(){
 	// Clear the previous drawing
 	m_game.app_window.clear();
 	m_game.app_window.draw( m_bg );

@@ -3,27 +3,26 @@
 
 #include <SFML/Graphics.hpp>
 
-class TileFloor
-{
-public:
-    enum Type { EMPTY, GRASS, DIRT, SNOW };
+class TileFloor{
+	public:
+		enum Type { EMPTY, GRASS, DIRT, SNOW };
 
-    TileFloor();
-    virtual ~TileFloor();
+		TileFloor();
+		virtual ~TileFloor();
 
-    void setType(Type t);
-    void setColor(sf::Color c);
-    sf::Color getColor();
+		void setType(Type t);
+		void setColor(sf::Color c);
+		sf::Color getColor();
 
-    void setHealth(int h);
-    int getHealth();
+		void setHealth(int h);
+		int getHealth();
 
-    bool canPassThrough();
+		bool canPassThrough();
 
-private:
-    sf::Color color;
-    int health;
-    bool passThrough;
+	private:
+		sf::Color color;
+		int health;
+		bool passThrough;
 };
 
 #endif // TILEFLOOR_HPP

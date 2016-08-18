@@ -7,30 +7,29 @@
 
 class TextureManager;
 
-class RenderObject {
+class RenderObject{
+	public:
+		RenderObject();
+		~RenderObject();
 
-    public:
-        RenderObject();
-        ~RenderObject();
+		void setTexture(TextureManager&);
+		void setPosition(sf::Vector2f);
+		void setRotation(float);
+		void setOrigin(int,int);
 
-        void setTexture(TextureManager&);
-        void setPosition(sf::Vector2f);
-        void setRotation(float);
-        void setOrigin(int,int);
+		sf::Sprite getSprite();
+		sf::Vector2f getPosition();
 
-        sf::Sprite getSprite();
-        sf::Vector2f getPosition();
+		std::string IMGPATH;
 
-        std::string IMGPATH;
+		sf::Sprite sprite;
 
-        sf::Sprite sprite;
+		float elaspedTime;
 
-        float elaspedTime;
+	protected:
+		sf::Vector2f position;
 
-    protected:
-        sf::Vector2f position;
-
-    private:
+	private:
 
 };
 #endif

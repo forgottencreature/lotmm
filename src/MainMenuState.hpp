@@ -7,23 +7,22 @@
 
 class GameEngine;
 
-class MainMenuState : public GameState
-{
-public:
-	MainMenuState( GameEngine& game, bool replace = true );
+class MainMenuState : public GameState{
+	public:
+		MainMenuState( GameEngine& game, bool replace = true );
 
-	void pause();
-	void resume();
+		void pause();
+		void resume();
 
-	void update();
-	void draw();
+		void update();
+		void draw();
 
-private:
+	private:
 
-	sf::Texture m_bgTex;
-	sf::Sprite m_bg;
-	sf::SoundBuffer m_soundBuff;
-	sf::Sound m_music;
+		sf::Texture m_bgTex;
+		sf::Sprite m_bg;
+		sf::SoundBuffer m_soundBuff;
+		sf::Sound m_music;
 };
 
 #endif // MAINMENUSTATE_HPP

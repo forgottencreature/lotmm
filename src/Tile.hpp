@@ -8,35 +8,34 @@
 class TileFloor;
 class TileBlock;
 
-class Tile
-{
-public:
-    Tile();
-    virtual ~Tile();
+class Tile{
+	public:
+		Tile();
+		virtual ~Tile();
 
-    void setPosition(sf::Vector2<int> p);
-    void setPosition(int x, int y);
+		void setPosition(sf::Vector2<int> p);
+		void setPosition(int x, int y);
 
-    void setFloor(TileFloor f);
-    void setBlock(TileBlock b);
+		void setFloor(TileFloor f);
+		void setBlock(TileBlock b);
 
-    //void removeHealth(int i);
+		//void removeHealth(int i);
 
-    TileFloor &getFloor();
-    TileBlock &getBlock();
+		TileFloor &getFloor();
+		TileBlock &getBlock();
 
-    sf::Vector2<int> getPosition();
+		sf::Vector2<int> getPosition();
 
-    int getX();
-    int getY();
+		int getX();
+		int getY();
 
-    static const int HEIGHT = 32;
-    static const int WIDTH = 32;
+		static const int HEIGHT = 32;
+		static const int WIDTH = 32;
 
-private:
-    sf::Vector2<int> position;
-    TileFloor floor;
-    TileBlock block;
+	private:
+		sf::Vector2<int> position;
+		TileFloor floor;
+		TileBlock block;
 }; 
 
 #endif
