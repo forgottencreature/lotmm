@@ -1,5 +1,7 @@
 Window {
-	BackgroundColor: #abcdef55;
+	BackgroundColor: #ffffff;
+	TitlePadding: 0f;
+	BorderColor: #ffffff;
 }
 
 /* Matches all Labels who are direct children of the table */

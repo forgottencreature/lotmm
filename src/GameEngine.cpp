@@ -16,20 +16,27 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 		flags = sf::Style::Default;
 
 	// Create render window for the main app
-	app_window.create( sf::VideoMode( width, height, bpp ), title, flags, sf::ContextSettings(0,0,8,0,0) );
-	app_window.setFramerateLimit( 60 );
+	app_window.create( sf::VideoMode( width, height, bpp ), title, sf::Style::Default);
+    app_window.resetGLStates();
+	//app_window.setFramerateLimit( 60 );
 
-	app_window.resetGLStates();
 
 	screen = sfg::Window::Create();
 	screen->SetTitle("SFML Canvas");
+    screen->SetPosition(sf::Vector2f(0.f,0.f));
 	//This offset needs to be looked into, why can't it be at the top left , (0,0)
-	screen->SetPosition(sf::Vector2f(-10.f,-34.f));
+	//screen->SetPosition(sf::Vector2f(-10.f,-34.f));
 
 	canvas = sfg::Canvas::Create();
 	screen->Add(canvas);
 
-	canvas->SetRequisition(sf::Vector2f(1280.f,800.f));
+	canvas->SetRequisition(sf::Vector2f(1280.f/2,800.f/2));
+    if(desktop.LoadThemeFromFile("data/example.theme")) {
+        std::cout << "loaded sfgui theme" << std::endl;
+    } else {
+        std::cout << "DID NOT FUCKING loaded sfgui theme" << std::endl;
+    }
+
 	desktop.Add(canvas);
 	desktop.Update(0.f);
 
@@ -38,6 +45,8 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 	sf::View screenView(center,halfsize);
 	canvas->SetView(screenView);
 
+	m_fps_counter = 0;
+	m_fps_clock.restart();
 
 	// Set the view
 	/* screen.setView(screenView); */
@@ -87,8 +96,47 @@ void GameEngine::lastState(){
 }
 
 void GameEngine::update(){
+    // Update the GUI every 5ms
+	auto microseconds = clock.getElapsedTime().asMicroseconds();
+	if( microseconds > 5000 ) {
+		desktop.Update(static_cast<float>( microseconds ) / 1000000.f);
+		clock.restart();
+		app_window.setActive( true );
+	}
+
 	// let the state update the game
 	m_states.top()->update();
+
+
+	auto frame_time = frame_time_clock.getElapsedTime().asMicroseconds();
+	frame_time_clock.restart();
+
+	frame_times[ frame_times_index ] = frame_time;
+	frame_times_index = ( frame_times_index + 1 ) % 5000;
+
+	if( m_fps_clock.getElapsedTime().asMicroseconds() >= 1000000 ) {
+		m_fps_clock.restart();
+
+		sf::Int64 total_time = 0;
+
+		for( std::size_t index = 0; index < 5000; ++index ) {
+			total_time += frame_times[index];
+		}
+
+		std::stringstream sstr;
+		sstr << "SFGUI test -- FPS: " << m_fps_counter << " -- Frame Time (microsecs): min: "
+			 << *std::min_element( frame_times, frame_times + 5000 ) << " max: "
+			 << *std::max_element( frame_times, frame_times + 5000 ) << " avg: "
+			 << static_cast<float>( total_time ) / 5000.f;
+
+		app_window.setTitle( sstr.str() );
+
+		m_fps_counter = 0;
+	}
+
+	++m_fps_counter;
+
+
 }
 
 void GameEngine::draw(){

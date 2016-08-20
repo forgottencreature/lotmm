@@ -33,12 +33,21 @@ class GameEngine{
 		template <typename T>
 			std::unique_ptr<T> build( bool replace = true );
 
+        sfg::SFGUI sfgui_wrap;
 		std::shared_ptr<sfg::Window> screen;
 		std::shared_ptr<sfg::Canvas> canvas;
 		sfg::Desktop desktop;
-		sf::RenderWindow app_window;
 
-		sfg::SFGUI sfgui_wrap;
+        unsigned int m_fps_counter;
+        sf::Clock m_fps_clock;
+
+        sf::Clock clock;
+        sf::Clock frame_time_clock;
+
+        sf::Int64 frame_times[5000];
+        std::size_t frame_times_index = 0;
+
+		sf::RenderWindow app_window;
 
 		TextureManager textureManager;
 

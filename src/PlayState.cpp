@@ -67,7 +67,7 @@ void PlayState::draw(){
 
 	/* Draw the tiles */
 	m_game.canvas->Bind();
-	m_game.canvas->Clear(sf::Color(100,100,100,0));
+	m_game.canvas->Clear(sf::Color(75,0,130));
 
 	m_game.canvas->Draw(tileMap.getFloor());
 
@@ -81,8 +81,13 @@ void PlayState::draw(){
 	m_game.canvas->Draw(player.getSprite());
 
 	m_game.canvas->Display();
+    m_game.canvas->Unbind();
+
 	m_game.app_window.setActive(true);
-	m_game.sfgui_wrap.Display(m_game.app_window);
+
+    m_game.sfgui_wrap.Display(m_game.app_window);
+
+
 	m_game.app_window.display();
 }
 
