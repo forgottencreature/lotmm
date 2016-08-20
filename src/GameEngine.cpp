@@ -45,6 +45,8 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 	sf::View screenView(center,halfsize);
 	canvas->SetView(screenView);
 
+	std::fill( std::begin( frame_times ), std::end( frame_times ), 0 );
+
 	m_fps_counter = 0;
 	m_fps_clock.restart();
 
