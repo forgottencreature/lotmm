@@ -63,7 +63,7 @@ void PlayState::update(){
 }
 
 void PlayState::draw(){
-	m_game.app_window.clear(sf::Color::Black);
+	m_game.m_window.clear(sf::Color::Black);
 
 	/* Draw the tiles */
 	m_game.canvas->Bind();
@@ -83,12 +83,12 @@ void PlayState::draw(){
 	m_game.canvas->Display();
     m_game.canvas->Unbind();
 
-	m_game.app_window.setActive(true);
+	m_game.m_window.setActive(true);
 
-    m_game.sfgui_wrap.Display(m_game.app_window);
+    m_game.sfgui_wrap.Display(m_game.m_window);
 
 
-	m_game.app_window.display();
+	m_game.m_window.display();
 }
 
 void PlayState::updateInput(){
@@ -131,7 +131,7 @@ void PlayState::updateInput(){
 	}
 
 	sf::Event event;
-	while( m_game.app_window.pollEvent( event ) ){
+	while( m_game.m_window.pollEvent( event ) ){
 		switch( event.type ){
 			case sf::Event::Closed:
 				m_game.quit();
@@ -174,5 +174,7 @@ void PlayState::updateInput(){
 				screenView.zoom(1.10f);
 			}
 		}
+
+        m_game.desktop.HandleEvent( event );
 	}
 }

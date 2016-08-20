@@ -31,7 +31,7 @@ void IntroState::resume(){
 void IntroState::update(){
 	sf::Event event;
 
-	while( m_game.app_window.pollEvent( event ) ){
+	while( m_game.m_window.pollEvent( event ) ){
 		switch( event.type ){
 			case sf::Event::Closed:
 				m_game.quit();
@@ -64,14 +64,14 @@ void IntroState::update(){
 
 void IntroState::draw(){
 	// Clear the previous drawing
-	m_game.app_window.clear();
+	m_game.m_window.clear();
 
-	m_game.app_window.draw( m_bg );
+	m_game.m_window.draw( m_bg );
 
 	// no need to draw if it's transparent
 	if( m_alpha.a != 0 )
-		m_game.app_window.draw( m_fader );
+		m_game.m_window.draw( m_fader );
 
-	m_game.app_window.display();
+	m_game.m_window.display();
 }
 

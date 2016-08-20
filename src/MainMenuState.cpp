@@ -22,7 +22,7 @@ MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game
 	sf::View screenView(center,halfsize);
 
 	// Set the view
-	m_game.app_window.setView(screenView);
+	m_game.m_window.setView(screenView);
 
 
 	std::cout << "MainMenuState Init" << std::endl;
@@ -39,7 +39,7 @@ void MainMenuState::resume(){
 void MainMenuState::update(){
 	sf::Event event;
 
-	while( m_game.app_window.pollEvent( event ) ){
+	while( m_game.m_window.pollEvent( event ) ){
 		switch( event.type ){
 			case sf::Event::Closed:
 				m_game.quit();
@@ -79,8 +79,8 @@ void MainMenuState::update(){
 
 void MainMenuState::draw(){
 	// Clear the previous drawing
-	m_game.app_window.clear();
-	m_game.app_window.draw( m_bg );
-	m_game.app_window.display();
+	m_game.m_window.clear();
+	m_game.m_window.draw( m_bg );
+	m_game.m_window.display();
 }
 

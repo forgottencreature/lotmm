@@ -7,7 +7,7 @@
 #include "IntroState.hpp"
 #include "MenuState.hpp"
 
-GameEngine::GameEngine( const std::string& title, const unsigned int width, const unsigned int height, const unsigned int bpp, const bool fullscreen ) :	m_resume( false ),	m_running( false ),	m_fullscreen( fullscreen ){
+GameEngine::GameEngine( const std::string& title, const unsigned int width, const unsigned int height, const unsigned int bpp, const bool fullscreen ) :	m_resume( false ),	m_running( false ),	m_fullscreen( fullscreen ), desktop() {
 	int flags = 0;
 
 	if( fullscreen )
@@ -16,28 +16,26 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 		flags = sf::Style::Default;
 
 	// Create render window for the main app
-	app_window.create( sf::VideoMode( width, height, bpp ), title, sf::Style::Default);
-    app_window.resetGLStates();
-	//app_window.setFramerateLimit( 60 );
+	m_window.create( sf::VideoMode( width, height, bpp ), title, sf::Style::Default);
+	m_window.resetGLStates();
+	//m_window.setFramerateLimit( 60 );
 
-
-	screen = sfg::Window::Create();
-	screen->SetTitle("SFML Canvas");
+	screen = sfg::Window::Create(sfg::Window::Style::BACKGROUND);
+	screen->SetId("screen");
+	screen->SetTitle("Our Game");
     screen->SetPosition(sf::Vector2f(0.f,0.f));
-	//This offset needs to be looked into, why can't it be at the top left , (0,0)
-	//screen->SetPosition(sf::Vector2f(-10.f,-34.f));
 
 	canvas = sfg::Canvas::Create();
 	screen->Add(canvas);
 
-	canvas->SetRequisition(sf::Vector2f(1280.f/2,800.f/2));
+	canvas->SetRequisition(sf::Vector2f(1280.f,800.f));
     if(desktop.LoadThemeFromFile("data/example.theme")) {
         std::cout << "loaded sfgui theme" << std::endl;
     } else {
         std::cout << "DID NOT FUCKING loaded sfgui theme" << std::endl;
     }
 
-	desktop.Add(canvas);
+	desktop.Add(screen);
 	desktop.Update(0.f);
 
 	sf::Vector2f center(width/2,height/2);
@@ -52,6 +50,9 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 
 	// Set the view
 	/* screen.setView(screenView); */
+
+	// Signals.
+	//screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &GameEngine::OnHideWindowClicked, this ) );
 
 	std::cout << "GameEngine Init" << std::endl;
 }
@@ -103,7 +104,7 @@ void GameEngine::update(){
 	if( microseconds > 5000 ) {
 		desktop.Update(static_cast<float>( microseconds ) / 1000000.f);
 		clock.restart();
-		app_window.setActive( true );
+		m_window.setActive( true );
 	}
 
 	// let the state update the game
@@ -131,7 +132,7 @@ void GameEngine::update(){
 			 << *std::max_element( frame_times, frame_times + 5000 ) << " avg: "
 			 << static_cast<float>( total_time ) / 5000.f;
 
-		app_window.setTitle( sstr.str() );
+		m_window.setTitle( sstr.str() );
 
 		m_fps_counter = 0;
 	}
@@ -144,4 +145,8 @@ void GameEngine::update(){
 void GameEngine::draw(){
 	// let the state draw the screen
 	m_states.top()->draw();
+}
+
+void GameEngine::OnHideWindowClicked() {
+	screen->Show( !screen->IsLocallyVisible() );
 }

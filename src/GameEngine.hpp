@@ -47,9 +47,11 @@ class GameEngine{
         sf::Int64 frame_times[5000];
         std::size_t frame_times_index = 0;
 
-		sf::RenderWindow app_window;
+		sf::RenderWindow m_window;
 
 		TextureManager textureManager;
+
+        void OnHideWindowClicked();
 
 	private:
 		// the stack of states

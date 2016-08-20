@@ -40,6 +40,7 @@ class PlayState : public GameState{
 
 		float time;
 
+
 };
 
 #endif // PLAYSTATE_HPP
