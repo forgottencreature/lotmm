@@ -25,6 +25,8 @@ class PlayState : public GameState{
 		void updateInput();
 
 		sf::Clock gameClock;
+		int wall=0;
+		int wallCount=100;
 
 	private:
 		TileMap tileMap;

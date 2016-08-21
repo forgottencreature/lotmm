@@ -20,7 +20,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
 	tileMap.generate();
 
-	player.create(sf::Vector2<int>(0,0));
+	player.create(sf::Vector2<int>(10,0));
 
 	camera.setTarget(player.getSprite().getPosition());
 
@@ -83,12 +83,30 @@ void PlayState::resume(){
 
 void PlayState::update(){
 
+	//Delay 100 ticks for wall move
+	wallCount--;
+	if(wallCount<=0){
+		wall++;
+		wallCount=50;
+	}
+
     m_game.desktop.BringToFront(devConsole_screen);
 
 	float elapsedTime = gameClock.restart().asSeconds();
 
 	player.update(&tileMap,elapsedTime);
 
+	//Player is at or behind wall, game over
+	if(player.getCurrentGridPosition().x <= wall){
+		m_music.stop();
+		stateChangeCleanup();
+		m_next = m_game.build<MainMenuState>( true );
+	}
+	else if(player.getCurrentGridPosition().x == TileMap::MAX_X - 1){
+		m_music.stop();
+		stateChangeCleanup();
+		m_next = m_game.build<MainMenuState>( true );
+	}
 	/* Setting the camera to follow the player */
 	camera.setTarget(player.getSprite().getPosition()-sf::Vector2f(1280/2,800/2)+sf::Vector2f(32/2,32/2));
 
@@ -119,6 +137,14 @@ void PlayState::draw(){
 
 	/* Draw our character */
 	m_game.canvas->Draw(player.getSprite());
+
+	/* Draw wall */
+	sf::RectangleShape rectangle(sf::Vector2f(32*(wall+1),32*100));
+	rectangle.setFillColor(sf::Color(20,20,20));
+	rectangle.setPosition(0,0);
+	m_game.canvas->Draw(rectangle);
+
+
 
 	m_game.canvas->Display();
     m_game.canvas->Unbind();
