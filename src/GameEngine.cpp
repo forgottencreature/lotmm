@@ -18,7 +18,7 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 	// Create render window for the main app
 	m_window.create( sf::VideoMode( width, height, bpp ), title, sf::Style::Default);
 	m_window.resetGLStates();
-	//m_window.setFramerateLimit( 60 );
+	m_window.setFramerateLimit( 60 );
 
 	screen = sfg::Window::Create(sfg::Window::Style::BACKGROUND);
 	screen->SetId("screen");
