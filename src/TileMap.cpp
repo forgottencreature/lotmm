@@ -181,7 +181,7 @@ void TileMap::removeFloor(sf::Vector2<int> gridPoint){
 	t->getFloor().setType(newType);
 }
 
-void TileMap::digFloor(sf::Vector2<int> gridPoint){
+void TileMap::digFloor(sf::Vector2<int> gridPoint, int damagePerTick){
 	/* Get the tile we're destroying */
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
@@ -195,7 +195,7 @@ void TileMap::digFloor(sf::Vector2<int> gridPoint){
 		sf::Color currentColor = t->getFloor().getColor();
 
 		/* Modify the transparency to give it the effect of breaking */
-		int newAlpha = (currentColor.a > 0) ? currentColor.a - Player::damagePerTick : currentColor.a;
+		int newAlpha = (currentColor.a > 0) ? currentColor.a - damagePerTick : currentColor.a;
 		t->getFloor().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
 	}
 }
@@ -209,7 +209,7 @@ void TileMap::removeBlock(sf::Vector2<int> gridPoint){
 	t->getBlock().setType(newType);
 }
 
-void TileMap::digBlock(sf::Vector2<int> gridPoint){
+void TileMap::digBlock(sf::Vector2<int> gridPoint, int damagePerTick){
 	/* Get the tile we're destroying */
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
@@ -217,7 +217,7 @@ void TileMap::digBlock(sf::Vector2<int> gridPoint){
 		TileMap::removeBlock(gridPoint);
 	}
 	else{
-		t->getBlock().setHealth(t->getBlock().getHealth() - Player::damagePerTick * t->getBlock().getHardness());
+		t->getBlock().setHealth(t->getBlock().getHealth() - damagePerTick * t->getBlock().getHardness());
 
 		/* Get the current color of the floor */
 		sf::Color currentColor = t->getBlock().getColor();

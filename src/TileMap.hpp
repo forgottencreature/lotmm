@@ -26,10 +26,10 @@ class TileMap
 		void toggleGrid();
 
 		void removeFloor(sf::Vector2<int> gridPoint);
-		void digFloor(sf::Vector2<int> gridPoint);
+		void digFloor(sf::Vector2<int> gridPoint, int damagePerTick);
 
 		void removeBlock(sf::Vector2<int> gridPoint);
-		void digBlock(sf::Vector2<int> gridPoint);
+		void digBlock(sf::Vector2<int> gridPoint, int damagePerTick);
 
 		Tile* getTileByGridPoint(sf::Vector2<int> gridPoint);
 		Tile* getTileByGridPoint(sf::Vector2<int> gridPoint, Direction dir);

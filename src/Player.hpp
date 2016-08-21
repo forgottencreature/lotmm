@@ -28,7 +28,7 @@ public:
     sf::Vector2<int> getCurrentGridPosition();
 
     /* Rate at which tile takes damage */
-    int const static damagePerTick = 5;
+    int damagePerTick = 5;
 
 private:
     float speed = 3.0f;
