@@ -47,7 +47,18 @@ void PlayState::createDevConsole() {
     auto toggleGridBtn = sfg::Button::Create();
     auto speedUpBtn = sfg::Button::Create();
     auto slowDownBtn = sfg::Button::Create();
+    auto playerDamageScale = sfg::Scale::Create( sfg::Scale::Orientation::HORIZONTAL );
 
+    playerDamageScaleLabel = sfg::Label::Create();
+    playerDamageScaleLabel->SetText( "Player Damage: " + std::to_string(player.damagePerTick) );
+
+    playerDamageAdjustment = playerDamageScale->GetAdjustment();
+    playerDamageAdjustment->SetLower( 0.f );
+    playerDamageAdjustment->SetUpper( 20.f );
+
+    playerDamageScale->SetRequisition( sf::Vector2f( 80.f, 20.f ) );
+
+    playerDamageAdjustment->GetSignal( sfg::Adjustment::OnChange ).Connect( std::bind( &PlayState::playerDamageScaleAdjustmentChange, this ) );
     resetBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onResetBtnClicked, this ) );
     toggleGridBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onToggleGridBtnClicked, this ) );
 
@@ -60,6 +71,8 @@ void PlayState::createDevConsole() {
     box->Pack(toggleGridBtn);
     box->Pack(speedUpBtn);
     box->Pack(slowDownBtn);
+    box->Pack(playerDamageScale);
+    box->Pack(playerDamageScaleLabel);
 
     box->SetSpacing( 5.f );
 
@@ -138,22 +151,22 @@ void PlayState::updateInput(){
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
-		tileMap.digBlock(newPos);
+		tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
-		tileMap.digBlock(newPos);
+		tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
-		tileMap.digBlock(newPos);
+		tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
-		tileMap.digBlock(newPos);
+		tileMap.digBlock(newPos,player.damagePerTick);
 	}
 
 
@@ -220,6 +233,13 @@ void PlayState::updateInput(){
 	}
 }
 
+void PlayState::playerDamageScaleAdjustmentChange() {
+    std::stringstream sstr;
+    sstr << playerDamageAdjustment->GetValue();
+    playerDamageScaleLabel->SetText( "Player Damage: " + sstr.str() );
+    player.damagePerTick = playerDamageAdjustment->GetValue();
+}
+
 void PlayState::stateChangeCleanup() {
     m_game.desktop.Remove(devConsole_screen);
     m_game.desktop.Remove(devConsole_canvas);
@@ -229,7 +249,7 @@ void PlayState::stateChangeCleanup() {
 }
 
 void PlayState::onResetBtnClicked() {
-    player.warp(sf::Vector2<int>(0,0));
+    player.warp(sf::Vector2<int>(10,0));
 }
 
 void PlayState::onToggleGridBtnClicked() {

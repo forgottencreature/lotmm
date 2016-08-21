@@ -26,10 +26,10 @@ class TileMap
 		void toggleGrid();
 
 		void removeFloor(sf::Vector2<int> gridPoint);
-		void digFloor(sf::Vector2<int> gridPoint);
+		void digFloor(sf::Vector2<int> gridPoint, int damagePerTick);
 
 		void removeBlock(sf::Vector2<int> gridPoint);
-		void digBlock(sf::Vector2<int> gridPoint);
+		void digBlock(sf::Vector2<int> gridPoint, int damagePerTick);
 
 		Tile* getTileByGridPoint(sf::Vector2<int> gridPoint);
 		Tile* getTileByGridPoint(sf::Vector2<int> gridPoint, Direction dir);
@@ -38,8 +38,8 @@ class TileMap
 		sf::VertexArray getFloor();
 		sf::VertexArray getBlocks();
 
-		static const int MAX_X = 160;
-		static const int MAX_Y = 100;
+		static const int MAX_X = 500;
+		static const int MAX_Y = 50;
 		static const int MIN_X = 0;
 		static const int MIN_Y = 0;
 
