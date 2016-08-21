@@ -43,9 +43,12 @@ class PlayState : public GameState{
 		std::shared_ptr<sfg::Window> devConsole_screen;
 		std::shared_ptr<sfg::Canvas> devConsole_canvas;
 
+        void createDevConsole();
+
 		void stateChangeCleanup();
 
-		void OnHideWindowClicked();
+        void onResetBtnClicked();
+		void onHideWindowClicked();
 
 };
 

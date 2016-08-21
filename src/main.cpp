@@ -2,15 +2,21 @@
 #include <cstdlib>  // For srand() and rand()
 #include <map>
 #include <iostream>
+#include <cstring>
 
 #include "GameEngine.hpp"
 #include "IntroState.hpp"
 
-int main (){
+int main ( int argc, char *argv[] ){
 	srand(time(0));
 
 	// initialize the engine
 	GameEngine game( "TileGame" );
+
+	if (std::strncmp(argv[1],"--dev",5)==0) {
+		game.toggleDevMode();
+	}
+
 	game.run( game.build<IntroState>( true ) );
 
 	// main loop

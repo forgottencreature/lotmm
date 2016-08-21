@@ -30,10 +30,8 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 
 	canvas->SetRequisition(sf::Vector2f(1280.f,800.f));
 
-    if(desktop.LoadThemeFromFile("data/example.theme")) {
-        std::cout << "loaded sfgui theme" << std::endl;
-    } else {
-        std::cout << "DID NOT FUCKING loaded sfgui theme" << std::endl;
+    if(!desktop.LoadThemeFromFile("data/example.theme")) {
+        // this should be shown in a debug console or something
     }
 
 	desktop.Add(screen);
@@ -145,6 +143,10 @@ void GameEngine::update(){
 void GameEngine::draw(){
 	// let the state draw the screen
 	m_states.top()->draw();
+}
+
+void GameEngine::toggleDevMode() {
+    m_devMode = !m_devMode;
 }
 
 void GameEngine::OnHideWindowClicked() {

@@ -14,6 +14,8 @@ public:
     /* Move the player */
     void move(TileMap* m);
 
+    void warp(sf::Vector2<int> pos);
+
     /* Process the movement input */
     void setMovement(std::string dir);
 

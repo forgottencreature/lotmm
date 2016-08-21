@@ -28,10 +28,38 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 	m_music.play();
 	m_music.setLoop(true);
 
+    if(m_game.getDevMode()) {
+        createDevConsole();
+    }
+
+    std::cout << "PlayState cpp Init" << std::endl;
+}
+
+void PlayState::createDevConsole() {
     devConsole_screen = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND | sfg::Window::Style::CLOSE);
     devConsole_screen->SetId("devConsole");
     devConsole_screen->SetTitle("Dev Console");
     devConsole_screen->SetPosition(sf::Vector2f(100.f,200.f));
+
+    auto box = sfg::Box::Create( sfg::Box::Orientation::VERTICAL );
+
+    auto resetBtn = sfg::Button::Create();
+    auto speedUpBtn = sfg::Button::Create();
+    auto slowDownBtn = sfg::Button::Create();
+
+    resetBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onResetBtnClicked, this ) );
+
+    resetBtn->SetLabel( "Reset to Origin" );
+    speedUpBtn->SetLabel( "Speed it Up" );
+    slowDownBtn->SetLabel( "Slow it Down" );
+
+    box->Pack(resetBtn);
+    box->Pack(speedUpBtn);
+    box->Pack(slowDownBtn);
+
+    box->SetSpacing( 5.f );
+
+    devConsole_screen->Add(box);
 
     devConsole_canvas = sfg::Canvas::Create();
     devConsole_screen->Add(devConsole_canvas);
@@ -40,9 +68,7 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     m_game.desktop.Add(devConsole_screen);
     m_game.desktop.Update(0.f);
 
-    devConsole_screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &PlayState::OnHideWindowClicked, this ) );
-
-    std::cout << "PlayState cpp Init" << std::endl;
+    devConsole_screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &PlayState::onHideWindowClicked, this ) );
 }
 
 void PlayState::pause(){
@@ -163,7 +189,7 @@ void PlayState::updateInput(){
 					case sf::Keyboard::Space:
 						break;
                     case sf::Keyboard::P:
-                        OnHideWindowClicked();
+                        onHideWindowClicked();
                         break;
 					default:
 						break;
@@ -199,9 +225,14 @@ void PlayState::stateChangeCleanup() {
     devConsole_screen.reset();
     devConsole_canvas.reset();
     std::cout << "Desktop Cleanup" << std::endl;
-
 }
 
-void PlayState::OnHideWindowClicked() {
-    devConsole_screen->Show( !devConsole_screen->IsLocallyVisible() );
+void PlayState::onResetBtnClicked() {
+    player.warp(sf::Vector2<int>(0,0));
+}
+
+void PlayState::onHideWindowClicked() {
+    if(m_game.getDevMode()) {
+        devConsole_screen->Show(!devConsole_screen->IsLocallyVisible());
+    }
 }

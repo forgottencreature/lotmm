@@ -33,6 +33,12 @@ void Player::update(TileMap* m, float t){
 	Player::move(m);
 }
 
+void Player::warp(sf::Vector2<int> pos) {
+	playerSprite.setPosition(Player::gridToCoord(pos));
+	currentGridPosition = pos;
+	previousGridPosition = pos;
+}
+
 void Player::move(TileMap* m){
 	/* Check if the player is trying to move outside the grid*/
 	if(Player::checkTileMapBounds()){

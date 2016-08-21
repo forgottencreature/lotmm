@@ -51,6 +51,9 @@ class GameEngine{
 
 		TextureManager textureManager;
 
+        bool getDevMode() const { return m_devMode; }
+        void toggleDevMode();
+
         void OnHideWindowClicked();
 
 	private:
@@ -60,6 +63,8 @@ class GameEngine{
 
 		bool m_running;
 		bool m_fullscreen;
+
+        bool m_devMode = false;
 };
 
 template <typename T>
