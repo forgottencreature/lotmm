@@ -18,15 +18,8 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
 	m_game.canvas->SetView(screenView);
 
-	std::cout << "PlayState cpp Init" << std::endl;
-
 	tileMap.generate();
-	/*
-		 tileMap.removeTile(sf::Vector2<int>(0,0));
-		 tileMap.removeTile(sf::Vector2<int>(0,1));
-		 tileMap.removeTile(sf::Vector2<int>(1,0));
-		 tileMap.removeTile(sf::Vector2<int>(1,1));
-		 */
+
 	player.create(sf::Vector2<int>(0,0));
 
 	camera.setTarget(player.getSprite().getPosition());
@@ -35,8 +28,21 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 	m_music.play();
 	m_music.setLoop(true);
 
-	//player.setGridPosition(0,0,&tileMap);
-	//player.update(&tileMap); // Can I move this into the Player object somehow? Look into it.
+    devConsole_screen = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND | sfg::Window::Style::CLOSE);
+    devConsole_screen->SetId("devConsole");
+    devConsole_screen->SetTitle("Dev Console");
+    devConsole_screen->SetPosition(sf::Vector2f(100.f,200.f));
+
+    devConsole_canvas = sfg::Canvas::Create();
+    devConsole_screen->Add(devConsole_canvas);
+    devConsole_canvas->SetRequisition(sf::Vector2f(200.f,300.f));
+
+    m_game.desktop.Add(devConsole_screen);
+    m_game.desktop.Update(0.f);
+
+    devConsole_screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &PlayState::OnHideWindowClicked, this ) );
+
+    std::cout << "PlayState cpp Init" << std::endl;
 }
 
 void PlayState::pause(){
@@ -46,6 +52,9 @@ void PlayState::resume(){
 }
 
 void PlayState::update(){
+
+    m_game.desktop.BringToFront(devConsole_screen);
+
 	float elapsedTime = gameClock.restart().asSeconds();
 
 	player.update(&tileMap,elapsedTime);
@@ -63,6 +72,7 @@ void PlayState::update(){
 }
 
 void PlayState::draw(){
+
 	m_game.m_window.clear(sf::Color::Black);
 
 	/* Draw the tiles */
@@ -141,6 +151,7 @@ void PlayState::updateInput(){
 				switch( event.key.code ){
 					case sf::Keyboard::Escape:
 						m_music.stop();
+                        stateChangeCleanup();
 						m_next = m_game.build<MainMenuState>( true );
 						break;
 					case sf::Keyboard::Z:
@@ -151,6 +162,9 @@ void PlayState::updateInput(){
 						break;
 					case sf::Keyboard::Space:
 						break;
+                    case sf::Keyboard::P:
+                        OnHideWindowClicked();
+                        break;
 					default:
 						break;
 				}
@@ -177,4 +191,17 @@ void PlayState::updateInput(){
 
         m_game.desktop.HandleEvent( event );
 	}
+}
+
+void PlayState::stateChangeCleanup() {
+    m_game.desktop.Remove(devConsole_screen);
+    m_game.desktop.Remove(devConsole_canvas);
+    devConsole_screen.reset();
+    devConsole_canvas.reset();
+    std::cout << "Desktop Cleanup" << std::endl;
+
+}
+
+void PlayState::OnHideWindowClicked() {
+    devConsole_screen->Show( !devConsole_screen->IsLocallyVisible() );
 }

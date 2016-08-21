@@ -40,6 +40,12 @@ class PlayState : public GameState{
 
 		float time;
 
+		std::shared_ptr<sfg::Window> devConsole_screen;
+		std::shared_ptr<sfg::Canvas> devConsole_canvas;
+
+		void stateChangeCleanup();
+
+		void OnHideWindowClicked();
 
 };
 

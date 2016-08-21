@@ -29,6 +29,7 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 	screen->Add(canvas);
 
 	canvas->SetRequisition(sf::Vector2f(1280.f,800.f));
+
     if(desktop.LoadThemeFromFile("data/example.theme")) {
         std::cout << "loaded sfgui theme" << std::endl;
     } else {
@@ -52,7 +53,7 @@ GameEngine::GameEngine( const std::string& title, const unsigned int width, cons
 	/* screen.setView(screenView); */
 
 	// Signals.
-	//screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &GameEngine::OnHideWindowClicked, this ) );
+	screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &GameEngine::OnHideWindowClicked, this ) );
 
 	std::cout << "GameEngine Init" << std::endl;
 }
@@ -109,7 +110,6 @@ void GameEngine::update(){
 
 	// let the state update the game
 	m_states.top()->update();
-
 
 	auto frame_time = frame_time_clock.getElapsedTime().asMicroseconds();
 	frame_time_clock.restart();
