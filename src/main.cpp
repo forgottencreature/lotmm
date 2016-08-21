@@ -13,9 +13,11 @@ int main ( int argc, char *argv[] ){
 	// initialize the engine
 	GameEngine game( "TileGame" );
 
-	if (std::strncmp(argv[1],"--dev",5)==0) {
-		game.toggleDevMode();
-	}
+    if(argc > 1) {
+        if (std::strncmp(argv[1], "--dev", 5) == 0) {
+            game.toggleDevMode();
+        }
+    }
 
 	game.run( game.build<IntroState>( true ) );
 
