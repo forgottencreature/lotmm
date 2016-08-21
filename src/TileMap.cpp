@@ -36,11 +36,8 @@ void TileMap::generate(){
 
 			/* For now, randomly generate block type. */
 			int randNum = (rand() % 7) + 1;
-			if(randNum == 1){
+			if(randNum == 1 || randNum == 2){
 				chosenBlockType = TileBlock::STONE;
-			}
-			else if(randNum == 2){
-				chosenBlockType = TileBlock::PEAT;
 			}
 			else if(randNum == 3){
 				chosenBlockType = TileBlock::DIRT;
@@ -48,6 +45,9 @@ void TileMap::generate(){
 			else if(randNum == 4){
 				chosenBlockType = TileBlock::SAND;
 			}
+            else if(randNum == 5){
+                chosenBlockType = TileBlock::PEAT;
+            }
 			else{
 				chosenBlockType = TileBlock::EMPTY;
 			}

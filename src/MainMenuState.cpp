@@ -12,6 +12,7 @@ MainMenuState::MainMenuState( GameEngine& game, bool replace ) : GameState( game
 	m_bgTex.loadFromFile( "assets/img/mainmenu.png" );
 	m_soundBuff.loadFromFile("assets/audio/main_menu_2.ogg");
 	m_music.setBuffer(m_soundBuff);
+	m_music.setVolume(25.f);
 	m_music.play();
 	m_music.setLoop(true);
 

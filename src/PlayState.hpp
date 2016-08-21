@@ -25,8 +25,9 @@ class PlayState : public GameState{
 		void updateInput();
 
 		sf::Clock gameClock;
-		int wall=0;
-		int wallCount=100;
+		int wall = 0;
+		int wallCount = 50;
+		int wallReset = 50;
 
 	private:
 		TileMap tileMap;
@@ -46,12 +47,15 @@ class PlayState : public GameState{
 		std::shared_ptr<sfg::Canvas> devConsole_canvas;
         sfg::Label::Ptr playerDamageScaleLabel;
         sfg::Adjustment::Ptr playerDamageAdjustment;
+		sfg::Label::Ptr wallResetScaleLabel;
+		sfg::Adjustment::Ptr wallResetAdjustment;
 
         void createDevConsole();
 
 		void stateChangeCleanup();
 
         void playerDamageScaleAdjustmentChange();
+		void wallResetAdjustmentChange();
         void onResetBtnClicked();
         void onToggleGridBtnClicked();
 		void onHideWindowClicked();

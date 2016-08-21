@@ -48,6 +48,7 @@ void PlayState::createDevConsole() {
     auto speedUpBtn = sfg::Button::Create();
     auto slowDownBtn = sfg::Button::Create();
     auto playerDamageScale = sfg::Scale::Create( sfg::Scale::Orientation::HORIZONTAL );
+    auto wallResetScale = sfg::Scale::Create( sfg::Scale::Orientation::HORIZONTAL );
 
     playerDamageScaleLabel = sfg::Label::Create();
     playerDamageScaleLabel->SetText( "Player Damage: " + std::to_string(player.damagePerTick) );
@@ -56,9 +57,18 @@ void PlayState::createDevConsole() {
     playerDamageAdjustment->SetLower( 0.f );
     playerDamageAdjustment->SetUpper( 20.f );
 
+    wallResetScaleLabel = sfg::Label::Create();
+    wallResetScaleLabel->SetText( "Wall: " + std::to_string(wallReset) );
+
+    wallResetAdjustment = wallResetScale->GetAdjustment();
+    wallResetAdjustment->SetLower( 10.f );
+    wallResetAdjustment->SetUpper( 100.f );
+
     playerDamageScale->SetRequisition( sf::Vector2f( 80.f, 20.f ) );
+    wallResetScale->SetRequisition( sf::Vector2f( 80.f, 20.f ) );
 
     playerDamageAdjustment->GetSignal( sfg::Adjustment::OnChange ).Connect( std::bind( &PlayState::playerDamageScaleAdjustmentChange, this ) );
+    wallResetAdjustment->GetSignal( sfg::Adjustment::OnChange ).Connect( std::bind( &PlayState::wallResetAdjustmentChange, this ) );
     resetBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onResetBtnClicked, this ) );
     toggleGridBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onToggleGridBtnClicked, this ) );
 
@@ -71,8 +81,10 @@ void PlayState::createDevConsole() {
     box->Pack(toggleGridBtn);
     box->Pack(speedUpBtn);
     box->Pack(slowDownBtn);
-    box->Pack(playerDamageScale);
     box->Pack(playerDamageScaleLabel);
+    box->Pack(playerDamageScale);
+    box->Pack(wallResetScaleLabel);
+    box->Pack(wallResetScale);
 
     box->SetSpacing( 5.f );
 
@@ -100,7 +112,7 @@ void PlayState::update(){
 	wallCount--;
 	if(wallCount<=0){
 		wall++;
-		wallCount=50;
+		wallCount=wallReset;
 	}
 
     m_game.desktop.BringToFront(devConsole_screen);
@@ -259,6 +271,18 @@ void PlayState::updateInput(){
 	}
 }
 
+void PlayState::stateChangeCleanup() {
+    m_game.desktop.Remove(devConsole_screen);
+    m_game.desktop.Remove(devConsole_canvas);
+    devConsole_screen.reset();
+    devConsole_canvas.reset();
+    playerDamageScaleLabel.reset();
+    playerDamageAdjustment.reset();
+    wallResetScaleLabel.reset();
+    wallResetAdjustment.reset();
+    std::cout << "Desktop Cleanup" << std::endl;
+}
+
 void PlayState::playerDamageScaleAdjustmentChange() {
     std::stringstream sstr;
     sstr << playerDamageAdjustment->GetValue();
@@ -266,15 +290,15 @@ void PlayState::playerDamageScaleAdjustmentChange() {
     player.damagePerTick = playerDamageAdjustment->GetValue();
 }
 
-void PlayState::stateChangeCleanup() {
-    m_game.desktop.Remove(devConsole_screen);
-    m_game.desktop.Remove(devConsole_canvas);
-    devConsole_screen.reset();
-    devConsole_canvas.reset();
-    std::cout << "Desktop Cleanup" << std::endl;
+void PlayState::wallResetAdjustmentChange() {
+    std::stringstream sstr;
+    sstr << wallResetAdjustment->GetValue();
+    wallResetScaleLabel->SetText( "Wall: " + sstr.str() );
+    wallReset = wallResetAdjustment->GetValue();
 }
 
 void PlayState::onResetBtnClicked() {
+    wall = 0;
     player.warp(sf::Vector2<int>(10,0));
 }
 
