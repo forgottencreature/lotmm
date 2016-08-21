@@ -48,6 +48,7 @@ class PlayState : public GameState{
 		void stateChangeCleanup();
 
         void onResetBtnClicked();
+        void onToggleGridBtnClicked();
 		void onHideWindowClicked();
 
 };

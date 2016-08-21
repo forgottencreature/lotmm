@@ -44,16 +44,20 @@ void PlayState::createDevConsole() {
     auto box = sfg::Box::Create( sfg::Box::Orientation::VERTICAL );
 
     auto resetBtn = sfg::Button::Create();
+    auto toggleGridBtn = sfg::Button::Create();
     auto speedUpBtn = sfg::Button::Create();
     auto slowDownBtn = sfg::Button::Create();
 
     resetBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onResetBtnClicked, this ) );
+    toggleGridBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onToggleGridBtnClicked, this ) );
 
     resetBtn->SetLabel( "Reset to Origin" );
+    toggleGridBtn->SetLabel( "Toggle Grid" );
     speedUpBtn->SetLabel( "Speed it Up" );
     slowDownBtn->SetLabel( "Slow it Down" );
 
     box->Pack(resetBtn);
+    box->Pack(toggleGridBtn);
     box->Pack(speedUpBtn);
     box->Pack(slowDownBtn);
 
@@ -180,9 +184,6 @@ void PlayState::updateInput(){
                         stateChangeCleanup();
 						m_next = m_game.build<MainMenuState>( true );
 						break;
-					case sf::Keyboard::Z:
-						tileMap.toggleGrid();
-						break;
 					case sf::Keyboard::M:
 						m_next = m_game.build<MenuState>( false );
 						break;
@@ -229,6 +230,10 @@ void PlayState::stateChangeCleanup() {
 
 void PlayState::onResetBtnClicked() {
     player.warp(sf::Vector2<int>(0,0));
+}
+
+void PlayState::onToggleGridBtnClicked() {
+    tileMap.toggleGrid();
 }
 
 void PlayState::onHideWindowClicked() {
