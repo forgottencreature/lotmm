@@ -186,84 +186,74 @@ void PlayState::draw(){
 }
 
 void PlayState::registerActions() {
-    actionMap[UP] = Action(sf::Keyboard::W, Action::Hold);
-    actionMap[DOWN] = Action(sf::Keyboard::S, Action::Hold);
-    actionMap[LEFT] = Action(sf::Keyboard::A, Action::Hold);
-    actionMap[RIGHT] = Action(sf::Keyboard::D, Action::Hold);
+    actionMap["up"] = Action(sf::Keyboard::W, Action::Hold);
+    actionMap["down"] = Action(sf::Keyboard::S, Action::Hold);
+    actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
+    actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
+    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
+    actionMap["openMenu"] = Action(sf::Keyboard::M);
+    actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
+    actionMap["close"] = Action(sf::Event::Closed);
+    actionMap["escape"] = Action(sf::Keyboard::Escape);
 }
 
 void PlayState::updateInput(){
 
 	/* Key Bindings */
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+    if(actionMap.isActive("up") && actionMap.isActive("dig")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+	else if(actionMap.isActive("left") && actionMap.isActive("dig")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+	else if(actionMap.isActive("down") && actionMap.isActive("dig")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+	else if(actionMap.isActive("right") && actionMap.isActive("dig")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
 
-    if (actionMap.isActive(LEFT)){
+    if (actionMap.isActive("left")){
         player.setMovement("LEFT");
     }
-    if (actionMap.isActive(DOWN)){
+    if (actionMap.isActive("down")){
         player.setMovement("DOWN");
     }
-    if (actionMap.isActive(RIGHT)){
+    if (actionMap.isActive("right")){
         player.setMovement("RIGHT");
     }
-    if (actionMap.isActive(UP)){
+    if (actionMap.isActive("up")){
         player.setMovement("UP");
     }
+    if (actionMap.isActive("openMenu")){
+        m_next = m_game.build<MenuState>( false );
+    }
+    if (actionMap.isActive("openDevConsole")){
+        std::cout << "pressed P" << std::endl;
+        onHideWindowClicked();
+    }
+    if (actionMap.isActive("close")) {
+        std::cout << "pressed close" << std::endl;
+        m_game.quit();
+    }
+    if (actionMap.isActive("escape")) {
+        m_music.stop();
+        stateChangeCleanup();
+        m_next = m_game.build<MainMenuState>( true );
+    }
 
+    /*
 	sf::Event event;
 	while( m_game.m_window.pollEvent( event ) ){
-		switch( event.type ){
-			case sf::Event::Closed:
-				m_game.quit();
-				break;
-
-			case sf::Event::KeyPressed:
-				switch( event.key.code ){
-					case sf::Keyboard::Escape:
-						m_music.stop();
-                        stateChangeCleanup();
-						m_next = m_game.build<MainMenuState>( true );
-						break;
-					case sf::Keyboard::M:
-						m_next = m_game.build<MenuState>( false );
-						break;
-					case sf::Keyboard::Space:
-						break;
-                    case sf::Keyboard::P:
-                        onHideWindowClicked();
-                        break;
-					default:
-						break;
-				}
-				break;
-			case sf::Event::MouseButtonPressed:
-				if (event.mouseButton.button == sf::Mouse::Left){
-				}
-				else if (event.mouseButton.button == sf::Mouse::Right){
-				}
-			default:
-				break;
-		}
 
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
 			int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
@@ -278,6 +268,7 @@ void PlayState::updateInput(){
 
         m_game.desktop.HandleEvent( event );
 	}
+    */
 }
 
 void PlayState::stateChangeCleanup() {

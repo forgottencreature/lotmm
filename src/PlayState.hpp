@@ -37,16 +37,7 @@ class PlayState : public GameState{
 		Player player;
 		Camera camera;
 
-        enum Actions
-        {
-            UP,
-            DOWN,
-            LEFT,
-            RIGHT,
-            DIG
-        };
-
-        thor::ActionMap<Actions> actionMap;
+        thor::ActionMap<std::string> actionMap;
 
 		sf::Texture m_bgTex;
 		sf::Sprite m_bg;
