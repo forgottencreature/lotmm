@@ -32,6 +32,8 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
         createDevConsole();
     }
 
+    registerActions();
+
     std::cout << "PlayState cpp Init" << std::endl;
 }
 
@@ -54,6 +56,7 @@ void PlayState::createDevConsole() {
     playerDamageScaleLabel->SetText( "Player Damage: " + std::to_string(player.damagePerTick) );
 
     playerDamageAdjustment = playerDamageScale->GetAdjustment();
+    playerDamageAdjustment->SetValue(player.damagePerTick);
     playerDamageAdjustment->SetLower( 0.f );
     playerDamageAdjustment->SetUpper( 20.f );
 
@@ -115,13 +118,14 @@ void PlayState::update(){
 		wallCount=wallReset;
 	}
 
+    /* Need this line to force the dev console to top, regardless of focus */
     m_game.desktop.BringToFront(devConsole_screen);
 
 	float elapsedTime = gameClock.restart().asSeconds();
 
 	player.update(&tileMap,elapsedTime);
 
-	//Player is at or behind wall, game over
+	// Player is at or behind wall, game over
 	if(player.getCurrentGridPosition().x <= wall){
 		m_music.stop();
 		stateChangeCleanup();
@@ -132,6 +136,7 @@ void PlayState::update(){
 		stateChangeCleanup();
 		m_next = m_game.build<MainMenuState>( true );
 	}
+
 	/* Setting the camera to follow the player */
 	camera.setTarget(player.getSprite().getPosition()-sf::Vector2f(1280/2,800/2)+sf::Vector2f(32/2,32/2));
 
@@ -169,8 +174,6 @@ void PlayState::draw(){
 	rectangle.setPosition(0,0);
 	m_game.canvas->Draw(rectangle);
 
-
-
 	m_game.canvas->Display();
     m_game.canvas->Unbind();
 
@@ -180,6 +183,13 @@ void PlayState::draw(){
 
 
 	m_game.m_window.display();
+}
+
+void PlayState::registerActions() {
+    actionMap[UP] = Action(sf::Keyboard::W, Action::Hold);
+    actionMap[DOWN] = Action(sf::Keyboard::S, Action::Hold);
+    actionMap[LEFT] = Action(sf::Keyboard::A, Action::Hold);
+    actionMap[RIGHT] = Action(sf::Keyboard::D, Action::Hold);
 }
 
 void PlayState::updateInput(){
@@ -207,19 +217,18 @@ void PlayState::updateInput(){
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
 
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-		player.setMovement("LEFT");
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-		player.setMovement("DOWN");
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		player.setMovement("RIGHT");
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-		player.setMovement("UP");
-	}
+    if (actionMap.isActive(LEFT)){
+        player.setMovement("LEFT");
+    }
+    if (actionMap.isActive(DOWN)){
+        player.setMovement("DOWN");
+    }
+    if (actionMap.isActive(RIGHT)){
+        player.setMovement("RIGHT");
+    }
+    if (actionMap.isActive(UP)){
+        player.setMovement("UP");
+    }
 
 	sf::Event event;
 	while( m_game.m_window.pollEvent( event ) ){

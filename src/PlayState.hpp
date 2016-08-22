@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <Thor/Input.hpp>
 #include "GameState.hpp"
 #include "TextureManager.hpp"
 #include "TileMap.hpp"
@@ -11,6 +12,8 @@
 
 class GameEngine;
 //class TileMap;
+
+using thor::Action;
 
 class PlayState : public GameState{
 	public:
@@ -34,6 +37,17 @@ class PlayState : public GameState{
 		Player player;
 		Camera camera;
 
+        enum Actions
+        {
+            UP,
+            DOWN,
+            LEFT,
+            RIGHT,
+            DIG
+        };
+
+        thor::ActionMap<Actions> actionMap;
+
 		sf::Texture m_bgTex;
 		sf::Sprite m_bg;
 
@@ -51,7 +65,7 @@ class PlayState : public GameState{
 		sfg::Adjustment::Ptr wallResetAdjustment;
 
         void createDevConsole();
-
+        void registerActions();
 		void stateChangeCleanup();
 
         void playerDamageScaleAdjustmentChange();
