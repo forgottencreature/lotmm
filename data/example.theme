@@ -1,5 +1,5 @@
 Window#screen {
 	BackgroundColor: #ffffffff;
-	BorderWidth:0f;
-	Gap:0f;
+	BorderWidth:0;
+	Gap:0;
 }
