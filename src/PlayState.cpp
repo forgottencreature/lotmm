@@ -230,7 +230,7 @@ void PlayState::updateInput(){
 
     /* Key Bindings */
 
-    thor::UniversalEmitter* emitter;
+    thor::UniversalEmitter* emitter = nullptr;
 
     if(actionMap.isActive("dig-up")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
@@ -283,8 +283,7 @@ void PlayState::updateInput(){
 
 
     if(emitter != nullptr) {
-				thor::UniversalEmitter emit = *emitter;
-        particleSystem.addEmitter(emit);
+        particleSystem.addEmitter(*emitter);
         emitter = nullptr;
     }
 
