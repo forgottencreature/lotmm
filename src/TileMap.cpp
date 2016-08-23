@@ -219,6 +219,10 @@ void TileMap::digFloor(sf::Vector2<int> gridPoint, int damagePerTick){
 void TileMap::removeBlock(sf::Vector2<int> gridPoint){
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
+    if(t->getBlock().currentType == TileBlock::TEST) {
+        std::cout << "broke a test block" << std::endl;
+    }
+
 	TileBlock::Type newType;
 	newType = TileBlock::EMPTY;
 

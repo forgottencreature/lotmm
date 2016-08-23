@@ -23,6 +23,8 @@ class TileBlock{
 		static const int HEIGHT = 24;
 		static const int WIDTH = 24;
 
+        Type currentType;
+
 		/* This isn't working
 			 static const int HEIGHT = Tile::HEIGHT - 10;
 			 static const int WIDTH = Tile::WIDTH - 10;

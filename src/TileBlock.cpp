@@ -10,6 +10,10 @@ TileBlock::~TileBlock(){
 }
 
 void TileBlock::setType(Type b){
+
+    /* Set the current type */
+    this->currentType = b;
+
 	switch(b){
 		case EMPTY:
 			this->color = sf::Color::Transparent;

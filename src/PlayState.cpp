@@ -34,6 +34,15 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
 
     registerActions();
 
+    // lets create the texture we are going to use for particles
+    particleTexture.create(8,8);
+    sf::Uint8* pixels = new sf::Uint8[8 * 8 * 4]; // * 4 because pixels have 4 components (RGBA)
+    particleTexture.update(pixels);
+
+    // now attach the texture to the particle system
+    particleSystem.setTexture(particleTexture);
+
+
     std::cout << "PlayState cpp Init" << std::endl;
 }
 
@@ -147,6 +156,9 @@ void PlayState::update(){
 	m_game.canvas->SetView(screenView);
 
 	PlayState::updateInput();
+
+    // Update particle system
+    particleSystem.update(particleClock.restart());
 }
 
 void PlayState::draw(){
@@ -173,6 +185,9 @@ void PlayState::draw(){
 	rectangle.setFillColor(sf::Color(20,20,20));
 	rectangle.setPosition(0,0);
 	m_game.canvas->Draw(rectangle);
+
+    /* Draw particles */
+    m_game.canvas->Draw(particleSystem);
 
 	m_game.canvas->Display();
     m_game.canvas->Unbind();

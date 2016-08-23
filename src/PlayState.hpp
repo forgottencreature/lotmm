@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <Thor/Input.hpp>
+#include <Thor/Particles.hpp>
 #include "GameState.hpp"
 #include "TextureManager.hpp"
 #include "TileMap.hpp"
@@ -38,9 +39,14 @@ class PlayState : public GameState{
 		Camera camera;
 
         thor::ActionMap<std::string> actionMap;
+        thor::ParticleSystem particleSystem;
+        thor::UniversalEmitter particleEmitter;
+
+        sf::Clock particleClock;
 
 		sf::Texture m_bgTex;
 		sf::Sprite m_bg;
+        sf::Texture particleTexture;
 
 		sf::View screenView;
 
