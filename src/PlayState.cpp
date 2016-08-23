@@ -190,11 +190,15 @@ void PlayState::registerActions() {
     actionMap["down"] = Action(sf::Keyboard::S, Action::Hold);
     actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
     actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
-    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
     actionMap["openMenu"] = Action(sf::Keyboard::M, Action::PressOnce);
     actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
     actionMap["close"] = Action(sf::Event::Closed);
     actionMap["escape"] = Action(sf::Keyboard::Escape, Action::PressOnce);
+    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
+    actionMap["dig-up"] = actionMap["up"] && actionMap["dig"];
+    actionMap["dig-down"] = actionMap["down"] && actionMap["dig"];
+    actionMap["dig-left"] = actionMap["left"] && actionMap["dig"];
+    actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
 }
 
 void PlayState::updateInput(){
@@ -204,22 +208,22 @@ void PlayState::updateInput(){
 
     /* Key Bindings */
 
-    if(actionMap.isActive("up") && actionMap.isActive("dig")){
+    if(actionMap.isActive("dig-up")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(actionMap.isActive("left") && actionMap.isActive("dig")){
+	else if(actionMap.isActive("dig-left")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(actionMap.isActive("down") && actionMap.isActive("dig")){
+	else if(actionMap.isActive("dig-down")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(actionMap.isActive("right") && actionMap.isActive("dig")){
+	else if(actionMap.isActive("dig-right")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
 		tileMap.digBlock(newPos,player.damagePerTick);
