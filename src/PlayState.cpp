@@ -37,6 +37,14 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     // lets create the texture we are going to use for particles
     particleTexture.create(8,8);
     sf::Uint8* pixels = new sf::Uint8[8 * 8 * 4]; // * 4 because pixels have 4 components (RGBA)
+    for(register int i = 0; i < 8*8*4; i += 4) {
+        pixels[i] = 255;
+        pixels[i+1] = 0;
+        pixels[i+2] = 0;
+        pixels[i+3] = 255;
+    }
+
+
     particleTexture.update(pixels);
 
     // now attach the texture to the particle system
@@ -284,10 +292,19 @@ void PlayState::updateInput(){
 
     if(emitter != nullptr) {
         particleSystem.addEmitter(*emitter);
-        emitter = nullptr;
+
+        thor::ColorGradient gradient;
+        gradient[0.f] = sf::Color(0, 150, 0);
+        gradient[0.5f] = sf::Color(0, 150, 100);
+        gradient[1.f] = sf::Color(0, 0, 150);
+
+        thor::ColorAnimation colorizer(gradient);
+        particleSystem.addAffector( thor::AnimationAffector(colorizer) );
+
+        //emitter = nullptr;
     }
 
-    delete emitter;
+    //delete emitter;
 
 /*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){

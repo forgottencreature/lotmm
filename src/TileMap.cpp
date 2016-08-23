@@ -220,21 +220,18 @@ thor::UniversalEmitter* TileMap::removeBlock(sf::Vector2<int> gridPoint){
 
     if(t->getBlock().currentType == TileBlock::TEST) {
         std::cout << "broke a test block" << std::endl;
-
+        t->getBlock().setType(TileBlock::EMPTY);
         // Create emitter that emits 30 particles per second, each of which lives for 5 seconds
         thor::UniversalEmitter* emitter = new thor::UniversalEmitter;
         emitter->setEmissionRate(30);
         emitter->setParticleLifetime(sf::seconds(5));
+        //emitter->setParticlePosition( sf::Vector2<int>(500,500) );
 
-				t->getBlock().setType(TileBlock::EMPTY);
 
         return emitter;
     }
 
-	TileBlock::Type newType;
-	newType = TileBlock::EMPTY;
-
-	t->getBlock().setType(newType);
+    t->getBlock().setType(TileBlock::EMPTY);
 
     return nullptr;
 }

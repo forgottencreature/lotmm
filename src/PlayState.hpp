@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 #include <Thor/Input.hpp>
 #include <Thor/Particles.hpp>
+#include <Thor/Animations.hpp>
 #include "GameState.hpp"
 #include "TextureManager.hpp"
 #include "TileMap.hpp"
