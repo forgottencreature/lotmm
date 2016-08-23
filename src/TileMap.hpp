@@ -38,6 +38,8 @@ class TileMap
 		sf::VertexArray getFloor();
 		sf::VertexArray getBlocks();
 
+		int blockAnimCount=2;
+
 		static const int MAX_X = 360;
 		static const int MAX_Y = 100;
 		static const int MIN_X = 0;
