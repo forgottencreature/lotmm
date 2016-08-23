@@ -3,6 +3,8 @@
 #include "Tile.hpp"
 #include "Player.hpp"
 #include <Thor/Particles.hpp>
+#include <Thor/Vectors/PolarVector2.hpp>
+#include <Thor/Math/Distributions.hpp>
 
 class Player;
 

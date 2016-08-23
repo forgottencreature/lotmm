@@ -225,6 +225,10 @@ thor::UniversalEmitter* TileMap::removeBlock(sf::Vector2<int> gridPoint){
         thor::UniversalEmitter* emitter = new thor::UniversalEmitter;
         emitter->setEmissionRate(30);
         emitter->setParticleLifetime(sf::seconds(5));
+        //emitter.setParticlePosition( window.mapPixelToCoords(sf::Mouse::getPosition(window)) );
+        thor::PolarVector2f velocity(200.f, -90.f);
+        emitter->setParticleVelocity( thor::Distributions::deflect(velocity, 10.f) );
+
         //emitter->setParticlePosition( sf::Vector2<int>(500,500) );
 
 

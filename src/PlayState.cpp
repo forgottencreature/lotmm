@@ -128,6 +128,9 @@ void PlayState::resume(){
 
 void PlayState::update(){
 
+    // Update particle system
+    particleSystem.update(particleClock.restart());
+
 	//Delay 100 ticks for wall move
 	wallCount--;
 	if(wallCount<=0){
@@ -165,8 +168,6 @@ void PlayState::update(){
 
 	PlayState::updateInput();
 
-    // Update particle system
-    particleSystem.update(particleClock.restart());
 }
 
 void PlayState::draw(){
