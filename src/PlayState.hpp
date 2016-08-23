@@ -40,7 +40,6 @@ class PlayState : public GameState{
 
         thor::ActionMap<std::string> actionMap;
         thor::ParticleSystem particleSystem;
-        thor::UniversalEmitter particleEmitter;
 
         sf::Clock particleClock;
 

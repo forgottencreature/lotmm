@@ -2,7 +2,6 @@
 #include <math.h>
 #include "TileMap.hpp"
 
-
 TileMap::TileMap(){
 	/* 
 		 Pretty sure this is causing the low FPS. Don't have to draw entire tire map
@@ -216,25 +215,34 @@ void TileMap::digFloor(sf::Vector2<int> gridPoint, int damagePerTick){
 	}
 }
 
-void TileMap::removeBlock(sf::Vector2<int> gridPoint){
+thor::UniversalEmitter* TileMap::removeBlock(sf::Vector2<int> gridPoint){
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
     if(t->getBlock().currentType == TileBlock::TEST) {
         std::cout << "broke a test block" << std::endl;
+
+        // Create emitter that emits 30 particles per second, each of which lives for 5 seconds
+        thor::UniversalEmitter* emitter;
+        emitter->setEmissionRate(30);
+        emitter->setParticleLifetime(sf::seconds(5));
+
+        return emitter;
     }
 
 	TileBlock::Type newType;
 	newType = TileBlock::EMPTY;
 
 	t->getBlock().setType(newType);
+
+    return nullptr;
 }
 
-void TileMap::digBlock(sf::Vector2<int> gridPoint, int damagePerTick){
+thor::UniversalEmitter* TileMap::digBlock(sf::Vector2<int> gridPoint, int damagePerTick){
 	/* Get the tile we're destroying */
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
 	if(t->getBlock().getHealth() <= 0){
-		TileMap::removeBlock(gridPoint);
+		return TileMap::removeBlock(gridPoint);
 	}
 	else{
 		t->getBlock().setHealth(t->getBlock().getHealth() - damagePerTick * t->getBlock().getHardness());
@@ -245,6 +253,8 @@ void TileMap::digBlock(sf::Vector2<int> gridPoint, int damagePerTick){
 		/* Modify the transparency to give it the effect of breaking */
 		int newAlpha = (currentColor.a > 0 && currentColor.a - t->getBlock().getHealth() / 12 > 0) ? currentColor.a - t->getBlock().getHealth() / 12 : currentColor.a;
 		t->getBlock().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
+
+        return nullptr;
 	}
 }
 

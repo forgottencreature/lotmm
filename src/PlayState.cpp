@@ -230,26 +230,29 @@ void PlayState::updateInput(){
 
     /* Key Bindings */
 
+    thor::UniversalEmitter* emitter;
+
     if(actionMap.isActive("dig-up")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
-		tileMap.digBlock(newPos,player.damagePerTick);
+		emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(actionMap.isActive("dig-left")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
-		tileMap.digBlock(newPos,player.damagePerTick);
+        emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(actionMap.isActive("dig-down")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
-		tileMap.digBlock(newPos,player.damagePerTick);
+        emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(actionMap.isActive("dig-right")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
-		tileMap.digBlock(newPos,player.damagePerTick);
+        emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
+
 
     if (actionMap.isActive("left")){
         player.setMovement("LEFT");
@@ -277,6 +280,14 @@ void PlayState::updateInput(){
         stateChangeCleanup();
         m_next = m_game.build<MainMenuState>( true );
     }
+
+
+    if(emitter != nullptr) {
+        //particleSystem.addEmitter(*emitter);
+        //emitter = nullptr;
+    }
+
+    //delete emitter;
 
 /*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
