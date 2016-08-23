@@ -203,8 +203,15 @@ void PlayState::registerActions() {
 
 void PlayState::updateInput(){
 
-    /* Poll the window for new events and update the actions */
-    actionMap.update(m_game.m_window);
+    // Clear events from last frame
+    actionMap.clearEvents();
+
+    // Forward all events to the action map
+    sf::Event event;
+    while (m_game.m_window.pollEvent(event)) {
+        actionMap.pushEvent(event);
+        m_game.desktop.HandleEvent( event );
+    }
 
     /* Key Bindings */
 
@@ -256,9 +263,6 @@ void PlayState::updateInput(){
         m_next = m_game.build<MainMenuState>( true );
     }
 
-
-	sf::Event event;
-	while( m_game.m_window.pollEvent( event ) ){
 /*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
 			int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
@@ -271,8 +275,6 @@ void PlayState::updateInput(){
 			}
 		}
 */
-        m_game.desktop.HandleEvent( event );
-	}
 
 }
 
