@@ -292,15 +292,20 @@ void PlayState::updateInput(){
 
 
     if(emitter != nullptr) {
+        sf::Vector2f sprite_pos = player.getSprite().getPosition();
+        emitter->setParticlePosition(m_game.m_window.mapPixelToCoords(sf::Vector2<int>(sprite_pos.x,sprite_pos.y)));
+        emitter->setParticleColor(sf::Color::White);
         particleSystem.addEmitter(*emitter);
 
         thor::ColorGradient gradient;
-        gradient[0.f] = sf::Color(0, 150, 0);
+        gradient[0.f] = sf::Color(150, 150, 0);
         gradient[0.5f] = sf::Color(0, 150, 100);
-        gradient[1.f] = sf::Color(0, 0, 150);
+        gradient[1.f] = sf::Color(255, 255, 150);
 
         thor::ColorAnimation colorizer(gradient);
+        thor::FadeAnimation fader(0.1f, 0.1f);
         particleSystem.addAffector( thor::AnimationAffector(colorizer) );
+        particleSystem.addAffector( thor::AnimationAffector(fader) );
 
         //emitter = nullptr;
     }
