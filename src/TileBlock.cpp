@@ -40,6 +40,12 @@ void TileBlock::setType(Type b){
 			this->passThrough = false;
 			this->hardness = 1;
 			break;
+		case TEST:
+			this->color = sf::Color::White;
+			this->health = 100;
+			this->passThrough = false;
+			this->hardness = 1;
+            break;
 		default:
 			this->color = sf::Color::Transparent;
 			this->health = 0;

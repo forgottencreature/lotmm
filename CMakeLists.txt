@@ -30,7 +30,7 @@ find_package(SFGUI REQUIRED)
 if (SFGUI_FOUND)
     message("Found SFGUI...")
     include_directories(${SFGUI_INCLUDE_DIR} ${SFGUI_INCLUDE_DIRS}) # Do I need dir and dirs?
-    target_link_libraries(${PROJECT_NAME} -lsfgui)
+    target_link_libraries(${PROJECT_NAME} -lsfgui -lthor)
 else ()
     message(FATAL_ERROR "Could not locate SFGUI!")
 endif (SFGUI_FOUND)

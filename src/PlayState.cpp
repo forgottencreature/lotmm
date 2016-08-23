@@ -32,6 +32,8 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
         createDevConsole();
     }
 
+    registerActions();
+
     std::cout << "PlayState cpp Init" << std::endl;
 }
 
@@ -54,6 +56,7 @@ void PlayState::createDevConsole() {
     playerDamageScaleLabel->SetText( "Player Damage: " + std::to_string(player.damagePerTick) );
 
     playerDamageAdjustment = playerDamageScale->GetAdjustment();
+    playerDamageAdjustment->SetValue(player.damagePerTick);
     playerDamageAdjustment->SetLower( 0.f );
     playerDamageAdjustment->SetUpper( 20.f );
 
@@ -115,13 +118,14 @@ void PlayState::update(){
 		wallCount=wallReset;
 	}
 
+    /* Need this line to force the dev console to top, regardless of focus */
     m_game.desktop.BringToFront(devConsole_screen);
 
 	float elapsedTime = gameClock.restart().asSeconds();
 
 	player.update(&tileMap,elapsedTime);
 
-	//Player is at or behind wall, game over
+	// Player is at or behind wall, game over
 	if(player.getCurrentGridPosition().x <= wall){
 		m_music.stop();
 		stateChangeCleanup();
@@ -132,6 +136,7 @@ void PlayState::update(){
 		stateChangeCleanup();
 		m_next = m_game.build<MainMenuState>( true );
 	}
+
 	/* Setting the camera to follow the player */
 	camera.setTarget(player.getSprite().getPosition()-sf::Vector2f(1280/2,800/2)+sf::Vector2f(32/2,32/2));
 
@@ -169,8 +174,6 @@ void PlayState::draw(){
 	rectangle.setPosition(0,0);
 	m_game.canvas->Draw(rectangle);
 
-
-
 	m_game.canvas->Display();
     m_game.canvas->Unbind();
 
@@ -182,80 +185,81 @@ void PlayState::draw(){
 	m_game.m_window.display();
 }
 
+void PlayState::registerActions() {
+    actionMap["up"] = Action(sf::Keyboard::W, Action::Hold);
+    actionMap["down"] = Action(sf::Keyboard::S, Action::Hold);
+    actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
+    actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
+    actionMap["openMenu"] = Action(sf::Keyboard::M, Action::PressOnce);
+    actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
+    actionMap["close"] = Action(sf::Event::Closed);
+    actionMap["escape"] = Action(sf::Keyboard::Escape, Action::PressOnce);
+    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
+    actionMap["dig-up"] = actionMap["up"] && actionMap["dig"];
+    actionMap["dig-down"] = actionMap["down"] && actionMap["dig"];
+    actionMap["dig-left"] = actionMap["left"] && actionMap["dig"];
+    actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
+}
+
 void PlayState::updateInput(){
 
-	/* Key Bindings */
+    /* Poll the window for new events and update the actions */
+    actionMap.update(m_game.m_window);
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+    /* Key Bindings */
+
+    if(actionMap.isActive("dig-up")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+	else if(actionMap.isActive("dig-left")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+	else if(actionMap.isActive("dig-down")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+	else if(actionMap.isActive("dig-right")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
 		tileMap.digBlock(newPos,player.damagePerTick);
 	}
 
+    if (actionMap.isActive("left")){
+        player.setMovement("LEFT");
+    }
+    if (actionMap.isActive("down")){
+        player.setMovement("DOWN");
+    }
+    if (actionMap.isActive("right")){
+        player.setMovement("RIGHT");
+    }
+    if (actionMap.isActive("up")){
+        player.setMovement("UP");
+    }
+    if (actionMap.isActive("openMenu")){
+        m_next = m_game.build<MenuState>( false );
+    }
+    if (actionMap.isActive("openDevConsole")){
+        onHideWindowClicked();
+    }
+    if (actionMap.isActive("close")) {
+        m_game.quit();
+    }
+    if (actionMap.isActive("escape")) {
+        m_music.stop();
+        stateChangeCleanup();
+        m_next = m_game.build<MainMenuState>( true );
+    }
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-		player.setMovement("LEFT");
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-		player.setMovement("DOWN");
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		player.setMovement("RIGHT");
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-		player.setMovement("UP");
-	}
 
 	sf::Event event;
 	while( m_game.m_window.pollEvent( event ) ){
-		switch( event.type ){
-			case sf::Event::Closed:
-				m_game.quit();
-				break;
-
-			case sf::Event::KeyPressed:
-				switch( event.key.code ){
-					case sf::Keyboard::Escape:
-						m_music.stop();
-                        stateChangeCleanup();
-						m_next = m_game.build<MainMenuState>( true );
-						break;
-					case sf::Keyboard::M:
-						m_next = m_game.build<MenuState>( false );
-						break;
-					case sf::Keyboard::Space:
-						break;
-                    case sf::Keyboard::P:
-                        onHideWindowClicked();
-                        break;
-					default:
-						break;
-				}
-				break;
-			case sf::Event::MouseButtonPressed:
-				if (event.mouseButton.button == sf::Mouse::Left){
-				}
-				else if (event.mouseButton.button == sf::Mouse::Right){
-				}
-			default:
-				break;
-		}
-
+/*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
 			int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
 
@@ -266,9 +270,10 @@ void PlayState::updateInput(){
 				screenView.zoom(1.10f);
 			}
 		}
-
+*/
         m_game.desktop.HandleEvent( event );
 	}
+
 }
 
 void PlayState::stateChangeCleanup() {

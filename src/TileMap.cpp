@@ -52,6 +52,11 @@ void TileMap::generate(){
 				chosenBlockType = TileBlock::EMPTY;
 			}
 
+			int randNum2 = (rand() % 10) + 1;
+			if(randNum2  == 1){
+				chosenBlockType = TileBlock::TEST;
+			}
+
 			/* TILE GENERATION
 			 * For now I'm just creating an edge of grass and randomly populating the rest of the map
 			 * This should be procedurally generated at some point.
@@ -85,7 +90,7 @@ void TileMap::generate(){
 			sf::Vector2<int> v(x, y);
 			MapData.insert( std::pair<sf::Vector2<int>, Tile>(v, t) );
 		}
-	} 
+	}
 }
 
 sf::VertexArray TileMap::getGridLines(){
@@ -114,7 +119,7 @@ void TileMap::toggleGrid(){
 sf::VertexArray TileMap::getFloor(){
 	// http://gamedev.stackexchange.com/questions/97881/sfml-drawing-tiles-low-fps
 
-	sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4); // Pretty sure this is causing the low FPS. Do I need it in every loop iteration? 
+	sf::VertexArray tiles(sf::Quads, MAX_X*MAX_Y*4); // Pretty sure this is causing the low FPS. Do I need it in every loop iteration?
 
 	for (TileMatrix::const_iterator i = MapData.begin(); i != MapData.end(); ++i) {
 
