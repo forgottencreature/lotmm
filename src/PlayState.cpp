@@ -191,15 +191,18 @@ void PlayState::registerActions() {
     actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
     actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
     actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
-    actionMap["openMenu"] = Action(sf::Keyboard::M);
+    actionMap["openMenu"] = Action(sf::Keyboard::M, Action::PressOnce);
     actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
     actionMap["close"] = Action(sf::Event::Closed);
-    actionMap["escape"] = Action(sf::Keyboard::Escape);
+    actionMap["escape"] = Action(sf::Keyboard::Escape, Action::PressOnce);
 }
 
 void PlayState::updateInput(){
 
-	/* Key Bindings */
+    /* Poll the window for new events and update the actions */
+    actionMap.update(m_game.m_window);
+
+    /* Key Bindings */
 
     if(actionMap.isActive("up") && actionMap.isActive("dig")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
@@ -238,11 +241,9 @@ void PlayState::updateInput(){
         m_next = m_game.build<MenuState>( false );
     }
     if (actionMap.isActive("openDevConsole")){
-        std::cout << "pressed P" << std::endl;
         onHideWindowClicked();
     }
     if (actionMap.isActive("close")) {
-        std::cout << "pressed close" << std::endl;
         m_game.quit();
     }
     if (actionMap.isActive("escape")) {
