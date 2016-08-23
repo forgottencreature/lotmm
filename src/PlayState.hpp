@@ -38,6 +38,7 @@ class PlayState : public GameState{
 		Camera camera;
 
         thor::ActionMap<std::string> actionMap;
+        thor::ActionMap<std::string>::CallbackSystem callbackSystem;
 
 		sf::Texture m_bgTex;
 		sf::Sprite m_bg;
@@ -58,6 +59,8 @@ class PlayState : public GameState{
         void createDevConsole();
         void registerActions();
 		void stateChangeCleanup();
+
+        void onZoom(thor::ActionContext<std::string> context);
 
         void playerDamageScaleAdjustmentChange();
 		void wallResetAdjustmentChange();

@@ -199,6 +199,9 @@ void PlayState::registerActions() {
     actionMap["dig-down"] = actionMap["down"] && actionMap["dig"];
     actionMap["dig-left"] = actionMap["left"] && actionMap["dig"];
     actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
+    actionMap["zoom"] = Action(sf::Event::MouseWheelScrolled);
+
+    callbackSystem.connect("zoom", &PlayState::onZoom);
 }
 
 void PlayState::updateInput(){
@@ -262,6 +265,14 @@ void PlayState::updateInput(){
         stateChangeCleanup();
         m_next = m_game.build<MainMenuState>( true );
     }
+    /*
+    if(actionMap.isActive("zoom")) {
+        std::cout << "zooomed" << std::endl;
+    }
+    */
+    // Forward actions to callbacks
+    actionMap.invokeCallbacks(callbackSystem, &m_game.m_window);
+
 
 /*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
@@ -289,6 +300,9 @@ void PlayState::stateChangeCleanup() {
     wallResetAdjustment.reset();
     std::cout << "Desktop Cleanup" << std::endl;
 }
+
+
+/* SFGUI elements */
 
 void PlayState::playerDamageScaleAdjustmentChange() {
     std::stringstream sstr;
@@ -318,3 +332,23 @@ void PlayState::onHideWindowClicked() {
         devConsole_screen->Show(!devConsole_screen->IsLocallyVisible());
     }
 }
+
+/* End SFMLGUI elements */
+
+/* Thor System Callback Functions */
+
+void PlayState::onZoom(thor::ActionContext<std::string> context) {
+    sf::Event event = *context.event;
+    if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
+        int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
+
+        if(mouseWheelDelta > 0){
+            screenView.zoom(.90f);
+        }
+        else if(mouseWheelDelta < 0){
+            screenView.zoom(1.10f);
+        }
+    }
+}
+
+/* End Thor System Callback Function */
