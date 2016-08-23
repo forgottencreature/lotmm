@@ -168,11 +168,16 @@ sf::VertexArray TileMap::getBlocks(){
 		/* std::cout << "Mod : " << modification << std::endl; */
 		sf::Vector2<int> mod(modification,modification);
 
+		//Original Setup
+		tile[0].position = sf::Vector2f((t.getPosition() * Tile::WIDTH) + mod);
+ 		tile[1].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification + TileBlock::WIDTH , t.getY() * Tile::HEIGHT + modification );
+ 		tile[2].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification + TileBlock::WIDTH, (t.getY() * Tile::HEIGHT) + modification + TileBlock::HEIGHT);
+		tile[3].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification, (t.getY() * Tile::HEIGHT) + modification + TileBlock::HEIGHT);
 		/* tile[0].position = sf::Vector2f((t.getPosition() * Tile::WIDTH) + mod); */
-		tile[0].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification - blockAnimCount , t.getY() * Tile::HEIGHT + modification - blockAnimCount);
-		tile[1].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification + TileBlock::WIDTH +blockAnimCount , t.getY() * Tile::HEIGHT + modification +blockAnimCount );
-		tile[2].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification + TileBlock::WIDTH +blockAnimCount, (t.getY() * Tile::HEIGHT) + modification + TileBlock::HEIGHT +blockAnimCount);
-		tile[3].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification - blockAnimCount, (t.getY() * Tile::HEIGHT) + modification + TileBlock::HEIGHT + blockAnimCount);
+		/* tile[0].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification - blockAnimCount , t.getY() * Tile::HEIGHT + modification - blockAnimCount); */
+		/* tile[1].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification + TileBlock::WIDTH +blockAnimCount , t.getY() * Tile::HEIGHT + modification +blockAnimCount ); */
+		/* tile[2].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification + TileBlock::WIDTH +blockAnimCount, (t.getY() * Tile::HEIGHT) + modification + TileBlock::HEIGHT +blockAnimCount); */
+		/* tile[3].position = sf::Vector2f((t.getX() * Tile::WIDTH) + modification - blockAnimCount, (t.getY() * Tile::HEIGHT) + modification + TileBlock::HEIGHT + blockAnimCount); */
 
 		/* For now, set the color of the tile to that of the tile's floor */
 		tile[0].color = t.getBlock().getColor();
