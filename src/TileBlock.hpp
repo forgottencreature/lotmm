@@ -5,7 +5,7 @@
 
 class TileBlock{
 	public:
-		enum Type { EMPTY, STONE, PEAT, DIRT, SAND };
+		enum Type { EMPTY, STONE, PEAT, DIRT, SAND, TEST };
 
 		TileBlock();
 		virtual ~TileBlock();

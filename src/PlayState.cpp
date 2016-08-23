@@ -256,10 +256,10 @@ void PlayState::updateInput(){
         m_next = m_game.build<MainMenuState>( true );
     }
 
-    /*
+
 	sf::Event event;
 	while( m_game.m_window.pollEvent( event ) ){
-
+/*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
 			int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
 
@@ -270,10 +270,10 @@ void PlayState::updateInput(){
 				screenView.zoom(1.10f);
 			}
 		}
-
+*/
         m_game.desktop.HandleEvent( event );
 	}
-    */
+
 }
 
 void PlayState::stateChangeCleanup() {
