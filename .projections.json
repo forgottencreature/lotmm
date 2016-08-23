@@ -1,0 +1,5 @@
+{
+	"src/*.cpp": {"alternate": "src/{}.hpp"},
+	"src/*.hpp": {"alternate": "src/{}.cpp"},
+	"src/*": {"dispatch": "make && ./tilemap --dev"}
+}
