@@ -222,9 +222,11 @@ thor::UniversalEmitter* TileMap::removeBlock(sf::Vector2<int> gridPoint){
         std::cout << "broke a test block" << std::endl;
 
         // Create emitter that emits 30 particles per second, each of which lives for 5 seconds
-        thor::UniversalEmitter* emitter;
+        thor::UniversalEmitter* emitter = new thor::UniversalEmitter;
         emitter->setEmissionRate(30);
         emitter->setParticleLifetime(sf::seconds(5));
+
+				t->getBlock().setType(TileBlock::EMPTY);
 
         return emitter;
     }
@@ -254,7 +256,7 @@ thor::UniversalEmitter* TileMap::digBlock(sf::Vector2<int> gridPoint, int damage
 		int newAlpha = (currentColor.a > 0 && currentColor.a - t->getBlock().getHealth() / 12 > 0) ? currentColor.a - t->getBlock().getHealth() / 12 : currentColor.a;
 		t->getBlock().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
 
-        return nullptr;
+		return nullptr;
 	}
 }
 

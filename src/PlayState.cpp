@@ -250,7 +250,7 @@ void PlayState::updateInput(){
 	else if(actionMap.isActive("dig-right")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
-        emitter = tileMap.digBlock(newPos,player.damagePerTick);
+		emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
 
 
@@ -283,11 +283,12 @@ void PlayState::updateInput(){
 
 
     if(emitter != nullptr) {
-        //particleSystem.addEmitter(*emitter);
-        //emitter = nullptr;
+				thor::UniversalEmitter emit = *emitter;
+        particleSystem.addEmitter(emit);
+        emitter = nullptr;
     }
 
-    //delete emitter;
+    delete emitter;
 
 /*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
