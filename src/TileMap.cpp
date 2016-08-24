@@ -51,10 +51,12 @@ void TileMap::generate(){
 				chosenBlockType = TileBlock::EMPTY;
 			}
 
-			int randNum2 = (rand() % 10) + 1;
-			if(randNum2  == 1){
+            /*
+			int randNum2 = (rand() % 5) + 1;
+			if(randNum2  == 1 || 1==1){
 				chosenBlockType = TileBlock::TEST;
 			}
+            */
 
 			/* TILE GENERATION
 			 * For now I'm just creating an edge of grass and randomly populating the rest of the map
@@ -218,19 +220,20 @@ void TileMap::digFloor(sf::Vector2<int> gridPoint, int damagePerTick){
 thor::UniversalEmitter* TileMap::removeBlock(sf::Vector2<int> gridPoint){
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
-    if(t->getBlock().currentType == TileBlock::TEST) {
-        std::cout << "broke a test block" << std::endl;
-        t->getBlock().setType(TileBlock::EMPTY);
+    if(t->getBlock().currentType != TileBlock::EMPTY ) {
         // Create emitter that emits 30 particles per second, each of which lives for 5 seconds
         thor::UniversalEmitter* emitter = new thor::UniversalEmitter;
-        emitter->setEmissionRate(30);
-        emitter->setParticleLifetime(sf::seconds(5));
-        //emitter.setParticlePosition( window.mapPixelToCoords(sf::Mouse::getPosition(window)) );
-        thor::PolarVector2f velocity(200.f, -90.f);
-        emitter->setParticleVelocity( thor::Distributions::deflect(velocity, 10.f) );
+        sf::Color test = (t->getBlock().getColor() + sf::Color(100,100,100,255));
+        emitter->setParticleColor(test);
+        emitter->setParticlePosition(sf::Vector2<float>((.5 + t->getX()) * Tile::WIDTH,( 0.5 + t->getY()) *Tile::WIDTH));
+        emitter->setEmissionRate(100);
+        emitter->setParticleLifetime(sf::seconds(.8));
+        emitter->setParticleRotation( thor::Distributions::uniform(0.f, 360.f) );
 
-        //emitter->setParticlePosition( sf::Vector2<int>(500,500) );
+        thor::PolarVector2f velocity(400.f, -90.f);
+        emitter->setParticleVelocity( thor::Distributions::deflect(velocity, 180.f) );
 
+        t->getBlock().setType(TileBlock::EMPTY);
 
         return emitter;
     }

@@ -35,12 +35,12 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     registerActions();
 
     // lets create the texture we are going to use for particles
-    particleTexture.create(8,8);
-    sf::Uint8* pixels = new sf::Uint8[8 * 8 * 4]; // * 4 because pixels have 4 components (RGBA)
-    for(register int i = 0; i < 8*8*4; i += 4) {
+    particleTexture.create(6,6);
+    sf::Uint8* pixels = new sf::Uint8[6 * 6 * 4]; // * 4 because pixels have 4 components (RGBA)
+    for(register int i = 0; i < 6*6*4; i += 4) {
         pixels[i] = 255;
-        pixels[i+1] = 0;
-        pixels[i+2] = 0;
+        pixels[i+1] = 255;
+        pixels[i+2] = 255;
         pixels[i+3] = 255;
     }
 
@@ -50,6 +50,25 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     // now attach the texture to the particle system
     particleSystem.setTexture(particleTexture);
 
+    sf::Vector2f scaler(3.f,4.f);
+    thor::ScaleAffector scaleAffector(scaler);
+    particleSystem.addAffector(scaleAffector);
+
+    sf::Vector2f acceleration(-500.f, 0.f);
+    thor::ForceAffector gravityAffector(acceleration);
+    particleSystem.addAffector(gravityAffector);
+
+    /*
+    thor::ColorGradient gradient;
+    gradient[0.f] = sf::Color(0, 0, 0, 100);
+    //gradient[0.5f] = sf::Color(0, 150, 100);
+    gradient[1.f] = sf::Color(255, 255, 255, 100);
+    thor::ColorAnimation colorizer(gradient);
+    particleSystem.addAffector( thor::AnimationAffector(colorizer));
+    */
+
+    thor::FadeAnimation fader(0.1f, 0.1f);
+    particleSystem.addAffector( thor::AnimationAffector(fader));
 
     std::cout << "PlayState cpp Init" << std::endl;
 }
@@ -292,27 +311,11 @@ void PlayState::updateInput(){
 
 
     if(emitter != nullptr) {
-        sf::Vector2f sprite_pos = player.getSprite().getPosition();
-        emitter->setParticlePosition(m_game.m_window.mapPixelToCoords(sf::Vector2<int>(sprite_pos.x,sprite_pos.y)));
-        emitter->setParticleColor(sf::Color::Blue);
-        particleSystem.addEmitter(*emitter);
-
-        /*
-        thor::ColorGradient gradient;
-        gradient[0.f] = sf::Color(150, 150, 0);
-        gradient[0.5f] = sf::Color(0, 150, 100);
-        gradient[1.f] = sf::Color(255, 255, 150);
-        thor::ColorAnimation colorizer(gradient);
-        */
-
-        //thor::FadeAnimation fader(0.1f, 0.1f);
-        //particleSystem.addAffector( thor::AnimationAffector(colorizer) );
-        //particleSystem.addAffector( thor::AnimationAffector(fader) );
-
-        //emitter = nullptr;
+        particleSystem.addEmitter(*emitter,sf::seconds(.8));
+        emitter = nullptr;
     }
 
-    //delete emitter;
+    delete emitter;
 
 /*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
