@@ -64,40 +64,40 @@ endif()
 
 # Find the SFML include directory
 find_path(THOR_INCLUDE_DIR Thor/Config.hpp
-		  PATH_SUFFIXES include
-		  PATHS
-		  ${THOR_ROOT}
-		  $ENV{THOR_ROOT}
-		  /usr/local/
-		  /usr/
-		  /sw          # Fink
-		  /opt/local/  # DarwinPorts
-		  /opt/csw/    # Blastwave
-		  /opt/)
+		PATH_SUFFIXES include
+		PATHS
+		${THOR_ROOT}
+		$ENV{THOR_ROOT}
+		/usr/local/
+		/usr/
+		/sw          # Fink
+		/opt/local/  # DarwinPorts
+		/opt/csw/    # Blastwave
+		/opt/)
 
 # Find the requested modules
 set(THOR_FOUND TRUE) # will be set to false if one of the required modules is not found
 set(FINDTHOR_LIB_PATHS
-	${THOR_ROOT}
-	$ENV{THOR_ROOT}
-	/usr/local
-	/usr
-	/sw
-	/opt/local
-	/opt/csw
-	/opt)
+		${THOR_ROOT}
+		$ENV{THOR_ROOT}
+		/usr/local
+		/usr
+		/sw
+		/opt/local
+		/opt/csw
+		/opt)
 
 # Debug library
 find_library(THOR_LIBRARY_DEBUG
-			 NAMES thor${FINDTHOR_LIB_SUFFIX}-d
-			 PATH_SUFFIXES lib64 lib
-			 PATHS ${FINDTHOR_LIB_PATHS})
+		NAMES thor${FINDTHOR_LIB_SUFFIX}-d
+		PATH_SUFFIXES lib64 lib
+		PATHS ${FINDTHOR_LIB_PATHS})
 
 # Release library
 find_library(THOR_LIBRARY_RELEASE
-			 NAMES thor${FINDTHOR_LIB_SUFFIX}
-			 PATH_SUFFIXES lib64 lib
-			 PATHS ${FINDTHOR_LIB_PATHS})
+		NAMES thor${FINDTHOR_LIB_SUFFIX}
+		PATH_SUFFIXES lib64 lib
+		PATHS ${FINDTHOR_LIB_PATHS})
 
 if(THOR_LIBRARY_DEBUG OR THOR_LIBRARY_RELEASE)
 	# Library found
@@ -106,7 +106,7 @@ if(THOR_LIBRARY_DEBUG OR THOR_LIBRARY_RELEASE)
 	# If both are found, set THOR_LIBRARY to contain both
 	if(THOR_LIBRARY_DEBUG AND THOR_LIBRARY_RELEASE)
 		set(THOR_LIBRARY debug	 ${THOR_LIBRARY_DEBUG}
-						 optimized ${THOR_LIBRARY_RELEASE})
+				optimized ${THOR_LIBRARY_RELEASE})
 	endif()
 
 	# If only one debug/release variant is found, set the other to be equal to the found one
@@ -129,9 +129,9 @@ endif()
 
 # Mark variables as advanced
 mark_as_advanced(THOR_INCLUDE_DIR
-				 THOR_LIBRARY
-				 THOR_LIBRARY_RELEASE
-				 THOR_LIBRARY_DEBUG)
+		THOR_LIBRARY
+		THOR_LIBRARY_RELEASE
+		THOR_LIBRARY_DEBUG)
 
 # Result
 if(THOR_FOUND)
