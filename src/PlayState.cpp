@@ -32,111 +32,19 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
         createDevConsole();
     }
 
+    /* Register the player actions using Thor */
     registerActions();
 
-    // lets create the texture we are going to use for particles
-    particleTexture.create(6,6);
-    sf::Uint8* pixels = new sf::Uint8[6 * 6 * 4]; // * 4 because pixels have 4 components (RGBA)
-    for(register int i = 0; i < 6*6*4; i += 4) {
-        pixels[i] = 255;
-        pixels[i+1] = 255;
-        pixels[i+2] = 255;
-        pixels[i+3] = 255;
-    }
+    /* Create our texture for the particles */
+    createParticleTexture(6,6);
 
-
-    particleTexture.update(pixels);
-
-    // now attach the texture to the particle system
+    /* Attach the texture to the particle system */
     particleSystem.setTexture(particleTexture);
 
-    sf::Vector2f scaler(3.f,4.f);
-    thor::ScaleAffector scaleAffector(scaler);
-    particleSystem.addAffector(scaleAffector);
-
-    sf::Vector2f acceleration(-500.f, 0.f);
-    thor::ForceAffector gravityAffector(acceleration);
-    particleSystem.addAffector(gravityAffector);
-
-    /*
-    thor::ColorGradient gradient;
-    gradient[0.f] = sf::Color(0, 0, 0, 100);
-    //gradient[0.5f] = sf::Color(0, 150, 100);
-    gradient[1.f] = sf::Color(255, 255, 255, 100);
-    thor::ColorAnimation colorizer(gradient);
-    particleSystem.addAffector( thor::AnimationAffector(colorizer));
-    */
-
-    thor::FadeAnimation fader(0.1f, 0.1f);
-    particleSystem.addAffector( thor::AnimationAffector(fader));
+    /* Add neccessary asthetics to particles */
+    animateParticles();
 
     std::cout << "PlayState cpp Init" << std::endl;
-}
-
-void PlayState::createDevConsole() {
-    devConsole_screen = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND | sfg::Window::Style::CLOSE);
-    devConsole_screen->SetId("devConsole");
-    devConsole_screen->SetTitle("Dev Console");
-    devConsole_screen->SetPosition(sf::Vector2f(100.f,200.f));
-
-    auto box = sfg::Box::Create( sfg::Box::Orientation::VERTICAL );
-
-    auto resetBtn = sfg::Button::Create();
-    auto toggleGridBtn = sfg::Button::Create();
-    auto speedUpBtn = sfg::Button::Create();
-    auto slowDownBtn = sfg::Button::Create();
-    auto playerDamageScale = sfg::Scale::Create( sfg::Scale::Orientation::HORIZONTAL );
-    auto wallResetScale = sfg::Scale::Create( sfg::Scale::Orientation::HORIZONTAL );
-
-    playerDamageScaleLabel = sfg::Label::Create();
-    playerDamageScaleLabel->SetText( "Player Damage: " + std::to_string(player.damagePerTick) );
-
-    playerDamageAdjustment = playerDamageScale->GetAdjustment();
-    playerDamageAdjustment->SetValue(player.damagePerTick);
-    playerDamageAdjustment->SetLower( 0.f );
-    playerDamageAdjustment->SetUpper( 20.f );
-
-    wallResetScaleLabel = sfg::Label::Create();
-    wallResetScaleLabel->SetText( "Wall: " + std::to_string(wallReset) );
-
-    wallResetAdjustment = wallResetScale->GetAdjustment();
-    wallResetAdjustment->SetLower( 10.f );
-    wallResetAdjustment->SetUpper( 100.f );
-
-    playerDamageScale->SetRequisition( sf::Vector2f( 80.f, 20.f ) );
-    wallResetScale->SetRequisition( sf::Vector2f( 80.f, 20.f ) );
-
-    playerDamageAdjustment->GetSignal( sfg::Adjustment::OnChange ).Connect( std::bind( &PlayState::playerDamageScaleAdjustmentChange, this ) );
-    wallResetAdjustment->GetSignal( sfg::Adjustment::OnChange ).Connect( std::bind( &PlayState::wallResetAdjustmentChange, this ) );
-    resetBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onResetBtnClicked, this ) );
-    toggleGridBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onToggleGridBtnClicked, this ) );
-
-    resetBtn->SetLabel( "Reset to Origin" );
-    toggleGridBtn->SetLabel( "Toggle Grid" );
-    speedUpBtn->SetLabel( "Speed it Up" );
-    slowDownBtn->SetLabel( "Slow it Down" );
-
-    box->Pack(resetBtn);
-    box->Pack(toggleGridBtn);
-    box->Pack(speedUpBtn);
-    box->Pack(slowDownBtn);
-    box->Pack(playerDamageScaleLabel);
-    box->Pack(playerDamageScale);
-    box->Pack(wallResetScaleLabel);
-    box->Pack(wallResetScale);
-
-    box->SetSpacing( 5.f );
-
-    devConsole_screen->Add(box);
-
-    devConsole_canvas = sfg::Canvas::Create();
-    devConsole_screen->Add(devConsole_canvas);
-    devConsole_canvas->SetRequisition(sf::Vector2f(200.f,300.f));
-
-    m_game.desktop.Add(devConsole_screen);
-    m_game.desktop.Update(0.f);
-
-    devConsole_screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &PlayState::onHideWindowClicked, this ) );
 }
 
 void PlayState::pause(){
@@ -228,22 +136,6 @@ void PlayState::draw(){
 	m_game.m_window.display();
 }
 
-void PlayState::registerActions() {
-    actionMap["up"] = Action(sf::Keyboard::W, Action::Hold);
-    actionMap["down"] = Action(sf::Keyboard::S, Action::Hold);
-    actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
-    actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
-    actionMap["openMenu"] = Action(sf::Keyboard::M, Action::PressOnce);
-    actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
-    actionMap["close"] = Action(sf::Event::Closed);
-    actionMap["escape"] = Action(sf::Keyboard::Escape, Action::PressOnce);
-    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
-    actionMap["dig-up"] = actionMap["up"] && actionMap["dig"];
-    actionMap["dig-down"] = actionMap["down"] && actionMap["dig"];
-    actionMap["dig-left"] = actionMap["left"] && actionMap["dig"];
-    actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
-}
-
 void PlayState::updateInput(){
 
     // Clear events from last frame
@@ -309,7 +201,6 @@ void PlayState::updateInput(){
         m_next = m_game.build<MainMenuState>( true );
     }
 
-
     if(emitter != nullptr) {
         particleSystem.addEmitter(*emitter,sf::seconds(.8));
         emitter = nullptr;
@@ -330,6 +221,128 @@ void PlayState::updateInput(){
 		}
 */
 
+}
+
+void PlayState::registerActions() {
+    actionMap["up"] = Action(sf::Keyboard::W, Action::Hold);
+    actionMap["down"] = Action(sf::Keyboard::S, Action::Hold);
+    actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
+    actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
+    actionMap["openMenu"] = Action(sf::Keyboard::M, Action::PressOnce);
+    actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
+    actionMap["close"] = Action(sf::Event::Closed);
+    actionMap["escape"] = Action(sf::Keyboard::Escape, Action::PressOnce);
+    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
+    actionMap["dig-up"] = actionMap["up"] && actionMap["dig"];
+    actionMap["dig-down"] = actionMap["down"] && actionMap["dig"];
+    actionMap["dig-left"] = actionMap["left"] && actionMap["dig"];
+    actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
+}
+
+void PlayState::createParticleTexture(int w, int h) {
+    /* Create an empty texture of specified size */
+    particleTexture.create(w,h);
+
+    /* 4 because pixels have 4 components (RGBA) */
+    sf::Uint8* pixels = new sf::Uint8[w * h * 4];
+
+    /* Add color to the pixels */
+    for(register int i = 0; i < w*h*4; i += 4) {
+        pixels[i] = 255;
+        pixels[i+1] = 255;
+        pixels[i+2] = 255;
+        pixels[i+3] = 255;
+    }
+
+    particleTexture.update(pixels);
+}
+
+void PlayState::animateParticles() {
+    sf::Vector2f scaler(3.f,4.f);
+    thor::ScaleAffector scaleAffector(scaler);
+    particleSystem.addAffector(scaleAffector);
+
+    sf::Vector2f acceleration(-500.f, 0.f);
+    thor::ForceAffector gravityAffector(acceleration);
+    particleSystem.addAffector(gravityAffector);
+
+    thor::FadeAnimation fader(0.1f, 0.1f);
+    particleSystem.addAffector( thor::AnimationAffector(fader));
+
+    /*
+    thor::ColorGradient gradient;
+    gradient[0.f] = sf::Color(0, 0, 0, 100);
+    //gradient[0.5f] = sf::Color(0, 150, 100);
+    gradient[1.f] = sf::Color(255, 255, 255, 100);
+    thor::ColorAnimation colorizer(gradient);
+    particleSystem.addAffector( thor::AnimationAffector(colorizer));
+    */
+}
+
+void PlayState::createDevConsole() {
+    devConsole_screen = sfg::Window::Create(sfg::Window::Style::TITLEBAR | sfg::Window::Style::BACKGROUND | sfg::Window::Style::CLOSE);
+    devConsole_screen->SetId("devConsole");
+    devConsole_screen->SetTitle("Dev Console");
+    devConsole_screen->SetPosition(sf::Vector2f(100.f,200.f));
+
+    auto box = sfg::Box::Create( sfg::Box::Orientation::VERTICAL );
+
+    auto resetBtn = sfg::Button::Create();
+    auto toggleGridBtn = sfg::Button::Create();
+    auto speedUpBtn = sfg::Button::Create();
+    auto slowDownBtn = sfg::Button::Create();
+    auto playerDamageScale = sfg::Scale::Create( sfg::Scale::Orientation::HORIZONTAL );
+    auto wallResetScale = sfg::Scale::Create( sfg::Scale::Orientation::HORIZONTAL );
+
+    playerDamageScaleLabel = sfg::Label::Create();
+    playerDamageScaleLabel->SetText( "Player Damage: " + std::to_string(player.damagePerTick) );
+
+    playerDamageAdjustment = playerDamageScale->GetAdjustment();
+    playerDamageAdjustment->SetValue(player.damagePerTick);
+    playerDamageAdjustment->SetLower( 0.f );
+    playerDamageAdjustment->SetUpper( 20.f );
+
+    wallResetScaleLabel = sfg::Label::Create();
+    wallResetScaleLabel->SetText( "Wall: " + std::to_string(wallReset) );
+
+    wallResetAdjustment = wallResetScale->GetAdjustment();
+    wallResetAdjustment->SetLower( 10.f );
+    wallResetAdjustment->SetUpper( 100.f );
+
+    playerDamageScale->SetRequisition( sf::Vector2f( 80.f, 20.f ) );
+    wallResetScale->SetRequisition( sf::Vector2f( 80.f, 20.f ) );
+
+    playerDamageAdjustment->GetSignal( sfg::Adjustment::OnChange ).Connect( std::bind( &PlayState::playerDamageScaleAdjustmentChange, this ) );
+    wallResetAdjustment->GetSignal( sfg::Adjustment::OnChange ).Connect( std::bind( &PlayState::wallResetAdjustmentChange, this ) );
+    resetBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onResetBtnClicked, this ) );
+    toggleGridBtn->GetSignal( sfg::Window::OnLeftClick ).Connect( std::bind( &PlayState::onToggleGridBtnClicked, this ) );
+
+    resetBtn->SetLabel( "Reset to Origin" );
+    toggleGridBtn->SetLabel( "Toggle Grid" );
+    speedUpBtn->SetLabel( "Speed it Up" );
+    slowDownBtn->SetLabel( "Slow it Down" );
+
+    box->Pack(resetBtn);
+    box->Pack(toggleGridBtn);
+    box->Pack(speedUpBtn);
+    box->Pack(slowDownBtn);
+    box->Pack(playerDamageScaleLabel);
+    box->Pack(playerDamageScale);
+    box->Pack(wallResetScaleLabel);
+    box->Pack(wallResetScale);
+
+    box->SetSpacing( 5.f );
+
+    devConsole_screen->Add(box);
+
+    devConsole_canvas = sfg::Canvas::Create();
+    devConsole_screen->Add(devConsole_canvas);
+    devConsole_canvas->SetRequisition(sf::Vector2f(200.f,300.f));
+
+    m_game.desktop.Add(devConsole_screen);
+    m_game.desktop.Update(0.f);
+
+    devConsole_screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &PlayState::onHideWindowClicked, this ) );
 }
 
 void PlayState::stateChangeCleanup() {

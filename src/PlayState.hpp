@@ -61,6 +61,8 @@ class PlayState : public GameState{
 		sfg::Label::Ptr wallResetScaleLabel;
 		sfg::Adjustment::Ptr wallResetAdjustment;
 
+        void createParticleTexture(int w, int h);
+        void animateParticles();
         void createDevConsole();
         void registerActions();
 		void stateChangeCleanup();
