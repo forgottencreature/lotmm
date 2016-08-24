@@ -201,7 +201,8 @@ void PlayState::registerActions() {
     actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
     actionMap["zoom"] = Action(sf::Event::MouseWheelScrolled);
 
-    callbackSystem.connect("zoom", &onZoom);
+    //callbackSystem.connect("zoom", &PlayState::onZoom);
+    callbackSystem.connect("zoom", ZoomAction(screenView));
 }
 
 void PlayState::updateInput(){
@@ -336,14 +337,14 @@ void PlayState::onHideWindowClicked() {
 /* End SFMLGUI elements */
 
 /* Thor System Callback Functions */
-
-void PlayState::onZoom(thor::ActionContext<std::string> context) {
+/*
+void PlayState::onZoom(thor::ActionContext<std::string> context, sf::View& screenView) {
     sf::Event event = *context.event;
+
     if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
         int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
 
         if(mouseWheelDelta > 0){
-            *context.window.
             //screenView.zoom(.90f);
         }
         else if(mouseWheelDelta < 0){
@@ -351,5 +352,5 @@ void PlayState::onZoom(thor::ActionContext<std::string> context) {
         }
     }
 }
-
+*/
 /* End Thor System Callback Function */

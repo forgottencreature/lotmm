@@ -15,6 +15,32 @@ class GameEngine;
 
 using thor::Action;
 
+struct ZoomAction
+{
+    explicit ZoomAction(sf::View& screenView)
+    : screenView(screenView)
+    {
+    }
+
+    void operator() (thor::ActionContext<std::string> context)
+    {
+        sf::Event event = *context.event;
+
+        if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
+            int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
+
+            if(mouseWheelDelta > 0){
+                screenView.zoom(.90f);
+            }
+            else if(mouseWheelDelta < 0){
+                screenView.zoom(1.10f);
+            }
+        }
+    }
+
+    sf::View& screenView;
+};
+
 class PlayState : public GameState{
 	public:
 
@@ -60,7 +86,7 @@ class PlayState : public GameState{
         void registerActions();
 		void stateChangeCleanup();
 
-        static void onZoom(thor::ActionContext<std::string> context);
+        //static void onZoom(thor::ActionContext<std::string> context, sf::View& screenView);
 
         void playerDamageScaleAdjustmentChange();
 		void wallResetAdjustmentChange();
