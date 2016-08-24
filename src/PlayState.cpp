@@ -201,7 +201,6 @@ void PlayState::registerActions() {
     actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
     actionMap["zoom"] = Action(sf::Event::MouseWheelScrolled);
 
-    //callbackSystem.connect("zoom", &PlayState::onZoom);
     callbackSystem.connect("zoom", ZoomAction(screenView));
 }
 
@@ -266,27 +265,9 @@ void PlayState::updateInput(){
         stateChangeCleanup();
         m_next = m_game.build<MainMenuState>( true );
     }
-    /*
-    if(actionMap.isActive("zoom")) {
-        std::cout << "zooomed" << std::endl;
-    }
-    */
+
     // Forward actions to callbacks
     actionMap.invokeCallbacks(callbackSystem, &m_game.m_window);
-
-
-/*
-		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
-			int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
-
-			if(mouseWheelDelta > 0){
-				screenView.zoom(.90f);
-			}
-			else if(mouseWheelDelta < 0){
-				screenView.zoom(1.10f);
-			}
-		}
-*/
 
 }
 
@@ -338,19 +319,8 @@ void PlayState::onHideWindowClicked() {
 
 /* Thor System Callback Functions */
 /*
-void PlayState::onZoom(thor::ActionContext<std::string> context, sf::View& screenView) {
+void PlayState::onZoom(thor::ActionContext<std::string> context) {
     sf::Event event = *context.event;
-
-    if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
-        int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
-
-        if(mouseWheelDelta > 0){
-            //screenView.zoom(.90f);
-        }
-        else if(mouseWheelDelta < 0){
-            //screenView.zoom(1.10f);
-        }
-    }
 }
 */
 /* End Thor System Callback Function */
