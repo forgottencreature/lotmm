@@ -30,7 +30,17 @@ find_package(SFGUI REQUIRED)
 if (SFGUI_FOUND)
     message("Found SFGUI...")
     include_directories(${SFGUI_INCLUDE_DIR} ${SFGUI_INCLUDE_DIRS}) # Do I need dir and dirs?
-    target_link_libraries(${PROJECT_NAME} -lsfgui -lthor)
+    target_link_libraries(${PROJECT_NAME} -lsfgui)
 else ()
     message(FATAL_ERROR "Could not locate SFGUI!")
 endif (SFGUI_FOUND)
+
+# THOR Stuff
+find_package(THOR REQUIRED)
+if (THOR_FOUND)
+    message("Found THOR...")
+    include_directories(${THOR_INCLUDE_DIR} ${THOR_INCLUDE_DIRS}) # Do I need dir and dirs?
+    target_link_libraries(${PROJECT_NAME} -lthor)
+else()
+    message(FATAL_ERROR "Could not locate THOR!")
+endif(THOR_FOUND)
