@@ -136,6 +136,25 @@ void PlayState::draw(){
 	m_game.m_window.display();
 }
 
+void PlayState::registerActions() {
+    actionMap["up"] = Action(sf::Keyboard::W, Action::Hold);
+    actionMap["down"] = Action(sf::Keyboard::S, Action::Hold);
+    actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
+    actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
+    actionMap["openMenu"] = Action(sf::Keyboard::M, Action::PressOnce);
+    actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
+    actionMap["close"] = Action(sf::Event::Closed);
+    actionMap["escape"] = Action(sf::Keyboard::Escape, Action::PressOnce);
+    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
+    actionMap["dig-up"] = actionMap["up"] && actionMap["dig"];
+    actionMap["dig-down"] = actionMap["down"] && actionMap["dig"];
+    actionMap["dig-left"] = actionMap["left"] && actionMap["dig"];
+    actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
+    actionMap["zoom"] = Action(sf::Event::MouseWheelScrolled);
+
+    callbackSystem.connect("zoom", ZoomAction(screenView));
+}
+
 void PlayState::updateInput(){
 
     // Clear events from last frame
@@ -201,6 +220,8 @@ void PlayState::updateInput(){
         m_next = m_game.build<MainMenuState>( true );
     }
 
+    actionMap.invokeCallbacks(callbackSystem, &m_game.m_window);
+
     if(emitter != nullptr) {
         particleSystem.addEmitter(*emitter,sf::seconds(.8));
         emitter = nullptr;
@@ -208,35 +229,6 @@ void PlayState::updateInput(){
 
     delete emitter;
 
-/*
-		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){
-			int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
-
-			if(mouseWheelDelta > 0){
-				screenView.zoom(.90f);
-			}
-			else if(mouseWheelDelta < 0){
-				screenView.zoom(1.10f);
-			}
-		}
-*/
-
-}
-
-void PlayState::registerActions() {
-    actionMap["up"] = Action(sf::Keyboard::W, Action::Hold);
-    actionMap["down"] = Action(sf::Keyboard::S, Action::Hold);
-    actionMap["left"] = Action(sf::Keyboard::A, Action::Hold);
-    actionMap["right"] = Action(sf::Keyboard::D, Action::Hold);
-    actionMap["openMenu"] = Action(sf::Keyboard::M, Action::PressOnce);
-    actionMap["openDevConsole"] = Action(sf::Keyboard::P, Action::PressOnce);
-    actionMap["close"] = Action(sf::Event::Closed);
-    actionMap["escape"] = Action(sf::Keyboard::Escape, Action::PressOnce);
-    actionMap["dig"] = Action(sf::Keyboard::Space, Action::Hold);
-    actionMap["dig-up"] = actionMap["up"] && actionMap["dig"];
-    actionMap["dig-down"] = actionMap["down"] && actionMap["dig"];
-    actionMap["dig-left"] = actionMap["left"] && actionMap["dig"];
-    actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
 }
 
 void PlayState::createParticleTexture(int w, int h) {
@@ -357,6 +349,9 @@ void PlayState::stateChangeCleanup() {
     std::cout << "Desktop Cleanup" << std::endl;
 }
 
+
+/* SFGUI elements */
+
 void PlayState::playerDamageScaleAdjustmentChange() {
     std::stringstream sstr;
     sstr << playerDamageAdjustment->GetValue();
@@ -385,3 +380,13 @@ void PlayState::onHideWindowClicked() {
         devConsole_screen->Show(!devConsole_screen->IsLocallyVisible());
     }
 }
+
+/* End SFMLGUI elements */
+
+/* Thor System Callback Functions */
+/*
+void PlayState::onZoom(thor::ActionContext<std::string> context) {
+    sf::Event event = *context.event;
+}
+*/
+/* End Thor System Callback Function */
