@@ -201,7 +201,7 @@ void PlayState::registerActions() {
     actionMap["dig-right"] = actionMap["right"] && actionMap["dig"];
     actionMap["zoom"] = Action(sf::Event::MouseWheelScrolled);
 
-    callbackSystem.connect("zoom", &PlayState::onZoom);
+    callbackSystem.connect("zoom", &onZoom);
 }
 
 void PlayState::updateInput(){
@@ -343,10 +343,11 @@ void PlayState::onZoom(thor::ActionContext<std::string> context) {
         int mouseWheelDelta = (int) event.mouseWheelScroll.delta;
 
         if(mouseWheelDelta > 0){
-            screenView.zoom(.90f);
+            *context.window.
+            //screenView.zoom(.90f);
         }
         else if(mouseWheelDelta < 0){
-            screenView.zoom(1.10f);
+            //screenView.zoom(1.10f);
         }
     }
 }

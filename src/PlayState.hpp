@@ -60,7 +60,7 @@ class PlayState : public GameState{
         void registerActions();
 		void stateChangeCleanup();
 
-        void onZoom(thor::ActionContext<std::string> context);
+        static void onZoom(thor::ActionContext<std::string> context);
 
         void playerDamageScaleAdjustmentChange();
 		void wallResetAdjustmentChange();
