@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 #include <Thor/Input.hpp>
 #include <Thor/Particles.hpp>
+#include <Thor/Animations.hpp>
 #include "GameState.hpp"
 #include "TextureManager.hpp"
 #include "TileMap.hpp"
@@ -40,7 +41,6 @@ class PlayState : public GameState{
 
         thor::ActionMap<std::string> actionMap;
         thor::ParticleSystem particleSystem;
-        thor::UniversalEmitter particleEmitter;
 
         sf::Clock particleClock;
 

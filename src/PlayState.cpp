@@ -35,13 +35,40 @@ PlayState::PlayState( GameEngine& game, bool replace ) : GameState( game, replac
     registerActions();
 
     // lets create the texture we are going to use for particles
-    particleTexture.create(8,8);
-    sf::Uint8* pixels = new sf::Uint8[8 * 8 * 4]; // * 4 because pixels have 4 components (RGBA)
+    particleTexture.create(6,6);
+    sf::Uint8* pixels = new sf::Uint8[6 * 6 * 4]; // * 4 because pixels have 4 components (RGBA)
+    for(register int i = 0; i < 6*6*4; i += 4) {
+        pixels[i] = 255;
+        pixels[i+1] = 255;
+        pixels[i+2] = 255;
+        pixels[i+3] = 255;
+    }
+
+
     particleTexture.update(pixels);
 
     // now attach the texture to the particle system
     particleSystem.setTexture(particleTexture);
 
+    sf::Vector2f scaler(3.f,4.f);
+    thor::ScaleAffector scaleAffector(scaler);
+    particleSystem.addAffector(scaleAffector);
+
+    sf::Vector2f acceleration(-500.f, 0.f);
+    thor::ForceAffector gravityAffector(acceleration);
+    particleSystem.addAffector(gravityAffector);
+
+    /*
+    thor::ColorGradient gradient;
+    gradient[0.f] = sf::Color(0, 0, 0, 100);
+    //gradient[0.5f] = sf::Color(0, 150, 100);
+    gradient[1.f] = sf::Color(255, 255, 255, 100);
+    thor::ColorAnimation colorizer(gradient);
+    particleSystem.addAffector( thor::AnimationAffector(colorizer));
+    */
+
+    thor::FadeAnimation fader(0.1f, 0.1f);
+    particleSystem.addAffector( thor::AnimationAffector(fader));
 
     std::cout << "PlayState cpp Init" << std::endl;
 }
@@ -120,6 +147,9 @@ void PlayState::resume(){
 
 void PlayState::update(){
 
+    // Update particle system
+    particleSystem.update(particleClock.restart());
+
 	//Delay 100 ticks for wall move
 	wallCount--;
 	if(wallCount<=0){
@@ -157,8 +187,6 @@ void PlayState::update(){
 
 	PlayState::updateInput();
 
-    // Update particle system
-    particleSystem.update(particleClock.restart());
 }
 
 void PlayState::draw(){
@@ -230,26 +258,29 @@ void PlayState::updateInput(){
 
     /* Key Bindings */
 
+    thor::UniversalEmitter* emitter = nullptr;
+
     if(actionMap.isActive("dig-up")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y-1);
-		tileMap.digBlock(newPos,player.damagePerTick);
+		emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(actionMap.isActive("dig-left")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x-1,pos.y);
-		tileMap.digBlock(newPos,player.damagePerTick);
+        emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(actionMap.isActive("dig-down")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x,pos.y+1);
-		tileMap.digBlock(newPos,player.damagePerTick);
+        emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
 	else if(actionMap.isActive("dig-right")){
 		sf::Vector2<int> pos = player.getCurrentGridPosition();
 		sf::Vector2<int> newPos = sf::Vector2<int>(pos.x+1,pos.y);
-		tileMap.digBlock(newPos,player.damagePerTick);
+		emitter = tileMap.digBlock(newPos,player.damagePerTick);
 	}
+
 
     if (actionMap.isActive("left")){
         player.setMovement("LEFT");
@@ -277,6 +308,14 @@ void PlayState::updateInput(){
         stateChangeCleanup();
         m_next = m_game.build<MainMenuState>( true );
     }
+
+
+    if(emitter != nullptr) {
+        particleSystem.addEmitter(*emitter,sf::seconds(.8));
+        emitter = nullptr;
+    }
+
+    delete emitter;
 
 /*
 		if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel){

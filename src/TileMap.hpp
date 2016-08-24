@@ -2,6 +2,9 @@
 #define TILEMAP_HPP
 #include "Tile.hpp"
 #include "Player.hpp"
+#include <Thor/Particles.hpp>
+#include <Thor/Vectors/PolarVector2.hpp>
+#include <Thor/Math/Distributions.hpp>
 
 class Player;
 
@@ -28,8 +31,8 @@ class TileMap
 		void removeFloor(sf::Vector2<int> gridPoint);
 		void digFloor(sf::Vector2<int> gridPoint, int damagePerTick);
 
-		void removeBlock(sf::Vector2<int> gridPoint);
-		void digBlock(sf::Vector2<int> gridPoint, int damagePerTick);
+        thor::UniversalEmitter* removeBlock(sf::Vector2<int> gridPoint);
+        thor::UniversalEmitter* digBlock(sf::Vector2<int> gridPoint, int damagePerTick);
 
 		Tile* getTileByGridPoint(sf::Vector2<int> gridPoint);
 		Tile* getTileByGridPoint(sf::Vector2<int> gridPoint, Direction dir);

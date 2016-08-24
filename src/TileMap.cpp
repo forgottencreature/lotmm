@@ -2,7 +2,6 @@
 #include <math.h>
 #include "TileMap.hpp"
 
-
 TileMap::TileMap(){
 	/* 
 		 Pretty sure this is causing the low FPS. Don't have to draw entire tire map
@@ -52,10 +51,12 @@ void TileMap::generate(){
 				chosenBlockType = TileBlock::EMPTY;
 			}
 
-			int randNum2 = (rand() % 10) + 1;
-			if(randNum2  == 1){
+            /*
+			int randNum2 = (rand() % 5) + 1;
+			if(randNum2  == 1 || 1==1){
 				chosenBlockType = TileBlock::TEST;
 			}
+            */
 
 			/* TILE GENERATION
 			 * For now I'm just creating an edge of grass and randomly populating the rest of the map
@@ -216,25 +217,38 @@ void TileMap::digFloor(sf::Vector2<int> gridPoint, int damagePerTick){
 	}
 }
 
-void TileMap::removeBlock(sf::Vector2<int> gridPoint){
+thor::UniversalEmitter* TileMap::removeBlock(sf::Vector2<int> gridPoint){
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
-    if(t->getBlock().currentType == TileBlock::TEST) {
-        std::cout << "broke a test block" << std::endl;
+    if(t->getBlock().currentType != TileBlock::EMPTY ) {
+        // Create emitter that emits 30 particles per second, each of which lives for 5 seconds
+        thor::UniversalEmitter* emitter = new thor::UniversalEmitter;
+        sf::Color test = (t->getBlock().getColor() + sf::Color(100,100,100,255));
+        emitter->setParticleColor(test);
+        emitter->setParticlePosition(sf::Vector2<float>((.5 + t->getX()) * Tile::WIDTH,( 0.5 + t->getY()) *Tile::WIDTH));
+        emitter->setEmissionRate(100);
+        emitter->setParticleLifetime(sf::seconds(.8));
+        emitter->setParticleRotation( thor::Distributions::uniform(0.f, 360.f) );
+
+        thor::PolarVector2f velocity(400.f, -90.f);
+        emitter->setParticleVelocity( thor::Distributions::deflect(velocity, 180.f) );
+
+        t->getBlock().setType(TileBlock::EMPTY);
+
+        return emitter;
     }
 
-	TileBlock::Type newType;
-	newType = TileBlock::EMPTY;
+    t->getBlock().setType(TileBlock::EMPTY);
 
-	t->getBlock().setType(newType);
+    return nullptr;
 }
 
-void TileMap::digBlock(sf::Vector2<int> gridPoint, int damagePerTick){
+thor::UniversalEmitter* TileMap::digBlock(sf::Vector2<int> gridPoint, int damagePerTick){
 	/* Get the tile we're destroying */
 	Tile* t = TileMap::getTileByGridPoint(gridPoint);
 
 	if(t->getBlock().getHealth() <= 0){
-		TileMap::removeBlock(gridPoint);
+		return TileMap::removeBlock(gridPoint);
 	}
 	else{
 		t->getBlock().setHealth(t->getBlock().getHealth() - damagePerTick * t->getBlock().getHardness());
@@ -245,6 +259,8 @@ void TileMap::digBlock(sf::Vector2<int> gridPoint, int damagePerTick){
 		/* Modify the transparency to give it the effect of breaking */
 		int newAlpha = (currentColor.a > 0 && currentColor.a - t->getBlock().getHealth() / 12 > 0) ? currentColor.a - t->getBlock().getHealth() / 12 : currentColor.a;
 		t->getBlock().setColor(sf::Color(currentColor.r,currentColor.g,currentColor.b,newAlpha));
+
+		return nullptr;
 	}
 }
 
