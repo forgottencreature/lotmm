@@ -56,6 +56,9 @@ class GameEngine{
 
         void OnHideWindowClicked();
 
+				bool getWonGame() const {return m_wonGame;}
+				void setWonGame( bool win ){ m_wonGame = win;}
+
 	private:
 		// the stack of states
 		std::stack<std::unique_ptr<GameState> > m_states;
@@ -63,6 +66,8 @@ class GameEngine{
 
 		bool m_running;
 		bool m_fullscreen;
+
+		bool m_wonGame=false;
 
         bool m_devMode = false;
 };

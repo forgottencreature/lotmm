@@ -6,6 +6,7 @@
 
 #include "PlayState.hpp"
 #include "MainMenuState.hpp"
+#include "GameOverState.hpp"
 #include "MenuState.hpp"
 
 
@@ -80,15 +81,17 @@ void PlayState::update(){
 		}
 		// Player is at or behind wall, game over
 		if(player.getCurrentGridPosition().x <= wall){
+			m_game.setWonGame(false);
 			m_music.stop();
 			stateChangeCleanup();
-			m_next = m_game.build<MainMenuState>( true );
+			m_next = m_game.build<GameOverState>( true );
 		}
 		//Player got to the right, win game!
 		else if(player.getCurrentGridPosition().x == TileMap::MAX_X - 1){
+			m_game.setWonGame(true);
 			m_music.stop();
 			stateChangeCleanup();
-			m_next = m_game.build<MainMenuState>( true );
+			m_next = m_game.build<GameOverState>( true );
 		}
 
 		//Subtract our per fram time from the accumulator
