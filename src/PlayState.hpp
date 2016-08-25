@@ -83,6 +83,7 @@ class PlayState : public GameState{
 		const float dTime = 0.01f;
 		float currentTime;
 		float timeAccumulator = 0.0f;
+		float frameTime = 0.0f;
 		
 
 		std::shared_ptr<sfg::Window> devConsole_screen;

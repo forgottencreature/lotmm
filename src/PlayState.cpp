@@ -63,7 +63,7 @@ void PlayState::update(){
     m_game.desktop.BringToFront(devConsole_screen);
 
 	float elapsedTime = gameClock.restart().asSeconds();
-	float frameTime = elapsedTime;
+	frameTime = elapsedTime;
 	timeAccumulator+=frameTime;
 
 	//While we're behind in physics keep updating, or if we are ahead and don't need to, don't.
@@ -348,7 +348,7 @@ void PlayState::createDevConsole() {
     devConsole_canvas->SetRequisition(sf::Vector2f(200.f,300.f));
 
     m_game.desktop.Add(devConsole_screen);
-    m_game.desktop.Update(0.f);
+    m_game.desktop.Update(frameTime);
 
     devConsole_screen->GetSignal( sfg::Window::OnCloseButton ).Connect( std::bind( &PlayState::onHideWindowClicked, this ) );
 }
