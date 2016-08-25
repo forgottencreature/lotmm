@@ -80,6 +80,10 @@ class PlayState : public GameState{
 		sf::Music m_music;
 
 		float time;
+		const float dTime = 0.01f;
+		float currentTime;
+		float timeAccumulator = 0.0f;
+		
 
 		std::shared_ptr<sfg::Window> devConsole_screen;
 		std::shared_ptr<sfg::Canvas> devConsole_canvas;

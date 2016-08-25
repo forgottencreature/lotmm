@@ -26,9 +26,13 @@ public:
     void update(TileMap* m, float t);
 
     sf::Vector2<int> getCurrentGridPosition();
+		sf::Vector2<int> getDesiredMovement();
 
     /* Rate at which tile takes damage */
     int damagePerTick = 5;
+		int movementAccumulator = 0;
+		/* This period is how many frames it takes to move */
+		int movementPeriod = 25;
 
 private:
     float speed = 3.0f;

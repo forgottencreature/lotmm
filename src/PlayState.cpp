@@ -58,30 +58,43 @@ void PlayState::update(){
     // Update particle system
     particleSystem.update(particleClock.restart());
 
-	//Delay 100 ticks for wall move
-	wallCount--;
-	if(wallCount<=0){
-		wall++;
-		wallCount=wallReset;
-	}
 
     /* Need this line to force the dev console to top, regardless of focus */
     m_game.desktop.BringToFront(devConsole_screen);
 
 	float elapsedTime = gameClock.restart().asSeconds();
+	float frameTime = elapsedTime;
+	timeAccumulator+=frameTime;
 
-	player.update(&tileMap,elapsedTime);
+	//While we're behind in physics keep updating, or if we are ahead and don't need to, don't.
+	//Put all the updating here
+	while(timeAccumulator >= dTime){
 
-	// Player is at or behind wall, game over
-	if(player.getCurrentGridPosition().x <= wall){
-		m_music.stop();
-		stateChangeCleanup();
-		m_next = m_game.build<MainMenuState>( true );
-	}
-	else if(player.getCurrentGridPosition().x == TileMap::MAX_X - 1){
-		m_music.stop();
-		stateChangeCleanup();
-		m_next = m_game.build<MainMenuState>( true );
+		player.update(&tileMap,elapsedTime);
+
+		//Delay 100 ticks for wall move
+		wallCount--;
+		if(wallCount<=0){
+			wall++;
+			wallCount=wallReset;
+		}
+		// Player is at or behind wall, game over
+		if(player.getCurrentGridPosition().x <= wall){
+			m_music.stop();
+			stateChangeCleanup();
+			m_next = m_game.build<MainMenuState>( true );
+		}
+		//Player got to the right, win game!
+		else if(player.getCurrentGridPosition().x == TileMap::MAX_X - 1){
+			m_music.stop();
+			stateChangeCleanup();
+			m_next = m_game.build<MainMenuState>( true );
+		}
+
+		//Subtract our per fram time from the accumulator
+		timeAccumulator-=dTime;
+		//Total time running, might want in frames too?
+		time+=dTime;
 	}
 
 	/* Setting the camera to follow the player */
@@ -196,15 +209,18 @@ void PlayState::updateInput(){
     if (actionMap.isActive("left")){
         player.setMovement("LEFT");
     }
-    if (actionMap.isActive("down")){
+    else if (actionMap.isActive("down")){
         player.setMovement("DOWN");
     }
-    if (actionMap.isActive("right")){
+		else if (actionMap.isActive("right")){
         player.setMovement("RIGHT");
     }
-    if (actionMap.isActive("up")){
+		else if (actionMap.isActive("up")){
         player.setMovement("UP");
     }
+		else{
+			player.setMovement("NEUTRAL");
+		}
     if (actionMap.isActive("openMenu")){
         m_next = m_game.build<MenuState>( false );
     }

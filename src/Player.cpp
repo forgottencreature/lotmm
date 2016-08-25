@@ -29,39 +29,73 @@ sf::RectangleShape Player::getSprite()
 	return playerSprite;
 }
 
-void Player::update(TileMap* m, float t){
-	Player::move(m);
+sf::Vector2<int> Player::getDesiredMovement(){
+	return desiredGridMovement;
 }
+
+void Player::update(TileMap* m, float dt){
+
+	//If movement accumulator(frames) is greater than our period, move.
+	if(movementAccumulator >= movementPeriod){ 
+		move(m);
+	}
+	movementAccumulator+=1;
+}
+
+void Player::move(TileMap* m){
+	//Check where character is going to move, if valid allow.
+	//Was a direction pressed for which way to go?
+	if(desiredGridMovement != sf::Vector2<int>(0,0)){
+		//Is the desired direction now that it isn't 0,0 in the map?
+		if(checkTileMapBounds()){
+	std::cout << movementAccumulator << std::endl;
+			//Is the desired movement a passable block?
+			if(checkTileFloorCollision(m)){
+				previousGridPosition=currentGridPosition;
+				currentGridPosition+=desiredGridMovement;
+				desiredGridMovement=sf::Vector2<int>(0,0);
+				//Set the move accumulator now so that we don't lose movement when not moving
+				movementAccumulator=-1;
+			}
+		}
+	}
+	//Change sprite position accordingly for now, it will be jumpy till animation is added for the sprite
+	playerSprite.setPosition(gridToCoord(currentGridPosition));
+}
+
+/* void Player::update(TileMap* m, float t){ */
+/* 	Player::move(m); */
+/* } */
+
+/* void Player::move(TileMap* m){ */
+/* 	Check if the player is trying to move outside the grid*/
+/* 	if(Player::checkTileMapBounds()){ */
+/* 		return; */
+/* 	} */
+
+/* 	/1* Check if the player is trying to move onto tile with floor that has collision *1/ */
+/* 	if(!Player::checkTileFloorCollision(m)){ */
+/* 		return; */
+/* 	} */
+
+/* 	sf::Vector2<int> newPos = previousGridPosition + desiredGridMovement; */
+
+/* 	/1* Update the player sprite to the correct position *1/ */
+
+/* 	//playerSprite.setPosition(playerSprite.getPosition()+sf::Vector2<float>(desiredGridMovement.x * Player::speed,desiredGridMovement.y * Player::speed)); */
+
+/* 	playerSprite.setPosition(Player::gridToCoord(previousGridPosition + desiredGridMovement)); */
+
+/* 	/1* If the player has reached it's destination, update the current position. *1/ */
+/* 	if(!Player::isMoving()){ */
+/* 		currentGridPosition = newPos; */
+/* 	} */
+/* } */
 
 void Player::warp(sf::Vector2<int> pos) {
 	playerSprite.setPosition(Player::gridToCoord(pos));
 	currentGridPosition = pos;
 	previousGridPosition = pos;
-}
-
-void Player::move(TileMap* m){
-	/* Check if the player is trying to move outside the grid*/
-	if(Player::checkTileMapBounds()){
-		return;
-	}
-
-	/* Check if the player is trying to move onto tile with floor that has collision */
-	if(!Player::checkTileFloorCollision(m)){
-		return;
-	}
-
-	sf::Vector2<int> newPos = previousGridPosition + desiredGridMovement;
-
-	/* Update the player sprite to the correct position */
-
-	//playerSprite.setPosition(playerSprite.getPosition()+sf::Vector2<float>(desiredGridMovement.x * Player::speed,desiredGridMovement.y * Player::speed));
-
-	playerSprite.setPosition(Player::gridToCoord(previousGridPosition + desiredGridMovement));
-
-	/* If the player has reached it's destination, update the current position. */
-	if(!Player::isMoving()){
-		currentGridPosition = newPos;
-	}
 }
 
 void Player::setMovement(std::string dir){
@@ -80,6 +114,9 @@ void Player::setMovement(std::string dir){
 	}
 	else if (dir == "RIGHT"){
 		desiredGridMovement = sf::Vector2<int>(1,0);
+	}
+	if (dir == "NEUTRAL"){
+		desiredGridMovement = sf::Vector2<int>(0,0);
 	}
 
 }
@@ -111,13 +148,13 @@ bool Player::checkTileMapBounds(){
 		desiredGridMovement = sf::Vector2<int>(0, 0);
 	}
 
-	return collision;
+	return !collision;
 
 }
 
 bool Player::checkTileFloorCollision(TileMap* m){
 	/* Figure out where the player wants to be, given the provided input */
-	sf::Vector2<int> desiredGridPosition = previousGridPosition + desiredGridMovement;
+	sf::Vector2<int> desiredGridPosition = currentGridPosition + desiredGridMovement;
 
 	/* Get the corresponding tile of this position */
 	Tile *t = m->getTileByGridPoint(desiredGridPosition);
