@@ -42,7 +42,7 @@ PlayState::PlayState(GameEngine &game, bool replace) : GameState(game, replace) 
     /* Attach the texture to the particle system */
     particleSystem.setTexture(particleTexture);
 
-    /* Add neccessary asthetics to particles */
+    /* Add necessary aesthetics to particles */
     animateParticles();
 
     std::cout << "PlayState cpp Init" << std::endl;
