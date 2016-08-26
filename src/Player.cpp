@@ -48,7 +48,7 @@ void Player::move(TileMap* m){
 	if(desiredGridMovement != sf::Vector2<int>(0,0)){
 		//Is the desired direction now that it isn't 0,0 in the map?
 		if(checkTileMapBounds()){
-	std::cout << movementAccumulator << std::endl;
+	//std::cout << movementAccumulator << std::endl;
 			//Is the desired movement a passable block?
 			if(checkTileFloorCollision(m)){
 				previousGridPosition=currentGridPosition;
