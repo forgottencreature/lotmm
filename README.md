@@ -6,4 +6,4 @@ Movement: W / A / S / D
 
 Zoom: Mousewheel up & Mousewheel down
 
-Space: Delete tile
+Space: Delete tile# lotmm

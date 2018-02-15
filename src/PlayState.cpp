@@ -94,7 +94,7 @@ void PlayState::update() {
             m_next = m_game.build<GameOverState>( true );
         }
 
-        //Subtract our per fram time from the accumulator
+        //Subtract our per frame time from the accumulator
         timeAccumulator -= dTime;
         //Total time running, might want in frames too?
         time += dTime;
